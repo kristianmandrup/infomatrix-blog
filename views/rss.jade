@@ -1,0 +1,21 @@
+doctype xml
+rss(version='2.0', xmlns:atom='http://www.w3.org/2005/Atom')
+  channel
+    - var host = 'localhost'
+    - var link = 'http://kristianmandrup.github.io/'
+    - var rss_link = 'http://' + host + '/rss'
+    title My Poet blog
+    link= link
+    description A Poet RSS Example woo!
+    atom:link(href=rss_link, rel='self', type='application/rss+xml')
+    each post in posts
+      - var fullUrl = 'http://' + host + '/' + post.url
+      item
+        title= post.title
+        link= fullUrl
+        description
+          | <![CDATA[
+          | !{post.preview}
+          | ]]>
+        pubDate= post.date.toUTCString()
+        guid= fullUrl

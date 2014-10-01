@@ -1,0 +1,7 @@
+extends layout
+  h1 All Tags
+  #tags
+    ul
+      - each tag in getTags()
+        li
+          a(href=tagUrl(tag)) #{tag}

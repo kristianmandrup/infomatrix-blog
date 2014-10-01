@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 All Categories
+  #categories
+    ul
+      - each cat in getCategories()
+        li
+          a(href=categoryUrl(cat)) #{cat}

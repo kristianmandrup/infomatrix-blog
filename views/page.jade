@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 All Posts
+  #posts
+  - each post in posts
+    include includes/postSnippet
+
+  include includes/pagination

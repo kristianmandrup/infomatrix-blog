@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  .tag
+    h2 "#{tag}" Posts
+    - each post in posts
+      include includes/postSnippet

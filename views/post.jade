@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  .post
+    h3
+      a(href=post.url)
+        = post.title
+    .meta
+      span.date.label.label-info #{post.date.getMonth()+1}.#{post.date.getDate()}.#{post.date.getFullYear()}
+      .tags
+        - each tag in post.tags
+          a(href=tagUrl(tag))
+            span.label.label-info #{tag}
+
+    .post.content
+      != post.content

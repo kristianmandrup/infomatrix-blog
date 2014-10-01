@@ -1,0 +1,164 @@
+body#blog {
+    background-color: #000;
+}
+
+section.main {
+    padding-top: 30em;
+    padding-bottom: 5em;
+    text-align: center;
+    color: #fff;
+    background-attachment: scroll;
+    background-image: url(../img/tiger-left.jpg);
+    background-position: center center;
+    background-repeat: none;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+}
+
+body#blog .navbar-default {
+    background-color: black;
+}
+
+#content .post:not(:first-child) {
+    padding-top: 1em;
+}
+
+section.main .nav-list {
+
+}
+
+section.main .nav li a {
+    padding: 4px 4px;
+}
+
+section.main .nav li a:hover {
+    background-color: blue;
+    border-radius: 8px;
+}
+
+section.main .row.articles {
+    position: relative;
+    top: -21em;
+}
+
+#content {
+    border: 2px solid gray;
+}
+
+#content .date {
+    background-color: rgb(100,100,100);
+    border-radius: 6px;
+    border: 1px solid silver;
+    padding: 6px 12px 6px 12px;
+}
+
+#content .meta {
+    margin-right: 100%;
+}
+
+#content .tags a .label {
+    background: black;
+    border: 1px solid white;
+    border-radius: 6px;
+}
+
+#content .tags {
+    margin-top: 1.5em;
+}
+
+#content .tags a {
+    background-color: rgb(100, 100, 100);
+    margin: 0 4px 0 4px;
+}
+
+#content .tags a:hover {
+    text-decoration: none;
+}
+
+#content .tags a:hover .label {
+    color: #fed136;
+}
+
+p.read-more {
+    text-align: center;
+    margin-top: 1em;
+    font-size: 1.2em;
+}
+
+p.read-more a {
+    background-color: rgb(40, 40, 40);
+    border: 1px solid white;
+    border-radius: 6px;
+    color: #fed136;
+    text-shadow: 1px 1px transparent;
+    padding: 0.5em;
+    font-weight: bold;
+}
+
+p.read-more a:hover {
+    text-decoration: none;
+    background-color: blue;
+}
+
+
+#content .title {
+    text-transform: none;
+    font-family: "Droid Serif","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 22px;
+    font-style: italic;
+    line-height: 22px;
+}
+
+
+section.main {
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 4em;
+}
+
+section.main .label-info {
+    background-color: inherit;
+    font-size: 1em;
+}
+
+section.main #content {
+    background-color: rgba(0,0,0,0.7);
+    padding: 2em;
+    border-radius: 4em;
+}
+
+section.main pre {
+    margin-top: 1em;
+    border-radius: 1em;
+    padding: 0px;
+    border: 2px solid #fed136;
+    background-color: transparent;
+}
+
+section.main pre > code {
+    padding: 1em;
+    background-color: rgba(20,20,20,1);
+}
+
+section.main .post .content {
+    text-align: left;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+
+#sidebar {
+    background-color: rgb(40, 40, 40);
+    border: gray solid 2px;
+    border-radius: 2em;
+    position: fixed;
+    top: 9em;
+    bottom: 0;
+    right: 2em;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
