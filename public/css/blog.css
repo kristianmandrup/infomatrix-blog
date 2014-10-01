@@ -147,7 +147,6 @@ section.main .post .content {
     margin-bottom: 1em;
 }
 
-
 #sidebar {
     background-color: rgb(40, 40, 40);
     border: gray solid 2px;
@@ -158,7 +157,11 @@ section.main .post .content {
     right: 2em;
     z-index: 1000;
     display: block;
-    padding: 20px;
+    padding: 2em 6em 2em 6em;
     overflow-x: hidden;
     overflow-y: auto;
+}
+
+#sidebar .nav-header {
+    padding-top: 1em;
 }
