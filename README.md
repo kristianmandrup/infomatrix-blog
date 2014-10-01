@@ -21,10 +21,23 @@ Add a file `config/mail.config.json` with your Mailgun settings.
   "service": "Mailgun",
   "auth": {
     "user": 'kmandrup@sandboxf27ad213161f46f085819214b2053b43.mailgun.org',
-    "pass": "secret",
   },
   "debug": true
 }
+```
+
+```bash
+heroku config:add mailpass=password
+heroku config:add mailuser=kmandrup@
+```
+  
+This is picked up by mailgun config:
+
+```LiveScript
+# mail/contact.ls
+
+mail-config.auth.user = process.env.mailuser
+mail-config.auth.pass = process.env.mailpass
 ```
 
 ### TODO

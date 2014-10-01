@@ -2,6 +2,5 @@
 *.log
 node_modules
 docs
-config/*.json
 .idea
 sandbox

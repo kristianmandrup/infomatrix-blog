@@ -12,6 +12,9 @@ mail-config = JSON.parse file-json
 
 console.log 'using mail-config:', mail-config
 
+mail-config.auth.pass = process.env.mailpass
+mail-config.auth.user = process.env.mailuser
+
 # create reusable transporter object using SMTP transport
 smtpTransport = nodemailer.createTransport mail-config
 

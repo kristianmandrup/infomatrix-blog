@@ -1,0 +1,6 @@
+{
+    "service": "Mailgun",
+    "auth": {
+    },
+    "debug": true
+}

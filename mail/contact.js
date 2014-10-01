@@ -12,6 +12,8 @@
   }
   mailConfig = JSON.parse(fileJson);
   console.log('using mail-config:', mailConfig);
+  mailConfig.auth.pass = process.env.mailpass;
+  mailConfig.auth.user = process.env.mailuser;
   smtpTransport = nodemailer.createTransport(mailConfig);
   smtpTransport.on('log', console.log);
   options = {
