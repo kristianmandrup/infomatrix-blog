@@ -26,3 +26,9 @@ Add a file `config/mail.config.json` with your Mailgun settings.
   "debug": true
 }
 ```
+
+### TODO
+
+Try with `"mailgun-js": "^0.6.5"` to use Mailgun API directly!
+ 
+See [mailgun-js](https://www.npmjs.org/package/mailgun-js)
