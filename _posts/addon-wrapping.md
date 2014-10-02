@@ -86,9 +86,10 @@ index file [here](https://github.com/dockyard/ember-cli-bootstrap/blob/master/in
 
 Since Ember CLI is already leveraging [ES6 modules](http://eviltrout.com/2014/05/03/getting-started-with-es6.html) it would be
 much better if the package system leverages ES6 modules as well. This would make for much better integration moving forward.
+For a good introduction to ES6 modules, see [here](http://jsmodules.io).
 
-For a peek into this world, see [SystemJS, jspm & Ember](https://www.youtube.com/watch?v=lc9nQJR6RX4), [System.js](https://github.com/systemjs/systemjs)
-a new ES6 powered package manager by [@guybedford](https://twitter.com/guybedford)
+For a peek into this "brave new world", see this video [SystemJS, jspm & Ember](https://www.youtube.com/watch?v=lc9nQJR6RX4).
+Then checkout [System.js](https://github.com/systemjs/systemjs) a new ES6 powered package manager by [@guybedford](https://twitter.com/guybedford)
 
 I hope this guide helps you enrich the Ember CLI addon community! Let's wrap a ton of awesome libaries as addons that we can
 easily share and improve upon in the coming years...
