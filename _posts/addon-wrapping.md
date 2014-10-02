@@ -89,7 +89,10 @@ much better if the package system leverages ES6 modules as well. This would make
 For a good introduction to ES6 modules, see [here](http://jsmodules.io).
 
 For a peek into this "brave new world", see this video [SystemJS, jspm & Ember](https://www.youtube.com/watch?v=lc9nQJR6RX4).
-Then checkout [System.js](https://github.com/systemjs/systemjs) a new ES6 powered package manager by [@guybedford](https://twitter.com/guybedford)
+Then checkout [System.js](https://github.com/systemjs/systemjs) and [JSPM](http://jspm.io) a new set of ES6 powered web package management
+tools by [@guybedford](https://twitter.com/guybedford).
+
+Also watch this [video](https://www.youtube.com/watch?v=szJjsduHBQQ) with *@guybedford* presenting this new toolbox!
 
 I hope this guide helps you enrich the Ember CLI addon community! Let's wrap a ton of awesome libaries as addons that we can
 easily share and improve upon in the coming years...
