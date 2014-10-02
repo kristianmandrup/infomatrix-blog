@@ -111,9 +111,14 @@ p.read-more a:hover {
     line-height: 22px;
 }
 
+code {
+    color: #304FCC;
+    opacity: 0.7;
+    background-color: aquamarine;
+}
 
 section.main {
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0,0,0,0.8);
     border-radius: 4em;
 }
 
@@ -123,7 +128,7 @@ section.main .label-info {
 }
 
 section.main #content {
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0,0,0,0.8);
     padding: 2em;
     border-radius: 4em;
 }
@@ -147,6 +152,10 @@ section.main .post .content {
     margin-bottom: 1em;
 }
 
+p {
+    color: cadetblue;
+}
+
 #sidebar {
     background-color: rgb(40, 40, 40);
     border: gray solid 2px;
@@ -157,7 +166,7 @@ section.main .post .content {
     right: 2em;
     z-index: 1000;
     display: block;
-    padding: 2em 6em 2em 6em;
+    padding: 2em 2em 2em 2em;
     overflow-x: hidden;
     overflow-y: auto;
 }
