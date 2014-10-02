@@ -94,7 +94,13 @@ tools by [@guybedford](https://twitter.com/guybedford).
 
 Also watch this [video](https://www.youtube.com/watch?v=szJjsduHBQQ) with *@guybedford* presenting this new toolbox!
 
-I hope this guide helps you enrich the Ember CLI addon community! Let's wrap a ton of awesome libaries as addons that we can
-easily share and improve upon in the coming years...
+You can see an example Ember app using this approach here:
+
+[emberjs with jspm](https://github.com/kristianmandrup/emberjs-experiment)
+
+Special thanks to [@jmzhang](https://github.com/jmzhang) for this ;)
+
+I hope this guide will help you enrich the Ember CLI addon community! Let's wrap a ton of awesome libaries as addons that we can
+easily share and improve upon in the coming years... With jspm it should be even easier ;)
 
 All about community and plugability. *Plug and Play!!!*
