@@ -25,6 +25,8 @@ Articles to read
 
 Awesome! 
 
+<!-- more -->
+
 ### RequireJS conversion
 
 "The Node adapter for RequireJS, called [r.js](https://github.com/jrburke/r.js/)" - very cool :)
