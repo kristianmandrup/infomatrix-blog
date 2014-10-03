@@ -72,27 +72,46 @@ define(function(require) {
 });
 ```
 
-The *RequireJS optimizer* will strip out the use of `amdefine above, so it is safe to use this module for your web-based projects too ;)
+The *RequireJS optimizer* will strip out the use of `amdefine` above, so it is safe to use this module for your web-based projects too ;)
 
 ### The Quickie for Node
 
 Instead of pasting the piece of text for the `amdefine` setup of a define variable in each module you create or consume, you can use `amdefine/intercept` instead. 
 It will automatically insert the above snippet in each `.js` file loaded by Node.
 
-*Warning:* you should only use this if you are creating an application that is consuming AMD style defined()'d modules 
-that are distributed via npm and want to run that code in Node. 
+*Warning:* you should only use this if you are creating an *application that is consuming AMD style defined()'d modules* 
+that are distributed via npm and *want to run that code in Node.* 
 
 For library code where you are not sure if it will be used by others in Node or in the browser, then 
 explicitly depending on amdefine and placing the code snippet above is suggested path, instead of using amdefine/intercept.
  
-Just require it in your top level app module (for example index.js, server.js):
+Just require it in your top level app module (for example `index.js`, `server.js`):
  
 `require('amdefine/intercept');`
  
 Then just `require()` code as you normally would with Node's `require()`. 
 Any `.js` loaded after the intercept require will have the `amdefine` check injected in the `.js` source as it is loaded.
  
-*Conclusion:* Seems like this is the "quick and dirty" way to wrap a Node library for use with AMD, however this only works on the Node side.
+This is the "quick and dirty" way to run an AMD library in Node (such as for testing purposes).
+
+A good explanation for how to use *amdefine* to run AMD modules in Node is [here](http://www.2ality.com/2012/07/amdefine.html)
+
+More articles on this subject:
+
+- [The power of the Asynchronous Module Definition](http://www.2ality.com/2011/10/amd.html)
+- [Bridging the module gap between Node.js and browsers](http://www.2ality.com/2011/11/module-gap.html)
+
+
+An alternative library that seeks to achieve a similar goal is [node-amd-require](https://www.npmjs.org/package/node-amd-require)
+which: "Augment node's require() to globally handle AMD modules"
+
+Note: looks like this branch of amdefine added a useful feature - resolve module id using require.js if possible:
+
+[amdefine forked repo](https://github.com/kylemartin/amdefine)
+
+*Further reading...*
+
+For more on modules and namespaces in Javascript, check out [modules and-namespaces in javascript](http://www.2ality.com/2011/04/modules-and-namespaces-in-javascript.html)
 
 ### What does it all mean?
 

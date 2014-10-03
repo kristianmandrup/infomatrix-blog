@@ -47,6 +47,8 @@ e.g. like [here](https://github.com/simplabs/ember-cli-simple-auth/blob/master/i
 If the imported file is an [AMD](http://requirejs.org/docs/whyamd.html) build (which I'd say is always preferable), the Addon lists all the exports that
 should be made available to the Ember CLI project.
 
+[Why AMD is better for the browser](http://www.2ality.com/2011/10/amd.html)
+
 ### Bower packages and include
 
 An alternative strategy (without a blueprint generator).
