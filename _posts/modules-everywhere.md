@@ -252,5 +252,47 @@ You can also directly register the library with Ember like this:
 
 I still don't understand how to use all of these hooks, but at least this should provide an overview of what is possible.
 Do your own reverse engineering or perhaps contact *@marcoow* for more info on how to wrap libraries correctly.
+
+### Amd cleaning
   
+In case you want to clean away the AMD wrapping, use [amdclean](https://www.npmjs.org/package/amdclean)  
   
+### Universal Module Definition
+
+"UMD (Universal Module Definition) patterns for JavaScript modules that work everywhere."
+
+[umd](https://github.com/umdjs/umd)
+
+Could look like [this](https://github.com/umdjs/umd/blob/master/returnExports.js)
+
+Which has quite a bit of boilerplate in order to work for: AMD, Node and globals.
+
+### Browserify and wrap
+
+Another strategy would be to use browserifiy on the Node library and then somehow package that for UMD! 
+
+[building-umd-modules-with-dependencies-with-browserify](http://rathercurio.us/building-umd-modules-with-dependencies-with-browserify)
+
+### Total Confusion!!
+
+So what to do and what to use?
+
+Just discovered a new contender which might help fix this... a bit similar to *System.js* and *jspm* we looked at in a previous post.
+
+[webpack](http://webpack.github.io/) coming to the rescue to save us from the madness?
+
+"webpack will analyze your entry file for dependencies to other files. These files (called modules) are included in your bundle.js too. webpack give each module a unique id and save all modules accessible by id in the bundle.js file. Only the entry module is executed on startup. A small runtime provides the require function and execute the dependencies when required."
+
+Webpack can bundle both AMD and CommonJS files using a `bundle.js` file which it maintains. It can even handle stylesheets this way and apply them 
+to the document when they are required! Nice :)
+
+Webpack:
+
+- "allows to use loaders to preprocess files. This allows you to bundle any static resource not only javascript. You can easily write your own loaders running in node.js."
+- "supports SourceUrls and SourceMaps. Debugging will be nice. It can watch your files and comes with a development middleware and a development server for automatic reloading."
+- "uses async I/O and has multiple caching levels. This makes webpack fast and incredible fast on incremental compilation."
+- "supports AMD and CommonJs module styles. It perform clever static analysis on the AST of your code. It even has a evaluation engine to evaluate simple expressions. This allows you to support most existing libraries."
+- "allows to split your codebase into chunks. Chunks are loaded on demand. This reduces initial loading time."
+- "main target is the web, but it also has support for generating bundles for WebWorkers and node.js."
+
+There is even a special Ember Resolver designed for Webpack [here](https://github.com/shama/ember-webpack-resolver) 
