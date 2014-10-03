@@ -285,6 +285,25 @@ Another strategy would be to use browserifiy on the Node library and then someho
 
 This is essentially similar to what petal is trying to solve, only automated! 
 
+Apparently many ppl are working on these issues... here some solutions for UMD auto-wrapping:
+
+*UMD wrap* 
+
+Wrap a block of code into a UMD bundle, with the option to define external dependencies.
+The resulting bundle can be used with Node, Browserify, RequireJS, or simply via the window object.
+  
+[umd-wrap](https://github.com/nicolashery/umd-wrap)
+
+*CJS to UMD*
+
+Bundle CommonJS source files into a single UMD file with the option to define external dependencies that will not be included.
+Write your library source files with the very convenient var foo = require('./foo') and module.exports = {bar: 'bar'} syntax.
+Combine these source files into a single bundle, that can be used in Node, Browserify, RequireJS, or simply via the window object.
+
+[cjs-umd](https://github.com/nicolashery/cjs-umd)
+
+*Sounds very elegant indeed!!! :)*
+
 ### What do use?
 
 So what to do and what to use at this time?
