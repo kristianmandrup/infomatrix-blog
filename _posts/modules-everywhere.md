@@ -259,25 +259,37 @@ In case you want to clean away the AMD wrapping, use [amdclean](https://www.npmj
   
 ### Universal Module Definition
 
-"UMD (Universal Module Definition) patterns for JavaScript modules that work everywhere."
+[UMD](https://github.com/umdjs/umd) (Universal Module Definition) patterns for JavaScript modules that work everywhere. 
 
-[umd](https://github.com/umdjs/umd)
+Wrap to work for: AMD, Node and globals would look like [this](https://github.com/umdjs/umd/blob/master/returnExports.js)
 
-Could look like [this](https://github.com/umdjs/umd/blob/master/returnExports.js)
+Quite a bit of boilerplate... would be nice to auo-wrap somehow ;)
+ 
+## Remap as named AMD
 
-Which has quite a bit of boilerplate in order to work for: AMD, Node and globals.
+And this is already being worked on :)
 
+[petal](https://github.com/stefanpenner/petal) is a library for inspecting and renaming various js module formats. 
+
+[broccoli-petal](https://github.com/abuiles/broccoli-petal) is an attempt to automatically remap legacy javascript for AMD 
+in order to make it easier for ember cli to consume such libraries...
+
+[#2177](https://github.com/stefanpenner/ember-cli/issues/2177) is [WIP](https://github.com/abuiles/ember-cli/commit/d82df0420921eb517411aaca71eee784a5e2ff04) 
+for Ember CLI...
+ 
 ### Browserify and wrap
 
 Another strategy would be to use browserifiy on the Node library and then somehow package that for UMD! 
 
 [building-umd-modules-with-dependencies-with-browserify](http://rathercurio.us/building-umd-modules-with-dependencies-with-browserify)
 
-### Total Confusion!!
+This is essentially similar to what petal is trying to solve, only automated! 
 
-So what to do and what to use?
+### What do use?
 
-Just discovered a new contender which might help fix this... a bit similar to *System.js* and *jspm* we looked at in a previous post.
+So what to do and what to use at this time?
+
+I just discovered a new serious contender... a bit similar to *System.js* and *jspm* we looked at in a previous post.
 
 [webpack](http://webpack.github.io/) coming to the rescue to save us from the madness?
 
@@ -295,4 +307,7 @@ Webpack:
 - "allows to split your codebase into chunks. Chunks are loaded on demand. This reduces initial loading time."
 - "main target is the web, but it also has support for generating bundles for WebWorkers and node.js."
 
-There is even a special Ember Resolver designed for Webpack [here](https://github.com/shama/ember-webpack-resolver) 
+There is even a special Ember Resolver designed for Webpack [here](https://github.com/shama/ember-webpack-resolver)
+ 
+Where does it all end? Would be nice to have *ES6 Harmony* in major browser already... but we will still need to wrap legacy libraries for years to come
+ using one of these solutions mentioned above (or some other way!).
