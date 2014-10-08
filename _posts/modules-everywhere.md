@@ -330,3 +330,9 @@ There is even a special Ember Resolver designed for Webpack [here](https://githu
  
 Where does it all end? Would be nice to have *ES6 Harmony* in major browser already... but we will still need to wrap legacy libraries for years to come
  using one of these solutions mentioned above (or some other way!).
+ 
+### And Finally...
+
+Perhaps the best article I have found that gives a good overview and practical examples is [this one](http://blogs.telerik.com/kendoui/posts/13-05-08/requirejs-fundamentals)
+ 
+Happy coding!! :)
