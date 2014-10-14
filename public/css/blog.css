@@ -156,21 +156,74 @@ p {
     color: cadetblue;
 }
 
-#sidebar {
-    background-color: rgb(40, 40, 40);
-    border: gray solid 2px;
-    border-radius: 2em;
-    position: fixed;
-    top: 9em;
-    bottom: 0;
-    right: 2em;
-    z-index: 1000;
-    display: block;
-    padding: 2em 2em 2em 2em;
-    overflow-x: hidden;
-    overflow-y: auto;
+.list-group.panel > .list-group-item {
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px
+}
+.list-group-submenu {
+    margin-left:20px;
 }
 
 #sidebar .nav-header {
-    padding-top: 1em;
+  padding-top: 1em;
+}
+
+#sidebar {
+  background-color: rgba(20,20,20,1);
+  border-radius: 4em;
+  border: 2px solid gray;
+}
+
+.list-group {
+  border-radius: 4em;
+}
+
+.list-group-item {
+  color: black;
+  background-color: rgba(20,20,20,1);
+  border-radius: 4em;
+  border: none;
+}
+
+.list-group-item:hover {
+  background-color: rgba(120, 120, 120, 1);
+  border-radius: 1em;
+  color: white;
+}
+
+.list-group-item a:hover {
+  text-decoration: none;
+  color: white;
+}
+
+.list-group-item:last-child {
+  margin-bottom: 3em;
+}
+
+a {
+  color: #2C8FB3;
+}
+
+
+
+@media(max-width:992px) {
+  .list-group {
+    background-color: rgba(20, 20, 20, 1);
+    border-radius: 4em;
+    padding-bottom: 1em;
+  }
+
+  .list-group-item {
+    display: inline-block;
+    color: black;
+    background-color: rgba(20, 20, 20, 1);
+    border: none;
+    border-radius: 1em;
+    margin-bottom: 0.2em;
+  }
+
+  .list-group-item:last-child {
+    margin-bottom: 1em;
+  }
+
 }

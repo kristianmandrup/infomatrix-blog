@@ -7,7 +7,7 @@ tags:
     - addons
     - cli
 category: ember
-date: 1-10-2014
+date: 10-01-2014
 ---
 
 *Hello World!* About time I launch my own personal blog. In this fast moving world, it seems to be all 
@@ -18,7 +18,7 @@ I also recently started [twitting](https://twitter.com/kmandrup) and updated my 
 Times and technologies are forever changing, ever more rapidly... Last year I was all into [AngularJS](https://angularjs.org/) having given up with 
 ember as it was still pre 1.0 and undergoing massive changes, with documentation quickly outdated and difficult to get a grasp.
 
-<!-- more -->
+<!--more-->
 
 A year later, I have found *AngularJS* lacking in too many respects and not intuitive enough for my taste. 
 Especially the famous *Directives API* feels like a "bastard child" to me. I never really grocked it with 

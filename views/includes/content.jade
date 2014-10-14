@@ -1,8 +1,8 @@
 section#articles.main
   .container
     .row.articles
-      .col-xs-9#main
+      #side.col-md-3.col-md-push-9
+        include sidebar
+      #main.col-md-9.col-md-pull-3
         #content
           block content
-      .col-xs-3#side
-        include sidebar

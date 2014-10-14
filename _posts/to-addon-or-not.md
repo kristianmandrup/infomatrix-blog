@@ -7,7 +7,8 @@ tags:
     - cli
     - libraries
 category: libraries
-date: 8-10-2014
+previewLength: 100
+date: 10-08-2014
 ---
 
 Since I got "hooked" by [Ember CLI](http://www.ember-cli.com/) and it's addon system, it seemed logical to make "everything" into an addon in order
@@ -20,7 +21,7 @@ Adddons are supposed to enrich the app, in particular with:
 - blueprints (in the `blueprints` folder)
 - Application configuration
 
-<!-- more -->
+<!--more-->
 
 It would be stupid to create an addon for each and every Bower component (or whatever client side library package manager)
 in order just to import it via Broccoli with an `app.import` statement.

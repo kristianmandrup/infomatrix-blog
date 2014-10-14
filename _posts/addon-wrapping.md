@@ -7,7 +7,7 @@ tags:
     - library
     - cli
 category: ember
-date: 3-10-2014
+date: 10-03-2014
 ---
 
 The [Ember CLI](http://www.ember-cli.com/) Addon system is designed to make it easy to
@@ -25,7 +25,7 @@ adds the package management infrastructure or roll your own...
 
 It is (currently) recommended to use AMD to best facilitate integration with Ember CLI.
 
-<!-- more -->
+<!--more-->
 
 ### Wrapping existing package
 

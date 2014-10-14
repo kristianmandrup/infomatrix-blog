@@ -1,24 +1,26 @@
 ---
 layout: post
-title: An intro to Ember Addons
+title: Intro to Broccoli filters
 tags: 
     - ember
     - addons
     - cli
     - broccoli
     - filter
-category: broccoli
-date: 14-10-2014
+category: broccoli 
+date: 10-14-2014
 ---
 
 Broccoli is a core component for Ember CLI. It handles all the compilation of an Ember CLI project.
-It has great performance and is customizable and extensible. However it has not been clear how to
+It has great performance and is customizable and extensible. However it hasn't been clear how to
  use these extensibility features.
 
 Recently we had a need for more powerful I18n features in our Ember app. We wanted the equivalent of the [Rails 
 "Lazy" Lookup](http://guides.rubyonrails.org/i18n.html#looking-up-translations) for 
 [Ember I18n](https://github.com/jamesarosen/ember-i18n), so we could use our 
 current context (ie. template path) as the I18n lookup path for a particular key.
+
+<!--more-->
 
 So that for a template @ `templates/bookings/edit`  
 

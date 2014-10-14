@@ -1,10 +1,12 @@
-.well.sidebar-nav#sidebar
-  ul.nav.nav-list
-    li.nav-header categories
+
+#sidebar.panel
+  h3  Categories
+  ul#categories.list-group
     - each cat in getCategories()
-      li
+      li.list-group-item
         a(href=categoryURL(cat)) #{cat} (#{postsWithCategory(cat).length})
-    li.nav-header tags
+  h3 Tags
+  ul#tags.list-group
     - each tag in getTags()
-      li
+      li.list-group-item
         a(href=tagURL(tag)) #{tag} (#{postsWithTag(tag).length})

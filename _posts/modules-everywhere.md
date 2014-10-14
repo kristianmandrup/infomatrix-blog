@@ -8,7 +8,7 @@ tags:
     - modules
     - amd
 category: amd
-date: 3-10-2014
+date: 10-03-2014
 ---
 
 From my recent research into ember cli addons and how to wrap existing libaries it was becoming clear, that AMD modules 
@@ -25,7 +25,7 @@ Articles to read
 
 Awesome! 
 
-<!-- more -->
+<!--more-->
 
 ### RequireJS conversion
 
