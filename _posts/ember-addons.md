@@ -89,8 +89,13 @@ I'm not sure exactly how the loading proceeds, but I assume that operate in turn
 In the end, this application object is then sent to the `Brocfile` of the application which does it final things before spitting out the full 
  (static) application tree in the `public` folder of the app.
  
-You can debug and follow the exact process by injecting some `console.log` statements in your `Brocfile` and each main addon file and 
-see for yourself (and let me know).
+You can debug and follow the exact process by injecting some `console.log` statements in your `Brocfile` and each main addon file and  see for yourself (and let me know).
+
+### Update
+
+It turns out, that each Addon is basically an Ember app on its own, much like Rails engines are min Rails apps.
+
+To get a full understanding, go through [ember-app.js](https://github.com/stefanpenner/ember-cli/blob/master/lib/broccoli/ember-app.js), which will give you a much better understanding of the API and hooks available!!!
    
 
 
