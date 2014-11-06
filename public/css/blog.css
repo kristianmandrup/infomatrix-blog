@@ -204,8 +204,6 @@ a {
   color: #2C8FB3;
 }
 
-
-
 @media(max-width:992px) {
   .list-group {
     background-color: rgba(20, 20, 20, 1);
