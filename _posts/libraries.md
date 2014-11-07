@@ -18,6 +18,8 @@ We had a 2 week Ember coding session with assistance from @terzicigor.
 While I was there I started the project [libraries](https://github.com/kristianmandrup/libraries) which I have mentioned
 in some of my previous posts.
 
+<!--more-->
+
 Libraries is now almost ready for use. Here I will sketch out the general architecture.
 
 The Libraries infrastructure is designed to let you integrate javascript libraries with your framework of choice,
