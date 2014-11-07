@@ -113,14 +113,14 @@ public class CliCommandExecutor implements ProcessListener {
 
     protected handleError(ProcessEvent pe) {
       writeError("Process terminates with error");
-      for (handler in handlers) {
+      for (CliTerminateHandler handler : handlers) {
         handler.onError(this, pe);
       }
     }
 
     protected handleSuccess() {
       writeSuccess("Process terminates successfully");
-      for (handler in handlers) {
+      for (CliTerminateHandler handler : handlers) {
         handler.onSuccess(this, pe);
       }
     }
