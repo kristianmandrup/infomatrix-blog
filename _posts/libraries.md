@@ -25,6 +25,8 @@ Libraries is now almost ready for use. Here I will sketch out the general archit
 The Libraries infrastructure is designed to let you integrate javascript libraries with your framework of choice,
 principally designed for use with *Broccoli* and *Ember CLI*, but flexible enough to accomodate other library consumers.
 
+### Install and Setup
+
 First install libraries as an npm package via `npm install libraries --save-dev`.
 
 Then run `libraries setup` which will generate an `xlibs/` folder with a few config files:
@@ -46,6 +48,8 @@ masonry
 jquery-ui
 ```
 
+### Install libraries
+
 To install these libraries you need simply to run `library install`. For each line listed, it will:
 
 - Look in `config.js` for a *library install configuration*
@@ -63,7 +67,7 @@ A library configuration may also define:
 - links
 - ...
 
-The xlibs structure after install:
+The `xlibs` structure after install:
 
 ```bash
 xlibs/
@@ -72,9 +76,61 @@ xlibs/
   selected
 ```
 
+### Registry of libraries
+
+A registry file will look something like this. Note that we define categories for each library. This will enable us to lookup
+ libraries for specific categories. We will also add ratings, info links etc. in the near future...
+
+```js
+{
+  "bower": {
+    "ember-i18n": {
+      "categories": ["i18n"],
+      "files": ["lib/i18n.js"]
+    },
+    "ember-auto": {
+      "categories": ["routes"],
+      "repo": "gunn/ember-auto",
+      "files": ["ember-auto.js"]
+    },
+  }
+}
+```
+
+Usually we won't even have to define the files to be included. The package manager adapters provided by libraries will be able to extract
+the files to include directly from the package manifest file such as `bower.json` or `package.json` if such a files list exists (f.ex the `"main"` entry in `bower.json`).
+
+In `config.json` you can configure exactly where to get each component or library from.
+You can also reference your own javascript libraries for your project, found in `vendor`, `lib` or wherever you put them...
+
+```js
+{
+  containers: {
+    bower: {
+      "components": [
+        "bootstrap",
+        ...
+      ],
+    },
+    vendor: {
+      ...
+    }
+  }
+}
+```
+
+### ES6 modules
+
+We plan to integrate libraries with [petal](https://github.com/stefanpenner/petal) via [broccoli petal](https://github.com/abuiles/broccoli-petal)
+as the libraries project and Petal mature. This will enable you to easily configure under what name to export each library component.
+
+### Building libraries
+
 After installation of each entry selected you can then build a *library import* file via `library build` which
 will generate an imports file in the `builds/` folder, with `app.import` statements based
 on the library configurations selected:
+
+`library build dev`
 
 ```js
 // builds/imports-dev.js
@@ -91,6 +147,8 @@ xlibs/
   components.json  
   selected
 ```
+
+To build for all environments `library build all`
 
 You can then apply the app imports on your app from within your `Brocfile.js` like this:
 
@@ -111,5 +169,13 @@ No more hand-crafting of library imports or having to wrap libraries as CLI addo
 
 Enjoy :)
 
-Note: The above infrastructure and process flow is not quite finished but getting there... a few things might
-potentially change before the release. There are also many extras not describe here.
+### Status
+
+The above infrastructure and process flow is not quite finished but getting there... a few things might
+potentially change before the release. There are also many extras not describe here. Checkout the documentation
+in `README` of the libraries repo and other design documents part of the source...
+
+### Test suite and contributions
+
+The libraries project comes with a full test suite. You are welcome to look at the specs to get a more detailed understanding
+and to contribute to the project.
