@@ -3,7 +3,6 @@ layout: post
 title: Thoughts on Ember 2.0
 tags:
     - ember
-    - 2.0
     - rfc
     - design
     - architecture
