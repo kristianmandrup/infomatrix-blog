@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Libraries
+title: Thoughts on Ember 2.0
 tags:
     - ember
     - 2.0
@@ -8,7 +8,7 @@ tags:
     - design
     - architecture
 category: ember
-date: 11-06-2014
+date: 11-10-2014
 ---
 
 Recently an [Ember 2.0 RFC announcement](https://github.com/emberjs/rfcs/pull/15) was made and loads of people
