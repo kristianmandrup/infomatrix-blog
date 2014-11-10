@@ -72,7 +72,22 @@ This syntax would also make it vry clear that external attributes are accessed v
 Multiple active routes sounds pretty awesome and intriguing to me!! However how do we reflect
 and sync that with a single URL?
 
-There is a nice post describing the vision [here])(http://stackoverflow.com/questions/20111301/different-ember-routes-or-displaying-two-complex-views-in-their-own-context)
+There is a nice post describing the issue [here])(http://stackoverflow.com/questions/20111301/different-ember-routes-or-displaying-two-complex-views-in-their-own-context)
+
+@MiguelMadero answers that: "It's possible to register a different router and inject this into controllers."
+and provides a code example:
+
+```js
+App.Router = Ember.Router.extend();
+App.Router.map function () {...}
+
+// register router on controller
+
+container.register('router:secondary',  App.Router);
+container.injection('controller:list', 'target', 'router.secondary');
+```
+
+He has a sample demo app illustrating this [here](https://github.com/MiguelMadero/nested-routers/tree/master/)
 
 ### Real time Component data and Services
 
@@ -100,6 +115,10 @@ It might even make sense for more complex scenarios with an indirection between 
 
 @tomdale made a post on [Services](http://discuss.emberjs.com/t/services-a-rumination-on-introducing-a-new-role-into-the-ember-programming-model/4947)
 that should shed more light on how Services will be used with Ember going forward :)
+
+Here he points to exactly this type of scenario as a typical justification for services. That a component might rely on a stream of data from
+an external Data provider, such as a Twitter feed or similar...
+He points to enriching models with service data as another typical serviced scenario.
 
 ### Components adjusting per context
 
@@ -130,7 +149,7 @@ To my knowledge this isn't possible without having to set up individual actions 
 There is a need for a sort of Component "message bus" or component publish/subscribe mechanism.
 
 It would make sense to extract the Router as a separate component much like in AngularJS.
-A Data Services could use its own router to route to and get specific data.
+A Data Service could use its own router to route to and get specific data.
 A component could be router/state "aware" without using the application url router.
 
 The app router could (by default) be an `UrlRouter`, an extension of a more generic `StateRouter`.
