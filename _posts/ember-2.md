@@ -194,7 +194,30 @@ shouldn't be "Rails for the front end" IMO.
 
 ### Wish list
 
-@Panman8201 started a nice [Emer Wish list](http://discuss.emberjs.com/t/ember-wishlist/6605). Haven't look into it yet.
+@Panman8201 started a nice [Emer Wish list](http://discuss.emberjs.com/t/ember-wishlist/6605).
+
+- Contextual / Traversing Properties
+- Ember Data option to hold bindings on dirty records
+- Change Actions to Events so .on() Works
+- Change needs:[] to Computed Properties
+- Services? Yes Please
+- Fix Nested Controller Access
+- Combine Controllers & Views (ala Component)
+- Lazy Loading Resources
+- Route Access from Controller
+- Object Observers, No More get/set
+- Enhance Native Object Instead of Ember.Object
+- Ember Data LocalStorageStore
+- Ember Data Built-in Support for “Offline Mode”
+- HTML Custom Elements == JavaScript/Ember Component
+- Use <template> for Templates
+- More Built-in Functionality!
+- Better Input Helpers
+- Route Model Dependencies
+
+After reading through them all I must say it is a really good list. I agree with most of the points (wishes) made :)
+Many of these wishes/concerns are already covered by various RFCs mentioned here or found elsewhere, so the future
+is looking bright!
 
 ### Conclusion
 
