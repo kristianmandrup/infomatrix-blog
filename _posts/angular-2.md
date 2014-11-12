@@ -15,6 +15,8 @@ This post covers some initial thoughts on [Angular 2.0](http://ng-learn.org/2014
 
 Recently I have been looking at Angular again after I noticed the Angular 2.0 release at *ng-europe* and the talks by *Rob Eisenberg* and his excellent [angular 2.0 overview and analysis](http://eisenbergeffect.bluespire.com/all-about-angular-2-0/).
 
+<!--more-->
+
 Here the main Angular 2 repos I have found on the [angular repo](https://github.com/angular)
 
 [Angular 2 design](https://github.com/angular/Angular2.design)

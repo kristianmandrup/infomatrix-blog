@@ -14,7 +14,9 @@ date: 11-12-2014
 
 After having read many of the recent *Ember* and *Angular RFCs* and discussion and watched many of the conference videos of ng-europe, oredev and the recent emberfest.eu in Barcelona I have come to the conclusion that we need to drastically rethink how we build web frameworks for the modern web. The world is changing fast around us! Most frameworks are still stuck in the REST and MVC paradigm.
 
-The world is going Real Time with event streams everywhere...
+The world is going Real Time with event streams everywhere... time for a change!
+
+<!--more-->
 
 I will embark on a mission to create a new pluggable framework called `toolbelt.io`, where the basic primitives will be event streams using [BaconJS](http://baconjs.github.io/).
 
@@ -25,7 +27,7 @@ The current popular full stack frameworks suffer from being "full stack", making
 I will start writing design docs in the coming weeks and start piecing it together from various libraries that look promising. I will reuse several of the Angular 2 building blocks as they will give me a head start.
 An initial list:
 
-- AtScript with [sweet.js](http://sweetjs.org/) macros
+- [AtScript](http://www.andrewconnell.com/blog/atscript-another-language-to-compile-down-to-javascript) with [sweet.js](http://sweetjs.org/) macros
 
 - [BaconJS](http://baconjs.github.io/)
 - [ZeptoJS](http://zeptojs.com/)
@@ -39,7 +41,434 @@ Then having even streams that hook into whatever data you are subscribing on. Va
 
 Routes should route directly into components on the page using templates, which can leverage Web Components from Polymer with some extra sugar that leverages event stream for data binding with the UI, such as mouse movements, touch events, keyboard events etc. Event flows should always be highly customizable via mapping, filters etc.
 
-The Expression parser will be used for string interpolation if/when needed. Dependency Injection will be the way to plugin various parts.
+### Promises
+
+One of the most essential building blocks, along with Bacon Event streams and properties is using Promises (to avoid callback hell..)
+
+It looks like the best Promise library is [When.js](https://github.com/cujojs/when). It even includes a complete [ES6 Promise shim](https://github.com/cujojs/when/blob/master/docs/es6-promise-shim.md)
+We should use this promise shim for sure!!
+
+More on promises:
+
+- [Consuming Promises](http://know.cujojs.com/tutorials/promises/consuming-promises.html.md)
+- [Creating Promises](http://know.cujojs.com/tutorials/promises/creating-promises.html.md)
+- [Higher order promises]( http://know.cujojs.com/tutorials/promises/higher-order-promises-with-when)
+
+### Router
+
+The router uses the [route-recognizer](https://github.com/btford/route-recognizer) to match routes.
+
+```js
+var router = new RouteRecognizer();
+router.add([
+  { path: "/posts/:id", handler: posts },
+  { path: "/comments", handler: comments }
+]);
+
+result = router.recognize("/posts/1/comments");
+```
+
+The router config is based on a Plain Old JavaScript Object (POJO). The config DSL can easily be customized :)
+
+```js
+router = new Router();
+router.config([
+  { path: '/', handler: x => ({component: 'user'}) }
+]);
+
+router.configure(config => {
+  config.map([
+    { pattern: ['', 'intro'],   componentUrl: 'intro' },
+    { pattern: 'one',           componentUrl: 'one',   nav: true, title: 'Question 1' }
+    ...
+```
+
+Provides a configuration DSL on top of the raw config object.
+Router and config DSL are decoupled, so you can create your own DSL.
+Customizable internal asynchronous pipeline.
+
+- Want to add authentication? Just add a step to the pipeline that guards route access, cancel routing, redirect or allow navigation easily at any point.
+
+- Want to automatically load model data based on route parameters and type annotations? Just add a step to the pipeline.
+
+### Templating
+
+The [Templating Design](https://github.com/kristianmandrup/templating/blob/master/DESIGN.md) doc is a very interesting read!
+
+For custom elements, a <template> tag is required to prevent their immediate instantiation.
+When template directives are nested, their order is defined by nesting multiple <template> tags with a single template directive on each one.
+The execution context for the expressions of a template can be any object.
+Uses html imports for loading the templates of angular components.
+A bidirectional naming strategy is used to connect a component class with its template url and vice versa. Angular can load the component class given a template url but also load the template given a component class. This is needed to support defining angular components as well as custom elements.
+
+The docs contain a lot of info on how to achieve maximum performance while retaining flexibility...
+
+Double curly braces should have the same semantic at every place. E.g.
+
+`<input foo="{{model}}" value="{{model}}">foo: {{model}}`
+
+* `foo: {{model}}`: one way data binding with interpolation
+* `value="{{model}}"`: bidirectional binding
+* `foo="{{model}}"`: possibly unidirectional binding, depending on what the component chose to use as binding type.
+
+I.e. by just looking at the template the binding type cannot be determined. Knowledge of directive specifics is required to understand the template.
+
+One way to solve this conundrum would be to indicate the binding direction using `-` as post- and/or prefix (see below).
+
+`<input foo="{{model}}" value="{{-model-}}">foo: {{model-}}`
+
+
+From the Template compiler code comments:
+
+"Compiler walks the DOM and calls Selector.match on each node in the tree.
+It collects the resulting ElementBinders and stores them in a tree which mimics
+the DOM structure.
+Lifetime: immutable for the duration of application."
+
+`compileChildNodes(container:NodeContainer, directives:ArrayOfClass):CompiledTemplate` compiles the nodes.
+
+```js
+// build a virtual DOM node
+build(container:NodeContainer)
+  ...
+
+    return {
+      container: container,
+      binders: binders
+    };
+
+
+  if (index === 0 || compileElement.hasBindings()) {
+    newLevel = parentLevel+1;
+    if (index>0) {
+      // if element has one or more bidings, add class 'ng-binder' to mark it
+      compileElement.element.classList.add('ng-binder');
+    }
+
+    // push Binder onto a binders array for that node
+    binders.push(compileElement.toBinder(newLevel));
+  } else {
+    newLevel = parentLevel;
+  }
+
+//elsewhere in compileRecurse ...
+
+  if (nodeType == Node.ELEMENT_NODE) {
+    var matchedBindings = this.selector.matchElement(node);
+    var component;
+    if (matchedBindings.component) {
+      component = classFromDirectiveClass(matchedBindings.component);
+
+      var compileElement = new CompileElement({
+        level: parentElement.level+1,
+        element: node,
+        attrs: matchedBindings.attrs,
+        decorators: matchedBindings.decorators.map(classFromDirectiveClass),
+        component: component,
+        customElement: matchedBindings.customElement
+      });
+      if (matchedBindings.template) {
+        // special recurse for template directives
+        this.compileElements.push(this._compileTemplateDirective(node, matchedBindings.template, compileElement));
+      } else {
+        this.compileElements.push(compileElement);
+        this.compileRecurse(node, compileElement);
+      }
+    } else if (nodeType == Node.TEXT_NODE) {
+      var textExpression = this.selector.matchText(node);
+      if (textExpression) {
+        parentElement.addTextBinder(textExpression, nodeIndex);
+      }
+    }
+```
+
+We get the general idea! Sweet and pretty "simple" :)
+
+Digging deeper into the templating compiler found in `lib/compiler` we discover:
+
+The `SelectorConfig` which provides the attribute discovery rules, easy to customize :)
+
+```js
+export function SelectorConfig() {
+  return {
+    interpolationRegex: /{{(.*?)}}/g,
+    bindAttrRegex: /bind-(.+)/,
+    eventAttrRegex: /on-(.+)/,
+  };
+}
+```
+
+The `ElementSelector` which can match both custom elements (Web Components) and Angular elements using a complex Regexp.
+
+```js
+var SELECTOR_REGEXP = /^(?:([\w\-]+)|(?:\.([\w\-]+))|(?:\[([\w\-\*]+)(?:=([^\]]*))?\]))/;
+var wildcard = new RegExp('\\*', 'g');
+var CUSTOM_ELEMENT_RE = /^([^-]+)-([^-]*)$/;
+```
+
+
+The `CUSTOM_ELEMENT_RE` only matches elements (tags) with at least one dash, such as `<repeat-me>` but not `<repeatme>`. This is in line with `<x-toggle>` f.ex.
+
+```js
+  selectNode(builder:SelectedElementBindings, partialSelection, nodeName:string) {
+    var partial;
+
+    if (nodeName.match(CUSTOM_ELEMENT_RE)) {
+      builder.customElement = true;
+    }
+```
+
+The `SELECTOR_REGEXP` is used to match and split CSS selectors. It matches such patterns as: `ngrepeat` (element), `.alive` (class) and `[status]` (attribute)` on the individual element.
+
+```js
+function splitCss(selector:string):ArrayOfSelectorPart {
+  var parts = [];
+  var remainder = selector;
+  var match;
+
+  while (remainder !== '') {
+    if ((match = SELECTOR_REGEXP.exec(remainder)) != null) {
+      parts.push(SelectorPart.fromElement(match[1].toLowerCase()));
+```
+
+The code looks okay, but could definitely use some refactoring to be split into more classes for easier maintenance and better understanding of what parts constitute the whole compiler/builder and allow for customization by substituting individual classes.
+
+### Template example
+
+The template for the component
+
+```html
+<ng-element>
+  <template ng-config="templating">
+      <x-toggle label="Has child" bind-checked="hasChild"></x-toggle>
+      <div>
+        <!-- TODO: Syntax for binding to validity.valid -->
+        <input type="text" class="username" bind-value="user"
+          bind-validity="userValid" bind-validation-message="userError" required pattern=".{3,}">
+        <span class="tst-error">
+        {{userError}}
+        </span>
+      </div>
+      <div class="message">
+        Error: {{!userValid.valid}}, Message: {{greet(user)}}
+      </div>
+      <button on-click="incCounter()">Add</button>
+      <p>
+      <exp-greet bind-ng-if="hasChild" ng-if></exp-greet>
+      </p>
+  </template>
+</ng-element>
+```
+
+We see that the the template has some bindings:
+
+- `bind-value="user"`
+- `bind-validity="userValid"`
+- `bind-validation-message="userError"`
+
+Events:
+
+- `on-click="incCounter()"`
+
+Expression via string interpolation: `{{!userValid.valid}}`
+
+More on this micro syntax further below...
+
+The greet component logic (selector: apply on any `<exp-greet>` tag)
+
+```js
+import {Provide} from 'di';
+import {ComponentDirective} from 'templating';
+import {ChangeEventConfig} from 'templating';
+
+// component
+@ComponentDirective({
+  selector: 'exp-greet',
+  shadowProviders: [GreetChangeEventConfig]
+})
+export class FirstComponent {
+  constructor() {
+    this.counter = 0;
+    this.user = null;
+    this.userValid = {};
+  }
+
+  greet(name) {
+    if (!name) {
+      return 'Hello everybody (' + this.counter + ')';
+    }
+
+    return 'Hello ' + name + ' (' + this.counter + ')';
+  }
+
+  incCounter() {
+    this.counter++;
+  }
+}
+```
+
+In the annotation we have to specify out binding in some cases.
+
+```js
+@DecoratorDirective({
+  selector: '[ng-model]',
+  bind: {
+    'value': 'value',
+    'ngModelValid': 'ngModelValid'
+  },
+  observe: {
+    'value': 'validate'
+  }
+})
+```
+
+This can be optimized by using [binding naming conventions](https://github.com/angular/router/issues/17).
+Also not that a component can be made to be attach aware, so that when it is being attached it will be compiled
+
+```js
+@AttachAware
+export class NgModel {
+
+...
+// Annotation that enables the diAttached and diDetached callback
+export class AttachAware extends Queryable {
+  constructor() {
+    super('attachAware');
+  }
+}
+
+// Annotation that enables the domMoved callback
+export class DomMovedAware extends Queryable {
+```
+
+We import the template which imports the underlying component logic via a simple naming convention :)
+`greet.html` will find `greet.js`
+
+```html
+<head>
+...
+  <link rel="import" href="greet.html">
+</head>
+<body>
+  <exp-greet></exp-greet>
+</body>
+```
+
+The templating also has support for ng-repeat already...
+
+```html
+<button ng-repeat bind-ng-repeat="tabs" on-click="select(row)">
+  {{row.title}}
+</button>
+```
+
+It uses the syntax I proposed in my earlier critique. Wonder if they listened of if Rob and I just think very alike! I believe the later.
+
+We can see that the `ngRepeat` is a `TemplateDirective` which observes `ngRepeat[]`, the value of the `ngRepeat` attribute? and calls `ngRepeatChanged` on any change.
+
+```js
+@TemplateDirective({
+  selector: '[ng-repeat]',
+  bind: {
+    'ngRepeat': 'ngRepeat'
+  },
+  observe: {
+    'ngRepeat[]': 'ngRepeatChanged'
+  }
+})
+```
+
+Currently it is hardcoded to use `.item` on each change as per `addRow(entry.item);`
+
+```js
+export class NgRepeat {
+  ...
+  ngRepeatChanged(changeRecord) {
+    var self = this;
+    if (changeRecord && changeRecord.additionsHead && !changeRecord.movesHead && !changeRecord.removalsHead) {
+      var entry = changeRecord.additionsHead;
+      while (entry) {
+        addRow(entry.item);
+```
+
+The observation is setup and initiated here, using the `WatchGroup` from `watchtower.js`
+
+```js
+function setupDirectiveObserve(directive, observedExpressions) {
+  @Inject(WatchGroup, directive)
+  @TransientScope
+  function setup(watchGroup, directiveInstance) {
+    for (var expression in observedExpressions) {
+      initObservedProp(expression, observedExpressions[expression]);
+    }
+
+    function initObservedProp(expression, methodName) {
+      var match = expression.match(/(.*)\[\]$/);
+      var collection = false;
+      if (match) {
+        expression = match[1];
+        collection = true;
+      }
+      watchGroup.watch({expression, context:directiveInstance, collection,
+          callback: (...changeData) => directiveInstance[methodName](...changeData)
+      });
+    }
+  }
+
+  return setup;
+}
+```
+
+For TabContainer we see that it also observes on an ng-repeat attribute called `tabs`.
+Here we also set `shadowDOM: true` as part of the annotation...
+
+```js
+@ComponentDirective({
+  selector: 'tab-container',
+  observe: {
+    'tabs[]': 'tabsChanged'
+  },
+  shadowDOM: true
+})
+```
+
+And the repeat!
+
+```html
+<button ng-repeat bind-ng-repeat="tabs" on-click="select(row)">
+  {{row.title}}
+</button>
+```
+
+The use of the shadowDOM annotation looks very interesting!!
+
+```js
+// ViewFactory._initComponentDirective(...)
+
+if (annotation.shadowDOM) {
+  createShadowRoot(element).appendChild(childData.container);
+} else {
+  element.innerHTML = '';
+  element.appendChild(childData.container);
+```
+
+So I assume it means, that the TabContainer will be added to the Shadow DOM and not the real DOM! Wauw!
+
+After having spent a few hours peeking into the new Templating engine I must say it looks pretty amazing.
+However I would like it to be split into a few moe logical parts that can be maintained/substituted individually such as:
+
+- Directive + Annotations logic
+- View + View Factory
+- Tree Node compiler/builder
+
+### Expression parser
+
+The Expression parser will be used for string interpolation if/when needed.
+
+See examples [here](https://github.com/angular/expressionist.js/blob/master/test/parser.spec.js)
+We should avoid complex logic in the HTML. Better to hide most of it in (or as) a component!
+
+Dependency Injection will be the way to plugin various parts.
 
 Then the main artifacts will be:
 
@@ -248,6 +677,10 @@ Utils/libraries
 `promised-land` let's you send events around between modules in an async world.  Just emit the event as you are used to and the `promised-land` will take care of the rest. You can ask for the Promise before event is published or after. That means you don't need to think about any initialization order anymore.
 For the actual Promise implementation I have picked Bluebird library.
 
+Perhaps *promised-land* could be an answer to the performance issues that can be encountered when using promises , see : [promises performance hits](http://thanpol.as/javascript/promises-a-performance-hits-you-should-be-aware-of/#conclusions)
+
+`bacon.decorate` can simplify consumption of different APIs which are callbacks, promises or sync.
+
 APIs are hard. Sometimes they can have you provide a callback, other times they return a promise or be synchronous. You can unify the usage of your API and abstract concepts like sync or async, by using the paradigm Functional Reactive Programming with the help of a implementation called Bacon.js.
 
 Decorates any API to act as a simple Bacon property.
@@ -331,7 +764,6 @@ sse.addEventListener('item.purchased', function (event) {
 ```
 
 We just need to wrap CRUD actions in a nice REST style message API similar to what [Sails](http://sailsjs.org/) does.
-
 
 
 ### Reactive Extensions vs Bacon
