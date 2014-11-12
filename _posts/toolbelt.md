@@ -181,9 +181,9 @@ See [Bacon Registration form](http://nullzzz.blogspot.fi/2012/11/baconjs-tutoria
 
 We can leverage the BJQ library:
 
-[bacon-bindings](https://www.npmjs.org/package/bacon-jquery-bindings) This library is intended as a replacement for Bacon.UI. It provides the same functionality, with the addition of two-way bound Models, model composition and lenses.
+[bacon-bindings](https://github.com/baconjs/bacon.jquery) This library is intended as a replacement for Bacon.UI. It provides the same functionality, with the addition of two-way bound Models, model composition and lenses.
 
-[bacon.model](https://www.npmjs.org/package/bacon.model) Adds Model, Binding and Lens objects to core library to support advanced binding. Sweet :)
+[bacon.model](https://www.npmjs.org/package/bacon.model) Adds Model, Binding and Lens objects to core library to support advanced binding.
 
 The BJQ API consists of methods for creating a Model representing the state of a DOM element or a group of DOM elements.
 
@@ -225,6 +225,16 @@ car = bjb.Model.combine {
 ```
 
 Awesome magic!
+
+We need to experiment more on how to fit this in to a larger framework...
+
+More links on BaconJS:
+
+- [FRP with Bacon](http://blog.flowdock.com/2013/01/22/functional-reactive-programming-with-bacon-js/)
+
+## Micro-syntax for templating
+
+We need to build a virtual DOM similar to what React does. Thus we need to recognise special attributes in the HTML then act accordingly to build the graph/model that maps to the DOM.
 
 ### Repeat and Events
 
