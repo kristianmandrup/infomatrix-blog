@@ -173,6 +173,59 @@ For simple examples you could use `<name-input name="name" b-value="-value-" />`
 
 See previous post on Angular 2.0 for details ;)
 
+### Binding with Bacon Models
+
+All UI databinding should be based on event streams and properties.
+
+See [Bacon Registration form](http://nullzzz.blogspot.fi/2012/11/baconjs-tutorial-part-ii-get-started.html) example to feel the power this provides!
+
+We can leverage the BJQ library:
+
+[bacon-bindings](https://www.npmjs.org/package/bacon-jquery-bindings) This library is intended as a replacement for Bacon.UI. It provides the same functionality, with the addition of two-way bound Models, model composition and lenses.
+
+[bacon.model](https://www.npmjs.org/package/bacon.model) Adds Model, Binding and Lens objects to core library to support advanced binding. Sweet :)
+
+The BJQ API consists of methods for creating a Model representing the state of a DOM element or a group of DOM elements.
+
+```js
+// binding for "left" text field
+left = bjq.textFieldValue($("#left"))
+// binding for "right" text field
+right = bjq.textFieldValue($("#right"))
+// make a two-way binding between these two
+// values in the two fields will now stay in sync
+right.bind(left)
+// Make a one-way side effect: update label text on changes, uppercase
+right.map(".toUpperCase").changes().assign($("#output"), "text")
+// Add an input stream for resetting the value
+left.addSource($("#reset").asEventStream("click").map(""))
+```
+
+BJQ adds methods to JQuery, for performing animations and wrapping the result Promise into an EventStream. For example
+
+`var fadeOut = $("#thing").fadeOutE("fast")`
+
+BJQ provides helpers for JQuery AJAX. All the methods return an EventStream of AJAX results. AJAX errors are mapped into Error events in the stream.
+
+`Bacon.Model.combine(template)`
+
+Creates a composite model using a template. For example:
+
+```js
+// Model for the number of cylinders
+cylinders = bjb.Model(12)
+// Model for the number of doors
+doors = bjb.Model(2)
+// Composite model for the whole car
+car = bjb.Model.combine {
+  price: "expensive",
+  engine: { type: "gas", cylinders},
+  doors
+}
+```
+
+Awesome magic!
+
 ### Repeat and Events
 
 Angular 2.0 proposal: `<div [ng-repeat|pane]="panes" class="tab" (^click)="select(pane)"> `
