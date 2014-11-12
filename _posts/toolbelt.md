@@ -177,11 +177,9 @@ See previous post on Angular 2.0 for details ;)
 
 All UI databinding should be based on event streams and properties.
 
-See [Bacon Registration form](http://nullzzz.blogspot.fi/2012/11/baconjs-tutorial-part-ii-get-started.html) example to feel the power this provides!
+We can leverage the [BJQ](https://github.com/baconjs/bacon.jquery) (Bacon JQuery) library:
 
-We can leverage the BJQ library:
-
-[bacon-bindings](https://github.com/baconjs/bacon.jquery) This library is intended as a replacement for Bacon.UI. It provides the same functionality, with the addition of two-way bound Models, model composition and lenses.
+This library is intended as a replacement for *Bacon.UI*. It provides the same functionality, with the addition of two-way bound Models, model composition and lenses.
 
 [bacon.model](https://www.npmjs.org/package/bacon.model) Adds Model, Binding and Lens objects to core library to support advanced binding.
 
@@ -230,7 +228,129 @@ We need to experiment more on how to fit this in to a larger framework...
 
 More links on BaconJS:
 
+- [Bacon for dummies](http://neethack.com/2013/02/bacon-dot-js-for-dummies/)
+- [Bacon Registration form tutorial](http://nullzzz.blogspot.fi/2012/11/baconjs-tutorial-part-ii-get-started.html)
 - [FRP with Bacon](http://blog.flowdock.com/2013/01/22/functional-reactive-programming-with-bacon-js/)
+- [Reactive Search UI](http://joefiorini.com/posts/implementing-a-functional-reactive-search-ui-with-baconjs)
+- [FRP intro](http://sean.voisen.org/blog/2013/09/intro-to-functional-reactive-programming/)
+- [Bacon and D3](http://www.scottlogic.com/blog/2014/07/23/frp-with-bacon-and-d3.html)
+- [Bacon on the server](http://blog.carbonfive.com/2014/09/23/bacon-js-node-js-mongodb-functional-reactive-programming-on-the-server/)
+- [Bacon Cheatsheet](http://www.cheatography.com/proloser/cheat-sheets/bacon-js/)
+
+Utils/libraries
+
+- [bacontrap](https://www.npmjs.org/package/bacontrap) for handling keyboard mouse events
+- [bacon.decorate](https://www.npmjs.org/package/bacon.decorate)
+- [Promised land](https://www.npmjs.org/package/promised-land)
+- [bacon-browser](https://github.com/sykopomp/bacon-browser)
+
+
+`promised-land` let's you send events around between modules in an async world.  Just emit the event as you are used to and the `promised-land` will take care of the rest. You can ask for the Promise before event is published or after. That means you don't need to think about any initialization order anymore.
+For the actual Promise implementation I have picked Bluebird library.
+
+APIs are hard. Sometimes they can have you provide a callback, other times they return a promise or be synchronous. You can unify the usage of your API and abstract concepts like sync or async, by using the paradigm Functional Reactive Programming with the help of a implementation called Bacon.js.
+
+Decorates any API to act as a simple Bacon property.
+
+`decorate.autoValue` chooses wrapping type based on type of value returned from function.
+
+`bacon-browser` is a collection of browser-related Bacon.Observables for use with Bacon.js. It provides a variety of useful utilities for commonly-performed tasks, such as checking whether a DOM elevent is being "held" with a mouse click (for drag and drop), properties that represent the window dimensions (instead of having to hook into window.onresize yourself), hooking into browser animationFrames, and many more.
+
+To observe changes we can use either [behold](https://www.npmjs.org/package/behold),  [Object.observe](https://github.com/Polymer/observe-js) polyfill or [watchtower.js] (https://github.com/angular/watchtower.js/).
+
+*watchtower* looks like the best option for now as it has clean separation and several layers.
+See [design document](https://docs.google.com/document/d/10W46qDNO8Dl0Uye3QX0oUDPYAwaPl0qNy73TVLjd1WI/edit#)
+
+See [observer.spec](https://github.com/angular/watchtower.js/blob/master/test/observer.spec.js) and [watchgroup.spec](https://github.com/angular/watchtower.js/blob/master/test/watchgroup.spec.js) for examples on API usage.
+
+"The second layer adds function, closure, method invocation and coalescing on top of Layer 1. It is unlikely that such functionality will be implemented by VM which is the reason for the separation. "
+
+Ideally we should (perhaps) capture the changes in a BaconJS event stream!
+
+```js
+var todoModel = {
+  label: 'Default',
+  completed: false
+
+};
+
+function observer(changes){
+  changes.forEach(function(change, i){
+    console.log(change);
+  })
+
+};
+
+Object.observe(todoModel, observer, ['delete']);
+
+
+todoModel.label = 'Buy some milk';
+
+// No changes reported
+```
+
+### Real Time Server data streaming
+
+The framework should target real time data streaming from one or more external channels.
+
+Integrations:
+
+- Wakanda
+- ...
+
+*Wakanda*
+
+It would be nice to integrate with [Wakanda](http://www.wakanda.org/) for the backend. They now also support [Server Side Events](https://github.com/AMorgaut/wakanda-eventsource).
+
+On the server
+
+```js
+var sse = require('wakanda-eventsource');
+sse.pushEvent(
+    'item.purchased',
+    {
+        nb: 5,
+        type: 'DVD'
+    },
+    true // encode in JSON
+);
+```
+
+Client
+
+```js
+// ask to receive only "itempurchased" and "ordercancelled" events
+// adding onmessage listener or listener for any other events than the listed
+// ones will have no effect
+var sse = new EventSource('/eventsource/item.purchased,order.cancelled');
+
+sse.addEventListener('item.purchased', function (event) {
+    var data = JSON.parse(event.data);
+    console.log(data.nb, '"' + data.type + '"', 'items have been purchased')
+});
+```
+
+We just need to wrap CRUD actions in a nice REST style message API similar to what [Sails](http://sailsjs.org/) does.
+
+
+
+### Reactive Extensions vs Bacon
+
+Reactive Extensions (Rx) is a library for composing asynchronous and event-based programs using observable sequences and LINQ-style query operators.
+
+Data sequences can take many forms, such as a stream of data from a file or web service, web services requests, system notifications, or a series of events such as user input.
+
+Reactive Extensions represents all these data sequences as observable sequences. An application can subscribe to these observable sequences to receive asynchronous notifications as new data arrive.
+
+
+- [Rx book](http://xgrommx.github.io/rx-book/)
+- [Rx with Bacon](http://xgrommx.github.io/rx-book/content/mappingr_rxjs_from_different_libraries/bacon/README.html)
+
+Bacon.js is quite similar to RxJs, so it should be pretty easy to pick up. The major difference is that in bacon, there are two distinct kinds of Observables: the EventStream and the Property. The former is for discrete events while the latter is for observable properties that have the concept of "current value".
+
+Also, there are no "cold observables", which means also that all EventStreams and Properties are consistent among subscribers: when as event occurs, all subscribers will observe the same event. If you're experienced with RxJs, you've probably bumped into some wtf's related to cold observables and inconsistent output from streams constructed using scan and startWith. None of that will happen with bacon.js.
+
+Error handling is also a bit different: the Error event does not terminate a stream. So, a stream may contain multiple errors. To me, this makes more sense than always terminating the stream on error; this way the application developer has more direct control over error handling. You can always use stream.endOnError() to get a stream that ends on error!
 
 ## Micro-syntax for templating
 
