@@ -11,7 +11,6 @@ category: toolbelt
 date: 11-12-2014
 ---
 
-
 After having read many of the recent *Ember* and *Angular RFCs* and discussion and watched many of the conference videos of ng-europe, oredev and the recent emberfest.eu in Barcelona I have come to the conclusion that we need to drastically rethink how we build web frameworks for the modern web. The world is changing fast around us! Most frameworks are still stuck in the REST and MVC paradigm.
 
 The world is going Real Time with event streams everywhere... time for a change!
@@ -20,30 +19,36 @@ The world is going Real Time with event streams everywhere... time for a change!
 
 I will embark on a mission to create a new pluggable framework called `toolbelt.io`, where the basic primitives will be event streams using [BaconJS](http://baconjs.github.io/).
 
-The framework should be super minimal and very pluggable, making minimal assumptions about plugins. Instead the plugins should just "hook on" as they see fit.
+The framework should be super minimal and very pluggable, making minimal assumptions and simply assembling various parts via Dependency Injection.
 
-The current popular full stack frameworks suffer from being "full stack", making strict requirements for interoperability. You have to use the constructs/internals of that framework forcing you to wrap your code in some form. There must be a better way!
+The current popular full stack frameworks all suffer from being "full stack", making strict requirements for interoperability. You pretty much have to use the constructs/internals of the particular framework forcing you to wrap your code in some fashion, often forcing you to look deep into the internals of the framework to figure out how to "plug in". There must be a better way!
 
-I will start writing design docs in the coming weeks and start piecing it together from various libraries that look promising. I will reuse several of the Angular 2 building blocks as they will give me a head start.
-An initial list:
+I will start writing design docs in the coming weeks and start piecing a framework together from various libraries that look promising. This is a process and will likely take several months. I plan to write a book about this adventure for others to follow along and learn how to design such complex infrastructure projects using good design patterns. I plan to reuse many of the Angular 2 building blocks as they will give me a head start. In Ember I mostly like their CLI by @stefanpenner. The rest of Ember needs a major overhaul. Will be interesting to see if they will be following a similar path, throwing away much of their current infrastructure for something simpler and better fitting the new web standards.
+
+Here is my initial list of libraries:
+
+Angular 2
 
 - [AtScript](http://www.andrewconnell.com/blog/atscript-another-language-to-compile-down-to-javascript) with [sweet.js](http://sweetjs.org/) macros
-
-- [BaconJS](http://baconjs.github.io/)
-- [ZeptoJS](http://zeptojs.com/)
 - [Router](https://github.com/angular/router)
 - [Dependency Injection](https://github.com/angular/di.js)
 - [Expression parser](https://github.com/angular/expressionist.js)
 - [Templating](https://github.com/angular/templating)
 
-As I see it, all that is needed is a super flexible router, allowing multiple routers in the system.
-Then having even streams that hook into whatever data you are subscribing on. Validation, Authorization etc. can also be set up to be reactive using even streams.
+Core infrastructure
 
-Routes should route directly into components on the page using templates, which can leverage Web Components from Polymer with some extra sugar that leverages event stream for data binding with the UI, such as mouse movements, touch events, keyboard events etc. Event flows should always be highly customizable via mapping, filters etc.
+- [BaconJS](http://baconjs.github.io/) event streams
+- [When.js](https://github.com/cujojs/when) promises
+- [ZeptoJS](http://zeptojs.com/) DOM utils
+
+As I see it, all that is needed is a super flexible router, allowing multiple routers in the system.
+Then having event streams that hook into whatever data you are subscribing on. Validation, Authorization etc. can also be set up to be reactive using event streams.
+
+Routes should route directly into components on the page using templates, which can leverage Web Components (currently via Polymer). We just need to add some extra "sugar" that leverages event stream for data binding with the UI, such as mouse movements, touch events, keyboard events etc. Event flows should always be highly customizable via mapping, filters etc. I provide design proposals for all this futher down...
 
 ### Promises
 
-One of the most essential building blocks, along with Bacon Event streams and properties is using Promises (to avoid callback hell..)
+One of the most essential building blocks, along with Bacon Event streams and properties is Promises (to avoid callback hell..) for async events. Promises can easily be wrapped as Event streams, so they go hand-in-hand :)
 
 It looks like the best Promise library is [When.js](https://github.com/cujojs/when). It even includes a complete [ES6 Promise shim](https://github.com/cujojs/when/blob/master/docs/es6-promise-shim.md)
 We should use this promise shim for sure!!
@@ -54,9 +59,11 @@ More on promises:
 - [Creating Promises](http://know.cujojs.com/tutorials/promises/creating-promises.html.md)
 - [Higher order promises]( http://know.cujojs.com/tutorials/promises/higher-order-promises-with-when)
 
+Higher order promises look VERY "promising"!
+
 ### Router
 
-The router uses the [route-recognizer](https://github.com/btford/route-recognizer) to match routes.
+The Angular 2.0 router uses the [route-recognizer](https://github.com/btford/route-recognizer) to match routes. The recognizer (made by @machty ?) is also used by the Ember router if I'm not mistaken...
 
 ```js
 var router = new RouteRecognizer();
@@ -83,9 +90,9 @@ router.configure(config => {
     ...
 ```
 
-Provides a configuration DSL on top of the raw config object.
+The Router provides a configuration DSL on top of the raw config object.
 Router and config DSL are decoupled, so you can create your own DSL.
-Customizable internal asynchronous pipeline.
+It is essentially a customizable internal asynchronous pipeline.
 
 - Want to add authentication? Just add a step to the pipeline that guards route access, cancel routing, redirect or allow navigation easily at any point.
 
@@ -97,10 +104,12 @@ The Templating system that is being developed for Angular 2.0 looks far superior
 
 If we have a first class Router and Templater, we can reuse them to quickly build alternative web frameworks for different scenarios, platforms etc. No more super heavy "one size fits all" frameworks. Instead we will be entering a world of small framework parts that are pre-assembled into larger pieces, but that can be replaced by simply injecting our own customized parts. Awesome!
 
+### Ember templating
+
 I believe that EmberJS is going down the "wrong path", by sticking to their Handlebars framework and as the only path. I fully understand why they chose it originally, but I feel by now it is too limiting, forcing developers into a blind road. The advantage of full leveraging html "as is", is that it provides way more flexibility and requires less assumptions. Easier to have tool/IDE support etc. Also much easier to customize behavior of tags using the templating engine than to work with the internals of handlebars, creating handlebars helpers and such. Also confusing having to use a double-syntax of handlebars statements and html.
+
 Much simpler to express everything as HTML tags such as is done with Web Componets.
 It also allows you to easily use various template engines such as Jade so you don't have to write the HTML in the "old school" tag `< />` syntax. Nothing you can't achieve with pure HTML really. It is simply not true that it forces you to embed loads of logic inside the html. There are (always) ways around that as I will show in the following analysis...
-
 
 ### Templating 2.0
 
@@ -205,7 +214,7 @@ We get the general idea! Sweet and pretty "simple" :)
 
 Digging deeper into the templating compiler found in `lib/compiler` we discover:
 
-The `SelectorConfig` which provides the attribute discovery rules, easy to override/customize :)
+`SelectorConfig` which provides the attribute discovery rules, easy to override/customize :)
 
 ```js
 export function SelectorConfig() {
@@ -229,7 +238,6 @@ var _SELECTOR_REGEXP =
 var wildcard = new RegExp('\\*', 'g');
 var CUSTOM_ELEMENT_RE = /^([^-]+)-([^-]*)$/;
 ```
-
 
 The `CUSTOM_ELEMENT_RE` only matches elements (tags) with at least one dash, such as `<repeat-me>` but not `<repeatme>`. This is in line with `<x-toggle>` f.ex.
 
@@ -524,7 +532,6 @@ export class TabContainer {
 }
 ```
 
-
 ### Decorator
 
 *Decorator* decorates existing HTML element/component with additional behaviour.
@@ -589,7 +596,9 @@ export class NgIf {
 
 "So, when you are setting up your routes, you simply map the router to a `ComponentDirective` (which consists of a view and controller".
 
-The following example would instead use an event stream...
+The View is the instantiated template linked to a "virtual DOM" that is built on first parse.
+
+The following example could instead use an event stream (see below)
 
 ```js
 @ComponentDirective
@@ -600,6 +609,8 @@ export class CustomerEditController {
     }
 
     activate(customerId) {
+        // TODO: use event stream here...
+
         return this.server.loadCustomer(customerId)
             .then(response => this.customer = response.customer);
     }
@@ -614,7 +625,7 @@ Angular 2.0 proposal: `<img [src]="pane.icon"><span>${pane.name}</span>`
 
 Bindings are unidirectional from model/controller to view (by default).
 
-My proposal: `<img b-src="pane.icon"><span>${pane.name}</span>`
+My proposal: `<img bind-src="pane.icon"><span>${pane.name}</span>`
 
 ### Data binding
 
@@ -632,7 +643,7 @@ See previous post on Angular 2.0 for details ;)
 
 ### Binding with Bacon Models
 
-All UI databinding should be based on event streams and properties.
+All UI databinding should be based on event streams and properties. This greatly simplifies things much like Promises for events. It simply doesn't scale if you have to figure out each time if you are dealing with a promise, event stream or simple value... better to wrap everything in a uniform way (keep core interfaces simple and consistent!).
 
 We can leverage the [BJQ](https://github.com/baconjs/bacon.jquery) (Bacon JQuery) library:
 
@@ -812,6 +823,8 @@ Also, there are no "cold observables", which means also that all EventStreams an
 
 Error handling is also a bit different: the Error event does not terminate a stream. So, a stream may contain multiple errors. To me, this makes more sense than always terminating the stream on error; this way the application developer has more direct control over error handling. You can always use stream.endOnError() to get a stream that ends on error!
 
+*My Conclusion: Better to stick with BaconJS!!*
+
 ## Micro-syntax for templating
 
 We need to build a virtual DOM similar to what React does. Thus we need to recognise special attributes in the HTML then act accordingly to build the graph/model that maps to the DOM.
@@ -898,9 +911,29 @@ input[type=search] @value {
 ```
 
 The above would be better achieved in javascript via json or in pure code form, to allow for mixins, inheritance etc. while still keeping declarative syntax.
+
 Instead we could use the Directive pattern once again and simply have each one as yet another Decorator layer! They could then load whatever config from an external source such as a json file/repo or whatever!
 
-Maybe this is a little "over-architectured", but just to illustrate some possibilities!!
+```js
+@ControllerDecorator {
+  selector: 'input @value'
+}
+class InputController extends Controller
+  constructor(Element: component, Object: attrs)
+     ...
+
+@ControllerDecorator {
+  selector: 'input[type=text] @value'
+}
+class TextInputController extends InputController
+  constructor(Element: component, Object: attrs)
+     super(component, attrs)
+     ...
+```
+
+We could even have these classes auto-generated from the "binding-css" and then override any controller as we see fit. Instead of inheritance we might just decorat a base controller with multiple other decortator controllers?
+
+Maybe all of this is a little "over-architectured", but just to illustrate some possibilities!!
 
 ```js
 @Controller
@@ -916,6 +949,8 @@ class SyncController extends BindingController
      if (attr.stream)
         StreamerFactory.build(component, attrs)
 ```
+
+Now we can replace Bacon streaming with our custom Streaming if we like... (but still adhering to the same API)
 
 ```js
 class StreamerFactory
