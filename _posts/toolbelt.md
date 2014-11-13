@@ -111,9 +111,16 @@ I believe that EmberJS is going down the "wrong path", by sticking to their Hand
 Much simpler to express everything as HTML tags such as is done with Web Componets.
 It also allows you to easily use various template engines such as Jade so you don't have to write the HTML in the "old school" tag `< />` syntax. Nothing you can't achieve with pure HTML really. It is simply not true that it forces you to embed loads of logic inside the html. There are (always) ways around that as I will show in the following analysis...
 
+I have the deepest respect for the core team of Ember and the community. I have made many friends there too... but from a purely technical perspective, I think they have chosen to go down a wrong path with the bet on Handlebars and the coming HTML bars, even as I don't know the details of what is coming out of it.
+They really should scrap the use of Handlebars as a core component, and make it an optional "plugin".
+There is too much coupling IMO. It is also too "Rails like", which is why most of the core/community members have a Rails background. The web has moved on since Rails. We now inhabit a radically different world, which both React and Famo.us are testament to! Both a radical re-design and fresh ideas on of how to build modern, performant web (hybrid) app.
+
 ### Templating 2.0
 
-In the following, it turns out I have been analyzing an "old" prototype of the templating system. Latest one is to be found in Angular core. But the current one looks way less complete than the prototype. Still a little while  before it reaches sufficient stability! I guess they are experimenting and refactoring a lot, but I think the general design is going to reflect a lot of the ideas sketched out in the [Templating Design](https://github.com/kristianmandrup/templating/blob/master/DESIGN.md) doc.
+In the following, it turns out I have been analyzing a somewhat dated prototype of the templating system. The latest one is to be found in [Angular core](https://github.com/angular/angular/tree/master/modules/core/src) under `/compiler`.
+
+The most current templating "engine" looks way less complete than the prototype.
+We have to wait a little while  before it reaches sufficient maturity. I guess they are experimenting and refactoring a lot, but I think the general design is going to reflect a lot of the ideas sketched out in the [Templating Design](https://github.com/kristianmandrup/templating/blob/master/DESIGN.md) doc.
 A very interesting read!
 
 <cite>
@@ -125,7 +132,9 @@ Uses html imports `<link import="sth.html"/>` for loading the templates of angul
 A bidirectional naming strategy is used to connect a component class with its template url and vice versa. Angular can load the component class given a template url but also load the template given a component class. This is needed to support defining angular components as well as custom elements.""
 </cite>
 
-The docs contain a lot of info on how to achieve maximum performance while retaining flexibility...
+I especially like this one: _"A bidirectional naming strategy is used to connect a component class with its template url and vice versa."_
+
+The docs contain a lot of info on how to achieve maximum templating performance while maintaining flexibility. Here some quotes on data binding:
 
 <cite>
 Double curly braces should have the same semantic at every place. E.g.
@@ -139,17 +148,18 @@ Double curly braces should have the same semantic at every place. E.g.
 I.e. by just looking at the template the binding type cannot be determined. Knowledge of directive specifics is required to understand the template.
 </cite>
 
-One way to solve this conundrum would be to indicate the binding direction using `-` as post- and/or prefix (see below).
+One way I think we could solve this conundrum is to indicate the binding direction using `-` as post- and/or prefix (see below).
 
 `<input foo="{{model}}" value="{{-model-}}">foo: {{model-}}`
 
+Then the expression parser would have to be a little more intelligent!
 
 From the Template compiler code comments:
 
 <cite>
-Compiler walks the DOM and calls Selector.match on each node in the tree.
-It collects the resulting ElementBinders and stores them in a tree which mimics
-the DOM structure.
+The compiler walks the DOM and calls `Selector.match` on each node in the tree.
+It collects the resulting `ElementBinder`s and stores them in a tree which mimics
+the DOM structure (virtual DOM).
 Lifetime: immutable for the duration of application."
 </cite>
 
@@ -210,10 +220,7 @@ build(container:NodeContainer)
     }
 ```
 
-We get the general idea! Sweet and pretty "simple" :)
-
-Digging deeper into the templating compiler found in `lib/compiler` we discover:
-
+Digging deeper into the templating compiler found in `lib/compiler` we find the
 `SelectorConfig` which provides the attribute discovery rules, easy to override/customize :)
 
 ```js
@@ -226,7 +233,7 @@ export function SelectorConfig() {
 }
 ```
 
-The `ElementSelector` which can match both custom elements (Web Components) and Angular elements using a complex Regexp.
+The `ElementSelector` can match both custom elements (Web Components) and Angular elements using Regexp.
 
 ```js
 var _SELECTOR_REGEXP =
@@ -239,7 +246,7 @@ var wildcard = new RegExp('\\*', 'g');
 var CUSTOM_ELEMENT_RE = /^([^-]+)-([^-]*)$/;
 ```
 
-The `CUSTOM_ELEMENT_RE` only matches elements (tags) with at least one dash, such as `<repeat-me>` but not `<repeatme>`. This is in line with `<x-toggle>` f.ex.
+The `CUSTOM_ELEMENT_RE` only matches elements (tags) with at least one dash, such as `<repeat-me>` but not `<repeatme>`. This is in line with f.ex `<x-toggle>` a custom element as per the specs.
 
 ```js
   selectNode(builder:SelectedElementBindings, partialSelection, nodeName:string) {
@@ -263,7 +270,7 @@ function splitCss(selector:string):ArrayOfSelectorPart {
       parts.push(SelectorPart.fromElement(match[1].toLowerCase()));
 ```
 
-The code looks okay, but could definitely use some refactoring to be split into more classes for easier maintenance and better understanding of what parts constitute the whole compiler/builder and allow for customization by substituting individual classes.
+The code looks okay, but could definitely use some refactoring to be split into more classes and smaller functions to allow for easier understanding and allows for better overrides/customization.
 
 ### Template example
 
@@ -272,22 +279,22 @@ The template for the component
 ```html
 <ng-element>
   <template ng-config="templating">
-      <x-toggle label="Has child" bind-checked="hasChild"></x-toggle>
-      <div>
-        <!-- TODO: Syntax for binding to validity.valid -->
-        <input type="text" class="username" bind-value="user"
-          bind-validity="userValid" bind-validation-message="userError" required pattern=".{3,}">
-        <span class="tst-error">
-        {{userError}}
-        </span>
-      </div>
-      <div class="message">
-        Error: {{!userValid.valid}}, Message: {{greet(user)}}
-      </div>
-      <button on-click="incCounter()">Add</button>
-      <p>
-      <exp-greet bind-ng-if="hasChild" ng-if></exp-greet>
-      </p>
+    <x-toggle label="Has child" bind-checked="hasChild"></x-toggle>
+    <div>
+      <!-- TODO: Syntax for binding to validity.valid -->
+      <input type="text" class="username" bind-value="user"
+        bind-validity="userValid" bind-validation-message="userError" required pattern=".{3,}">
+      <span class="tst-error">
+      {{userError}}
+      </span>
+    </div>
+    <div class="message">
+      Error: {{!userValid.valid}}, Message: {{greet(user)}}
+    </div>
+    <button on-click="incCounter()">Add</button>
+    <p>
+    <exp-greet bind-ng-if="hasChild" ng-if></exp-greet>
+    </p>
   </template>
 </ng-element>
 ```
@@ -355,7 +362,8 @@ In the annotation we have to specify out binding in some cases.
 ```
 
 This can be optimized by using [binding naming conventions](https://github.com/angular/router/issues/17).
-Also not that a component can be made to be attach aware, so that when it is being attached it will be compiled
+
+Also note that a component can be made to be attach aware via `@AttachAware` annotation.
 
 ```js
 @AttachAware
@@ -373,8 +381,7 @@ export class AttachAware extends Queryable {
 export class DomMovedAware extends Queryable {
 ```
 
-We import the template which imports the underlying component logic via a simple naming convention :)
-`greet.html` will find `greet.js`
+We import then the template via `<link rel="import"` which imports the underlying component logic via a simple naming convention :) The `greet.html` template will find and instantiate the component in `greet.js`.
 
 ```html
 <head>
@@ -394,7 +401,7 @@ The templating also has support for ng-repeat already...
 </button>
 ```
 
-It uses the syntax I proposed in my earlier critique. Wonder if they listened of if Rob and I just think very alike! I believe the later.
+It uses the syntax I proposed in my earlier critique. Wonder if they listened of if Rob and I just think very alike!?
 
 We can see that the `ngRepeat` is a `TemplateDirective` which observes `ngRepeat[]`, the value of the `ngRepeat` attribute? and calls `ngRepeatChanged` on any change.
 
@@ -451,7 +458,7 @@ function setupDirectiveObserve(directive, observedExpressions) {
 }
 ```
 
-For TabContainer we see that it also observes on an ng-repeat attribute called `tabs`.
+For `TabContainer` we see that it also observes on an `ng-repeat` attribute called `tabs`.
 Here we also set `shadowDOM: true` as part of the annotation...
 
 ```js
@@ -472,7 +479,7 @@ And the repeat!
 </button>
 ```
 
-The use of the shadowDOM annotation looks very interesting!!
+The use of the `shadowDOM` annotation looks very interesting!!
 
 ```js
 // ViewFactory._initComponentDirective(...)
@@ -484,14 +491,14 @@ if (annotation.shadowDOM) {
   element.appendChild(childData.container);
 ```
 
-So I assume it means, that the TabContainer will be added to the Shadow DOM and not the real DOM! Wauw!
+So I assume it means, that the `TabContainer` will be added to the Shadow DOM and not the real DOM! Wauw!
 
 After having spent a few hours peeking into the new Templating engine I must say it looks pretty amazing.
-However I would like it to be split into a few moe logical parts that can be maintained/substituted individually such as:
+However I would like it to be split into a few more logical parts that can be maintained/substituted individually. A natural division could be:
 
 - Directive + Annotations logic
 - View + View Factory
-- Tree Node compiler/builder
+- Tree/Node compiler/builder
 
 ### Expression parser
 
@@ -534,7 +541,7 @@ export class TabContainer {
 
 ### Decorator
 
-*Decorator* decorates existing HTML element/component with additional behaviour.
+A *Decorator* decorates existing HTML element/component with additional behaviour.
 
 ```js
 @DecoratorDirective({
@@ -557,9 +564,8 @@ export class NgShow {
 }
 ```
 
-The `bind` in the Directive will only be required if you need to map to a different setter.
-We should always call setters instead of setting component attributes directly. This allows us to intervene,
-add validation, filtering, mapping etc.
+The `bind` in the `Directive` will only be required if you need to map to a different setter.
+We should always call setters instead of setting component attributes directly. This allows us to intervene to add validation, filtering, mapping etc.
 
 ### Template
 
@@ -629,7 +635,7 @@ My proposal: `<img bind-src="pane.icon"><span>${pane.name}</span>`
 
 ### Data binding
 
-I would just find any HTML atttribute starting with `b-` (b for bound).
+I would just find any HTML atttribute starting with `bind-`.
 
 You could further customize as follows `<name-input name="name" b-value="value:name; strategy:sync" />`
 
@@ -643,7 +649,7 @@ See previous post on Angular 2.0 for details ;)
 
 ### Binding with Bacon Models
 
-All UI databinding should be based on event streams and properties. This greatly simplifies things much like Promises for events. It simply doesn't scale if you have to figure out each time if you are dealing with a promise, event stream or simple value... better to wrap everything in a uniform way (keep core interfaces simple and consistent!).
+All UI databinding should be based on event streams and properties. This greatly simplifies things much like Promises for events. It simply doesn't scale if you have to figure out each time if you are dealing with a promise, event stream or simple value... better to wrap everything in a uniform way (keep core interfaces simple and consistent).
 
 We can leverage the [BJQ](https://github.com/baconjs/bacon.jquery) (Bacon JQuery) library:
 
@@ -690,9 +696,7 @@ car = bjb.Model.combine {
 }
 ```
 
-Awesome magic!
-
-We need to experiment more on how to fit this in to a larger framework...
+*Awesome magic!* We need to experiment more on how to fit this in to a larger framework...
 
 More links on BaconJS:
 
@@ -712,21 +716,27 @@ Utils/libraries
 - [Promised land](https://www.npmjs.org/package/promised-land)
 - [bacon-browser](https://github.com/sykopomp/bacon-browser)
 
-
-`promised-land` let's you send events around between modules in an async world.  Just emit the event as you are used to and the `promised-land` will take care of the rest. You can ask for the Promise before event is published or after. That means you don't need to think about any initialization order anymore.
+<cite>
+`promised-land` *let's you send events around between modules in an async world*.  Just emit the event as you are used to and the `promised-land` will take care of the rest. You can ask for the Promise before event is published or after. That means *you don't need to think about any initialization order anymore*.
 For the actual Promise implementation I have picked Bluebird library.
+</cite>
 
 Perhaps *promised-land* could be an answer to the performance issues that can be encountered when using promises , see : [promises performance hits](http://thanpol.as/javascript/promises-a-performance-hits-you-should-be-aware-of/#conclusions)
 
+
 `bacon.decorate` can simplify consumption of different APIs which are callbacks, promises or sync.
 
+<cite>
 APIs are hard. Sometimes they can have you provide a callback, other times they return a promise or be synchronous. You can unify the usage of your API and abstract concepts like sync or async, by using the paradigm Functional Reactive Programming with the help of a implementation called Bacon.js.
+</cite>
 
 Decorates any API to act as a simple Bacon property.
 
 `decorate.autoValue` chooses wrapping type based on type of value returned from function.
 
-`bacon-browser` is a collection of browser-related Bacon.Observables for use with Bacon.js. It provides a variety of useful utilities for commonly-performed tasks, such as checking whether a DOM elevent is being "held" with a mouse click (for drag and drop), properties that represent the window dimensions (instead of having to hook into window.onresize yourself), hooking into browser animationFrames, and many more.
+<cite>
+`bacon-browser` is a collection of browser-related `Bacon.Observables` for use with *Bacon.js*. It provides a variety of useful utilities for commonly-performed tasks, such as checking whether a DOM event is being "held" with a mouse click (for drag and drop), properties that represent the window dimensions (instead of having to hook into `window.onresize` yourself), hooking into browser `animationFrames`, and many more.
+</cite>
 
 To observe changes we can use either [behold](https://www.npmjs.org/package/behold),  [Object.observe](https://github.com/Polymer/observe-js) polyfill or [watchtower.js] (https://github.com/angular/watchtower.js/).
 
@@ -735,9 +745,11 @@ See [design document](https://docs.google.com/document/d/10W46qDNO8Dl0Uye3QX0oUD
 
 See [observer.spec](https://github.com/angular/watchtower.js/blob/master/test/observer.spec.js) and [watchgroup.spec](https://github.com/angular/watchtower.js/blob/master/test/watchgroup.spec.js) for examples on API usage.
 
+<cite>
 "The second layer adds function, closure, method invocation and coalescing on top of Layer 1. It is unlikely that such functionality will be implemented by VM which is the reason for the separation. "
+</cite>
 
-Ideally we should (perhaps) capture the changes in a BaconJS event stream!
+Ideally we should (perhaps) capture the changes in a BaconJS event stream!?
 
 ```js
 var todoModel = {
@@ -770,11 +782,12 @@ Integrations:
 - Wakanda
 - ...
 
-*Wakanda*
+#### Wakanda integration
 
-It would be nice to integrate with [Wakanda](http://www.wakanda.org/) for the backend. They now also support [Server Side Events](https://github.com/AMorgaut/wakanda-eventsource).
+It would be nice to integrate with [Wakanda](http://www.wakanda.org/) for the backend.
+They also support [Server Side Events](https://github.com/AMorgaut/wakanda-eventsource).
 
-On the server
+On the *Server*
 
 ```js
 var sse = require('wakanda-eventsource');
@@ -788,7 +801,7 @@ sse.pushEvent(
 );
 ```
 
-Client
+On the *Client*
 
 ```js
 // ask to receive only "itempurchased" and "ordercancelled" events
@@ -804,6 +817,8 @@ sse.addEventListener('item.purchased', function (event) {
 
 We just need to wrap CRUD actions in a nice REST style message API similar to what [Sails](http://sailsjs.org/) does.
 
+All backend data communication should be integrated via SSE (if possible) IMO.
+One standard interface.
 
 ### Reactive Extensions vs Bacon
 
@@ -950,7 +965,7 @@ class SyncController extends BindingController
         StreamerFactory.build(component, attrs)
 ```
 
-Now we can replace Bacon streaming with our custom Streaming if we like... (but still adhering to the same API)
+Now we can replace Bacon streaming with our custom Streaming if we like... (adhering to the same API)
 
 ```js
 class StreamerFactory
@@ -959,3 +974,5 @@ class StreamerFactory
 
 StreamerFactory.defaultStreamer = BaconStreamer
 ```
+
+Do you want to know more??? ;)
