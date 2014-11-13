@@ -93,16 +93,32 @@ Customizable internal asynchronous pipeline.
 
 ### Templating
 
-The [Templating Design](https://github.com/kristianmandrup/templating/blob/master/DESIGN.md) doc is a very interesting read!
+The Templating system that is being developed for Angular 2.0 looks far superior than anything I have seen so far. It is really designed from scratch to fully leverage the next generation of the web, with Web Components, ES6 etc. What we really need is an independent Templating component divided into logical parts that can be customized for any scenario. It should provide us the basic building blocks while allowing us to easily control and fine-tune specific aspects of the templating.
 
-For custom elements, a <template> tag is required to prevent their immediate instantiation.
-When template directives are nested, their order is defined by nesting multiple <template> tags with a single template directive on each one.
+If we have a first class Router and Templater, we can reuse them to quickly build alternative web frameworks for different scenarios, platforms etc. No more super heavy "one size fits all" frameworks. Instead we will be entering a world of small framework parts that are pre-assembled into larger pieces, but that can be replaced by simply injecting our own customized parts. Awesome!
+
+I believe that EmberJS is going down the "wrong path", by sticking to their Handlebars framework and as the only path. I fully understand why they chose it originally, but I feel by now it is too limiting, forcing developers into a blind road. The advantage of full leveraging html "as is", is that it provides way more flexibility and requires less assumptions. Easier to have tool/IDE support etc. Also much easier to customize behavior of tags using the templating engine than to work with the internals of handlebars, creating handlebars helpers and such. Also confusing having to use a double-syntax of handlebars statements and html.
+Much simpler to express everything as HTML tags such as is done with Web Componets.
+It also allows you to easily use various template engines such as Jade so you don't have to write the HTML in the "old school" tag `< />` syntax. Nothing you can't achieve with pure HTML really. It is simply not true that it forces you to embed loads of logic inside the html. There are (always) ways around that as I will show in the following analysis...
+
+
+### Templating 2.0
+
+In the following, it turns out I have been analyzing an "old" prototype of the templating system. Latest one is to be found in Angular core. But the current one looks way less complete than the prototype. Still a little while  before it reaches sufficient stability! I guess they are experimenting and refactoring a lot, but I think the general design is going to reflect a lot of the ideas sketched out in the [Templating Design](https://github.com/kristianmandrup/templating/blob/master/DESIGN.md) doc.
+A very interesting read!
+
+<cite>
+For custom elements, a `<template>` tag is required to prevent their immediate instantiation.
+When template directives are nested, their order is defined by nesting multiple `<template>` tags with a single template directive on each one.
 The execution context for the expressions of a template can be any object.
-Uses html imports for loading the templates of angular components.
-A bidirectional naming strategy is used to connect a component class with its template url and vice versa. Angular can load the component class given a template url but also load the template given a component class. This is needed to support defining angular components as well as custom elements.
+Uses html imports `<link import="sth.html"/>` for loading the templates of angular components.
+
+A bidirectional naming strategy is used to connect a component class with its template url and vice versa. Angular can load the component class given a template url but also load the template given a component class. This is needed to support defining angular components as well as custom elements.""
+</cite>
 
 The docs contain a lot of info on how to achieve maximum performance while retaining flexibility...
 
+<cite>
 Double curly braces should have the same semantic at every place. E.g.
 
 `<input foo="{{model}}" value="{{model}}">foo: {{model}}`
@@ -112,6 +128,7 @@ Double curly braces should have the same semantic at every place. E.g.
 * `foo="{{model}}"`: possibly unidirectional binding, depending on what the component chose to use as binding type.
 
 I.e. by just looking at the template the binding type cannot be determined. Knowledge of directive specifics is required to understand the template.
+</cite>
 
 One way to solve this conundrum would be to indicate the binding direction using `-` as post- and/or prefix (see below).
 
@@ -120,10 +137,12 @@ One way to solve this conundrum would be to indicate the binding direction using
 
 From the Template compiler code comments:
 
-"Compiler walks the DOM and calls Selector.match on each node in the tree.
+<cite>
+Compiler walks the DOM and calls Selector.match on each node in the tree.
 It collects the resulting ElementBinders and stores them in a tree which mimics
 the DOM structure.
 Lifetime: immutable for the duration of application."
+</cite>
 
 `compileChildNodes(container:NodeContainer, directives:ArrayOfClass):CompiledTemplate` compiles the nodes.
 
@@ -186,7 +205,7 @@ We get the general idea! Sweet and pretty "simple" :)
 
 Digging deeper into the templating compiler found in `lib/compiler` we discover:
 
-The `SelectorConfig` which provides the attribute discovery rules, easy to customize :)
+The `SelectorConfig` which provides the attribute discovery rules, easy to override/customize :)
 
 ```js
 export function SelectorConfig() {
@@ -201,7 +220,12 @@ export function SelectorConfig() {
 The `ElementSelector` which can match both custom elements (Web Components) and Angular elements using a complex Regexp.
 
 ```js
-var SELECTOR_REGEXP = /^(?:([\w\-]+)|(?:\.([\w\-]+))|(?:\[([\w\-\*]+)(?:=([^\]]*))?\]))/;
+var _SELECTOR_REGEXP =
+    RegExpWrapper.create('^([-\\w]+)|' +    // "tag"
+    '(?:\\.([-\\w]+))|' +                   // ".class"
+    '(?:\\[([-\\w*]+)(?:=([^\\]]*))?\\])'); // "[name]", "[name=value]" or "[name*=value]"
+
+
 var wildcard = new RegExp('\\*', 'g');
 var CUSTOM_ELEMENT_RE = /^([^-]+)-([^-]*)$/;
 ```
@@ -526,6 +550,10 @@ export class NgShow {
 }
 ```
 
+The `bind` in the Directive will only be required if you need to map to a different setter.
+We should always call setters instead of setting component attributes directly. This allows us to intervene,
+add validation, filtering, mapping etc.
+
 ### Template
 
 *Template* controls when and how the template is instantiated and inserted into the DOM.
@@ -788,23 +816,35 @@ Error handling is also a bit different: the Error event does not terminate a str
 
 We need to build a virtual DOM similar to what React does. Thus we need to recognise special attributes in the HTML then act accordingly to build the graph/model that maps to the DOM.
 
+My thought stream on this can be found [here](https://github.com/angular/angular/issues/133#issuecomment-62538901)
+
 ### Repeat and Events
 
-Angular 2.0 proposal: `<div [ng-repeat|pane]="panes" class="tab" (^click)="select(pane)"> `
+Angular 2.0 proposal:
 
-My proposal: `<div b-ng-repeat="name:panes" class="tab" on-click="call: select(pane); bubble:true">`
+`<div [ng-repeat|pane]="panes" class="tab" (^click)="select(pane)"> `
+
+My proposal:
+
+`<div bind-ng-repeat="name:panes" class="tab" on-click="call: select(pane); bubble:true">`
 
 ### Repeat
 
-My proposal: `<div b-ng-repeat="list:panes; item:pane" class="tab">`
-
-A small issue here with `selector:'[ng-repeat]'`. It would all have to to use a regex such as `(.*)?ng-repeat` to find matching attributes on the element disregarding any prefix used for other purposes such as decorators.
+My proposal: `<div bind-ng-repeat="list:panes; item:pane" class="tab">`
 
 ### Events
 
-Angular 2.0 proposal: `<div (^click)="select(pane)"> `
+Angular 2.0 proposal:
 
-My proposal: `<div on-click="call: select(pane); bubble:true">`
+`<div (click)="select(pane)"> `
+
+`<div (^click)="select(pane)"> ` with click events with bubbling
+
+My proposals:
+
+`<div on-click="select(pane)">`
+
+`<div on-click="call: select(pane); bubble:true">`
 
 The `on-click` handler will be matched as a click event handler and these arguments will be sent to the
 handler: `{call: select(pane), bubble:true}`.
