@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Toolbelt.io
+title: Angular Router 2.0
 tags:
     - toolbelt
     - angular

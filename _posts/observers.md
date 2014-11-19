@@ -1,16 +1,18 @@
 ---
 layout: post
-title: Toolbelt.io
+title: Observers
 tags:
     - toolbelt
-    - angular    
+    - angular
     - rfc
     - design
     - architecture
     - observers
-category: toolbelt
+category: observer
 date: 11-12-2014
 ---
+
+A little post on Observers
 
 To observe changes we can use either [behold](https://www.npmjs.org/package/behold),  [Object.observe](https://github.com/Polymer/observe-js) polyfill or [watchtower.js] (https://github.com/angular/watchtower.js/).
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Templating 2.0
+title: Directives 2.0
 tags:
     - toolbelt
     - angular

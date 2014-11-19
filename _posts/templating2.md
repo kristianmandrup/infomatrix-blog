@@ -2,7 +2,7 @@
 layout: post
 title: Templating 2.0
 tags:
-    - toolbelt
+    - ember
     - angular
     - design
     - architecture

@@ -7,7 +7,7 @@ tags:
     - design
     - architecture
     - databinding
-category: architecture
+category: databinding
 date: 11-14-2014
 ---
 

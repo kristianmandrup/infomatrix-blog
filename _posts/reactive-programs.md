@@ -8,7 +8,7 @@ tags:
     - architecture
     - reactive
     - bacon
-category: architecture
+category: reactive
 date: 11-14-2014
 ---
 

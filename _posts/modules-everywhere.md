@@ -1,17 +1,17 @@
 ---
 layout: post
 title: Modules, modules everywhere...
-tags: 
+tags:
     - ember
     - addons
     - cli
     - modules
     - amd
-category: amd
+category: modules
 date: 10-03-2014
 ---
 
-From my recent research into ember cli addons and how to wrap existing libaries it was becoming clear, that AMD modules 
+From my recent research into ember cli addons and how to wrap existing libaries it was becoming clear, that AMD modules
 was the way forward. I noticed that all the "real" addons were written in AMD, using `define` statements, so I needed
 to investigate further. So far, I have only used Node and the CommonJS format for modules, which worked just fine with Node.
 
@@ -23,7 +23,7 @@ Articles to read
 
 "By using RequireJS on the server, you can use one format for all your modules, whether they are running server side or in the browser."
 
-Awesome! 
+Awesome!
 
 <!--more-->
 
@@ -31,7 +31,7 @@ Awesome!
 
 "The Node adapter for RequireJS, called [r.js](https://github.com/jrburke/r.js/)" - very cool :)
 
-"If you want to use define() for your modules but still run them in Node without needing to run 
+"If you want to use define() for your modules but still run them in Node without needing to run
 RequireJS on the server, see the section below about using [amdefine](https://github.com/jrburke/amdefine)" - Sweet!
 
 "To convert a directory of CommonJS modules to ones that have define() wrappers:"
@@ -40,7 +40,7 @@ RequireJS on the server, see the section below about using [amdefine](https://gi
 
 It looks like this is the easiest way to convert a Node library to be AMD compatible for the browser!
 
-"Best practice: Use npm to install Node-only packages/modules into the projects node_modules directory, but do not configure RequireJS to look inside the node_modules directory. 
+"Best practice: Use npm to install Node-only packages/modules into the projects node_modules directory, but do not configure RequireJS to look inside the node_modules directory.
 Also avoid using relative module IDs to reference modules that are Node-only modules."
 
 Get the Node adapter like this:
@@ -78,22 +78,22 @@ The *RequireJS optimizer* will strip out the use of `amdefine` above, so it is s
 
 ### The Quickie for Node
 
-Instead of pasting the piece of text for the `amdefine` setup of a define variable in each module you create or consume, you can use `amdefine/intercept` instead. 
+Instead of pasting the piece of text for the `amdefine` setup of a define variable in each module you create or consume, you can use `amdefine/intercept` instead.
 It will automatically insert the above snippet in each `.js` file loaded by Node.
 
-*Warning:* you should only use this if you are creating an *application that is consuming AMD style defined()'d modules* 
-that are distributed via npm and *want to run that code in Node.* 
+*Warning:* you should only use this if you are creating an *application that is consuming AMD style defined()'d modules*
+that are distributed via npm and *want to run that code in Node.*
 
-For library code where you are not sure if it will be used by others in Node or in the browser, then 
+For library code where you are not sure if it will be used by others in Node or in the browser, then
 explicitly depending on amdefine and placing the code snippet above is suggested path, instead of using amdefine/intercept.
- 
+
 Just require it in your top level app module (for example `index.js`, `server.js`):
- 
+
 `require('amdefine/intercept');`
- 
-Then just `require()` code as you normally would with Node's `require()`. 
+
+Then just `require()` code as you normally would with Node's `require()`.
 Any `.js` loaded after the intercept require will have the `amdefine` check injected in the `.js` source as it is loaded.
- 
+
 This is the "quick and dirty" way to run an AMD library in Node (such as for testing purposes).
 
 A good explanation for how to use *amdefine* to run AMD modules in Node is [here](http://www.2ality.com/2012/07/amdefine.html)
@@ -119,7 +119,7 @@ For more on modules and namespaces in Javascript, check out [modules and-namespa
 
 From [ember-simple-auth](https://github.com/simplabs/ember-simple-auth) README
 
-"Ember Simple Auth *can be used* as a *browserified version that exports a global* as well as as an *AMD build* that can be used e.g. with or *Ember CLI*." 
+"Ember Simple Auth *can be used* as a *browserified version that exports a global* as well as as an *AMD build* that can be used e.g. with or *Ember CLI*."
 
 So I seems like this is the recommended approach, to support both models.
 
@@ -241,7 +241,7 @@ Ember.libraries.register('Ember Simple Auth', '0.6.7');
 Where the `global` defaults to the `window` (browser window global) if no `global` variable is defined!  
 
 `typeof global !== 'undefined') ? global : window`
- 
+
 This is the most complete way to package a library if you want everyone consumer to be happy ;)
 
 You can also directly register the library with Ember like this:
@@ -254,44 +254,44 @@ I still don't understand how to use all of these hooks, but at least this should
 Do your own reverse engineering or perhaps contact *@marcoow* for more info on how to wrap libraries correctly.
 
 ### Amd cleaning
-  
+
 In case you want to clean away the AMD wrapping, use [amdclean](https://www.npmjs.org/package/amdclean)  
-  
+
 ### Universal Module Definition
 
-[UMD](https://github.com/umdjs/umd) (Universal Module Definition) patterns for JavaScript modules that work everywhere. 
+[UMD](https://github.com/umdjs/umd) (Universal Module Definition) patterns for JavaScript modules that work everywhere.
 
 Wrap to work for: AMD, Node and globals would look like [this](https://github.com/umdjs/umd/blob/master/returnExports.js)
 
 Quite a bit of boilerplate... would be nice to auo-wrap somehow ;)
- 
+
 ## Remap as named AMD
 
 And this is already being worked on :)
 
-[petal](https://github.com/stefanpenner/petal) is a library for inspecting and renaming various js module formats. 
+[petal](https://github.com/stefanpenner/petal) is a library for inspecting and renaming various js module formats.
 
-[broccoli-petal](https://github.com/abuiles/broccoli-petal) is an attempt to automatically remap legacy javascript for AMD 
+[broccoli-petal](https://github.com/abuiles/broccoli-petal) is an attempt to automatically remap legacy javascript for AMD
 in order to make it easier for ember cli to consume such libraries...
 
-[#2177](https://github.com/stefanpenner/ember-cli/issues/2177) is [WIP](https://github.com/abuiles/ember-cli/commit/d82df0420921eb517411aaca71eee784a5e2ff04) 
+[#2177](https://github.com/stefanpenner/ember-cli/issues/2177) is [WIP](https://github.com/abuiles/ember-cli/commit/d82df0420921eb517411aaca71eee784a5e2ff04)
 for Ember CLI...
- 
+
 ### Browserify and wrap
 
-Another strategy would be to use browserifiy on the Node library and then somehow package that for UMD! 
+Another strategy would be to use browserifiy on the Node library and then somehow package that for UMD!
 
 [building-umd-modules-with-dependencies-with-browserify](http://rathercurio.us/building-umd-modules-with-dependencies-with-browserify)
 
-This is essentially similar to what petal is trying to solve, only automated! 
+This is essentially similar to what petal is trying to solve, only automated!
 
 Apparently many ppl are working on these issues... here some solutions for UMD auto-wrapping:
 
-*UMD wrap* 
+*UMD wrap*
 
 Wrap a block of code into a UMD bundle, with the option to define external dependencies.
 The resulting bundle can be used with Node, Browserify, RequireJS, or simply via the window object.
-  
+
 [umd-wrap](https://github.com/nicolashery/umd-wrap)
 
 *CJS to UMD*
@@ -314,7 +314,7 @@ I just discovered a new serious contender... a bit similar to *System.js* and *j
 
 "webpack will analyze your entry file for dependencies to other files. These files (called modules) are included in your bundle.js too. webpack give each module a unique id and save all modules accessible by id in the bundle.js file. Only the entry module is executed on startup. A small runtime provides the require function and execute the dependencies when required."
 
-Webpack can bundle both AMD and CommonJS files using a `bundle.js` file which it maintains. It can even handle stylesheets this way and apply them 
+Webpack can bundle both AMD and CommonJS files using a `bundle.js` file which it maintains. It can even handle stylesheets this way and apply them
 to the document when they are required! Nice :)
 
 Webpack:
@@ -327,12 +327,12 @@ Webpack:
 - "main target is the web, but it also has support for generating bundles for WebWorkers and node.js."
 
 There is even a special Ember Resolver designed for Webpack [here](https://github.com/shama/ember-webpack-resolver)
- 
+
 Where does it all end? Would be nice to have *ES6 Harmony* in major browser already... but we will still need to wrap legacy libraries for years to come
  using one of these solutions mentioned above (or some other way!).
- 
+
 ### And Finally...
 
 Perhaps the best article I have found that gives a good overview and practical examples is [this one](http://blogs.telerik.com/kendoui/posts/13-05-08/requirejs-fundamentals)
- 
+
 Happy coding!! :)
