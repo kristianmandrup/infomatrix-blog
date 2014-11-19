@@ -27,6 +27,8 @@ My proposal:
 
 `<div bind-ng-repeat="name:panes" class="tab" on-click="call: select(pane); bubble:true">`
 
+<!--more-->
+
 ### Repeat
 
 My proposal: `<div bind-ng-repeat="list:panes; item:pane" class="tab">`

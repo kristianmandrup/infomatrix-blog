@@ -18,6 +18,8 @@ Been looking at Mercury and Mithril as promising, much simpler alternatives that
 
 I scrapped the name Toolbelt.io mentioned in a previous article and renamed it *Dragon Slayer* with sounds way more cool. Nice logo included!!
 
+<!--more-->
+
 Here is a snapshot of my current "stab" at a public *Fantasy API*, which makes it much clearer than talking about inputs, events, models and outputs (too abstract!).
 
 What do you think?

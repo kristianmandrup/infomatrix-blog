@@ -21,6 +21,8 @@ Here is a nice [review](http://n12v.com/2-way-data-binding/) of the various (dif
 Changing the value in the text field moves the cursor to the end. The problem is that data flows from an input field to a model,	and then back to the same input field, overriding the current value even if it’s exactly the same.
 </cite>
 
+<!--more-->
+
 *React*
 
 <cite>

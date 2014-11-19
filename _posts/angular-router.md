@@ -24,6 +24,8 @@ router.add([
 result = router.recognize("/posts/1/comments");
 ```
 
+<!--more-->
+
 The router config is based on a Plain Old JavaScript Object (POJO). The config DSL can easily be customized :)
 
 ```js

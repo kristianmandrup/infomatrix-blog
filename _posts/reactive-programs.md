@@ -20,6 +20,7 @@ Data sequences can take many forms, such as a stream of data from a file or web 
 
 Reactive Extensions represents all these data sequences as observable sequences. An application can subscribe to these observable sequences to receive asynchronous notifications as new data arrive.
 
+<!--more-->
 
 - [Rx book](http://xgrommx.github.io/rx-book/)
 - [Rx with Bacon](http://xgrommx.github.io/rx-book/content/mappingr_rxjs_from_different_libraries/bacon/README.html)

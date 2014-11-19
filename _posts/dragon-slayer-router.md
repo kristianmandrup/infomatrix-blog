@@ -10,19 +10,13 @@ category: router
 date: 11-19-2014
 ---
 
-As I noted in my most recent posts, I have just embarked on a mission to create a new reactive full-stack javascript framework using all that I have learned during my long career (+20 years) as:
+As I noted in my most recent posts, I have just embarked on a mission to create a new reactive full-stack javascript framework using all that I have learned during the past few (20+ years)
 
-- application developer
-- IT architect
-- systems/business analyst
-- (technical) project manager
-- CTO
-- entrepreneur
-- ... (you name it with respect to IT !)
-
-Anyhow, the way I proceeded was to first analyse some of the most popular frameworks currently out there, look at their plans for their next major release (all targeting their 2.0 with a major redesign, throwing away old concepts...)
+The way I proceeded was to first analyse some of the most popular frameworks currently out there, look at their plans for their next major release (all targeting their 2.0 with a major redesign, throwing away old concepts...)
 
 I realized that most of the frameworks have various issues that I wasn't completely happy with. They are going in the right direction, but still...
+
+<!--more-->
 
 So I started making a list of features, design patterns etc. that I would like to see in a modern framework and soon thereafter I started putting it together in what now forms the outline of [DragonSlayer](https://github.com/kristianmandrup/dragonslayer).
 

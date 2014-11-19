@@ -15,6 +15,8 @@ This is a continuation of my recent articles exploring the latest design/archite
 
 The Templating system that is being developed for Angular 2.0 looks far superior to anything I have seen so far. It is really designed from scratch to fully leverage the next generation of the web, with Web Components, ES6 etc. What we really need is an independent Templating component divided into logical parts that can be customized for any scenario. It should provide us the basic building blocks while allowing us to easily control and fine-tune specific aspects of the templating.
 
+<!--more-->
+
 If we have a first class Router and Templater, we can reuse them to quickly build alternative web frameworks for different scenarios, platforms etc. No more super heavy "one size fits all" frameworks. Instead we will be entering a world of small framework parts that are pre-assembled into larger pieces, but that can be replaced by simply injecting our own customized parts. Awesome!
 
 ### Ember templating

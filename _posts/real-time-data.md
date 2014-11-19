@@ -34,6 +34,8 @@ sse.pushEvent(
 );
 ```
 
+<!--more-->
+
 On the *Client*
 
 ```js

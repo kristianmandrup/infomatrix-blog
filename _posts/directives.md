@@ -19,6 +19,8 @@ An Angular Directive can be one of:
 - Decorator
 - Template
 
+<!--more-->
+
 ### Component
 
 *Component* creates a custom component composed of a `View` and a `Controller`. You can use it as a custom HTML element. Also, the router can map routes to Components
