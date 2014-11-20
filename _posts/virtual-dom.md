@@ -92,7 +92,7 @@ function stringPatch(domNode, leftVNode, vText, renderOptions) {
 
 The `diff` operation however only compares Virtual DOM nodes to calculate a difference, and so it doesn't need to know about what the Virtual DOM is wrapping.
 
-In order to have the Virtual DOM wrap a different underlying model such as a JSON structure or any other tree, we simply have to subsitute the `create` and `patch` operations with out own custom operations.
+In order to have the Virtual DOM wrap a different underlying model such as a JSON structure or any other tree, we simply have to substitute the `create` and `patch` operations with out own custom operations.
 
 ### Virtual hyperscript
 
@@ -339,6 +339,9 @@ Note that `currentState` is invalidated just before returning via `currentState 
 }
 ```
 
+Note that the `redraw` function creates a new target: `target = patch(target, patches, opts)`
+from calling `patch` which calls various DOM mutate operations.
+
 Main-loop is an optional module which ensures that a redraw is called at most once per animation frame via the [raf](https://www.npmjs.org/package/raf) module (requestAnimationFrame polyfill).
 
 We see that update calls redraw whenever `currentState` is invalidated (=null) and a redraw has not ben scheduled `!redrawScheduled`. Whenever this is true we trigger a redraw on next animation frame and set `redrawScheduled = true` to avoid consecutive redraws until we have done a redraw on the next animation frame. Very clever!!
@@ -486,18 +489,26 @@ Now there's only one (big) DOM change happening, and because of that we're also 
 
 "As it turns out: A method that is largely ignored in modern web development can provide some serious (2-3x) performance improvements to your DOM manipulation.""
 
-
-
-
 My 2 cents: If we can dispatch all events together with their context, we could have the document created or patched from Fragments created Asynchronously... Would be so much faster I imagine!!!
 
 Then have the whole document listening to all incoming promises and thus be notified when the redraw is complete.
 
 Also, [Shared web workers](http://www.htmlgoodies.com/html5/other/html5-tech-shared-web-workers-help-spread-the-news.html) are also [coming soon](http://caniuse.com/#feat=sharedworkers). Would make this approach even better :) We should use these APIs if available (Chrome, Firefox, Opera)
 
-### Web workers to the rescue!
+"To create a shared worker, simply pass the URL of the script or the worker's name to the SharedWorker constructor."
 
-It would be super cool if we could leverage multiple processors and have async building/patching of the DOM.
+```js
+var sharedWorker = new SharedWorker('findPrime.js');
+sharedWorker.port.onmessage = function(event){
+    ...
+}
+
+sharedWorker.port.postMessage('data you want to send');
+```
+
+### Web workers to the rescue!?
+
+It would be super cool if we could leverage multiple processors and have async building/patching of the DOM (or the Virtual DOM).
 
 Perhaps we can leverage [Service Workers](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Social_API/Service_worker_API_reference) or [Web Workers](https://developer.mozilla.org/en-US/docs/Web/Guide/Performance/Using_web_workers)
 
@@ -508,6 +519,48 @@ Perhaps we can leverage [Service Workers](https://developer.mozilla.org/en-US/do
 [Web workers are available in most browsers](http://caniuse.com/#feat=webworkers)
 
 From Service Workers doc: The core of this system is an event-driven _Web Worker_, which responds to events dispatched from documents and other sources.
+
+However... there are limitations as described in [Webworker basics](http://www.html5rocks.com/en/tutorials/workers/basics/) and [Getting started with Web workers](http://code.tutsplus.com/tutorials/getting-started-with-web-workers--net-27667)
+
+"Web Workers live in a restricted world with No DOM access, as DOM is not thread-safe."
+
+Workers do NOT have access to:
+
+- The DOM (it's not thread-safe)
+- The window object
+- The document object
+- The parent object
+
+You can load external script files or libraries into a worker with the `importScripts()` function. The method takes zero or more strings representing the filenames for the resources to import.
+
+This example loads `script1.js` and `script2.js` into the worker:
+
+```js
+// worker.js:
+
+importScripts('script1.js');
+importScripts('script2.js');
+```
+
+Which can also be written as a single `import` statement:
+
+`importScripts('script1.js', 'script2.js');`
+
+"Web workers are not intended to be used in large numbers because of their high start-up performance cost and a high per-instance memory cost."
+
+However, it should be possible to create Virtual `documentFragments` using a Worker and then send back results to main loop where they are assembled and added to the DOM?
+
+Apparently the [Reflex](https://github.com/Gozala/reflex/tree/workers/app) framework uses this kind of approach...??
+
+### Optimizing large/huge lists of DOM nodes
+
+The main optimization use case for using `documentFragments` is with "large" lists (at least +20 elements I would think). For huge lists, it is better to use culling techniques, ie. to simply not add the DOM elements if they are "out of view" (not visible).
+
+For large lists, one optimization would be more clever observable arrays, similar to that used in Knock-Out, such as described in issues [#5](https://github.com/Raynos/observ-array/issues/5) and [#3](https://github.com/Raynos/observ-array/issues/3) of [Observable Array](https://github.com/Raynos/observ-array).
+
+Would also be interesting to look at [Ember Mutable Array](http://emberjs.com/api/classes/Ember.MutableArray.html) for inspiration, but I think the KO one looks better.
+
+There is also [JSDom](https://github.com/tmpvar/jsdom) for generating DOM on the server :)
 
 ### DOM node streams
 
@@ -528,6 +581,8 @@ Creates a writable stream to an element's contents. Writes to this element will 
 Creates a readable stream out of eventName events emitted by el.
 
 Pretty awesome I must say. A bit like Bacon streams, but perhaps even more powerful?
+
+[Speeding up the DOM](https://developers.google.com/speed/articles/javascript-dom) is also an interesting read...
 
 ### Mutation Observer
 
