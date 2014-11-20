@@ -20,6 +20,8 @@ Authorization to me is to:
 
 "determine if a subject (commonly a user) has permission to access and/or perform a given action (or set of actions) on a given object"
 
+### Features
+
 Permit Authorize currently has the following main features:
 
 - Simple DSL based permit configuration (via permit-for)
@@ -32,6 +34,8 @@ Currently the README states it is "only" 53kb minified, but that is an old numbe
 
 In addition, the authorization engine consists of various building blocks that can be combined to form a solution at the level of complexity you would like and gives you a lot of freedom to customize.
 The goal in the coming weeks is to decouple these building blocks into separate modules and ensure full decoupling, making minimal assumptions so these building blocks can be used in other solutions as well.
+
+### Permits
 
 As the name "Permit Authorize" suggests, this library is centered around the concept of permits.
 You can create a permit like this:
@@ -83,8 +87,9 @@ Each permit is automatically registered in a registry as it is created.
 A `PermitFilter` filters permits that apply for a given access-request and then the engine
 iterates these permits to check if the rules allow or deny access for that `access-request`.
 
-Typically you would want higher level helper methods which encapsulate this:
+### DSL wrappers
 
+Typically you would want higher level helper methods which encapsulate this:
 
 ```js
 current-ability = ability(current-user)
@@ -105,7 +110,15 @@ Or instance based access.
 
 This will extract subject class from `post` via `post.clazz`, `post.constructor` (can be customized)
 
-A rule can also include logic to determine ownership etc.
+I plan to shortly support the following mapping between class and instance as follows
+
+`user-can('read', {Post: post}, ctx)` or more generally `user-can('read', {"Admin.Post": post}, ctx)`
+
+If the `subject` is a hash object with a single key that starts with an uppercase letter it will be read in this format and `subjectClazz` will be set to the key and `subject` to the value.
+
+### Dynamic rules
+
+A rule can also be dynamic and include logic to determine ownership etc.
 
 ```js
 read: (ar) ->
@@ -116,4 +129,8 @@ read: (ar) ->
 
 It is not possible to define this in the JSON file.
 
-I hope this gives you a good idea of Authorization via Permit Authorize. Stay tuned!!
+### Conclusion
+
+I hope this gives you a good idea of Authorization via [Permit Authorize](https://github.com/kristianmandrup/permit-authorize).
+
+Stay tuned!!
