@@ -119,4 +119,10 @@ Go one step back in App history
 App.state('route').set(App.history.pop())
 ```
 
-Very cool I think :)
+### Time travel
+
+Having a single immutable application model allows for some very powerful magic such as *Time Travel*
+
+Check out the [time travel](https://github.com/Raynos/mercury/blob/master/time-travel.js) module :)
+
+Very cool :) Awesome for debugging, undo/redo and so much more...
