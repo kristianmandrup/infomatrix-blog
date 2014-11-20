@@ -400,6 +400,18 @@ This also allows us to do the rendering more lazily or in batch-mode via documen
 
 Not yet sure if the element normally returned by `createElement` is expected and used in other parts of the API. We have to investigate...
 
+Hmm, it would seem that `elem.appendChild(loop.target);` is just a special case of the more general case, where the element created is appended on a parent element.
+With our current naive approach, we would have know knowledge of the context, ie. where (on which parent element) the created element should be added or the patched element be replaced.
+
+To remedy this, we need to pass in a parent element (context) which can be passed along with the dispatch.
+
+```js
+function createElement(vnode, opts, parent) {
+  ...
+  var createOpts = {parent: parent};
+}
+```
+
 So now we should both have a pretty good understanding of Virtual DOM. Congrats and High-5 ():()  
 
 Cheers!
