@@ -440,6 +440,126 @@ function stringPatch(domNode, leftVNode, vText, renderOptions) {
   parentNode.replaceChild(newNode, domNode)
 ```
 
+### Document fragments
+
+The `DocumentFragment` interface represents a minimal document object that has no parent. It is used as a light-weight version of `Document` to store well-formed or potentially non-well-formed fragments of XML.
+
+Various other methods can take a document fragment as an argument (e.g., any `Node` interface methods such as `Node.appendChild` and `Node.insertBefore`), in which case the children of the fragment are appended or inserted, not the fragment itself.
+
+This interface is also of great use with Web components: `<template>` elements contains a `DocumentFragment` in their `HTMLTemplateElement.content` property.
+
+An empty `DocumentFragment` can be created using the `document.createDocumentFragment` method or the constructor.
+
+[Why you should always append dom elements using document fragments](https://coderwall.com/p/o9ws2g/why-you-should-always-append-dom-elements-using-documentfragments)
+
+Why? Not only is using `DocumentFragments` to append about *2700 x faster* than appending with `innerHTML`, but it also keeps the recalculation, painting and layout to a minimum.
+
+TL;DR: Use `DocumentFragments`. [speed comparison](http://jsperf.com/document-fragment-vs-innerhtml-vs-looped-appendchild)
+
+Oddly enough, `appendElement` is a little bit faster, at least in recent versions of Chrome.
+
+[Recalculation of layout and paint](http://stackoverflow.com/questions/11623299/what-does-recalculate-layout-paint-mean-in-chrome-developer-tool-timeline-record)
+
+Wouldn't it be great if there was some way to bypass recalculating, painting and layout for every single element we added, and rather have it just happen once? There is!
+
+```js
+var i = 0, fragment = document.createDocumentFragment();
+
+while (i < 200) {
+    var el = document.createElement('li');
+    el.innerText = 'This is my list item number ' + i;
+    fragment.appendChild(el);
+i++; }
+
+div.appendChild(fragment);
+```
+
+Instead of appending the elements directly to the document when they are created, append them to the `DocumentFragment` instead, and finish by adding that to the DOM.
+
+Now there's only one (big) DOM change happening, and because of that we're also keeping the recalculation, painting and layout to an absolute minimum.
+
+[Document fragments are magic](http://tiffanybbrown.com/2012/11/30/document-fragments-are-magic/)
+
+"As we know, DOM operations are expensive. Reducing the number is a great way to make your scripts more efficient."
+
+[John Resig on Doc Frags](http://ejohn.org/blog/dom-documentfragments/)
+
+"As it turns out: A method that is largely ignored in modern web development can provide some serious (2-3x) performance improvements to your DOM manipulation.""
+
+
+
+
+My 2 cents: If we can dispatch all events together with their context, we could have the document created or patched from Fragments created Asynchronously... Would be so much faster I imagine!!!
+
+Then have the whole document listening to all incoming promises and thus be notified when the redraw is complete.
+
+Also, [Shared web workers](http://www.htmlgoodies.com/html5/other/html5-tech-shared-web-workers-help-spread-the-news.html) are also [coming soon](http://caniuse.com/#feat=sharedworkers). Would make this approach even better :) We should use these APIs if available (Chrome, Firefox, Opera)
+
+### Web workers to the rescue!
+
+It would be super cool if we could leverage multiple processors and have async building/patching of the DOM.
+
+Perhaps we can leverage [Service Workers](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/Social_API/Service_worker_API_reference) or [Web Workers](https://developer.mozilla.org/en-US/docs/Web/Guide/Performance/Using_web_workers)
+
+*Service Workers* are a new browser feature that provide event-driven scripts that run independently of web pages.
+
+*Web Workers* provide a simple means for web content to run scripts in background threads. Once created, a worker can send messages to the spawning task by posting messages to an event handler specified by the creator. The Worker interface spawns real `OS-level threads`. Finally we can leverage multiple processors on our web page.
+
+[Web workers are available in most browsers](http://caniuse.com/#feat=webworkers)
+
+From Service Workers doc: The core of this system is an event-driven _Web Worker_, which responds to events dispatched from documents and other sources.
+
+### DOM node streams
+
+Looks like [DOM Node streams for HTMLElements](https://www.npmjs.org/package/domnode-dom) is another super cool option to leverage...
+
+"Turn DOM elements into readable / writable streams"
+
+`domstream.createWriteStream(el, mimetype) -> DOMStream.WriteStream`
+
+Creates a writable stream out of an element. Writing to this stream will replace the contents of el with the incoming data (transformed by the mimetype.)
+
+`domstream.createAppendStream(el, mimetype) -> DOMStream.WriteStream`
+
+Creates a writable stream to an element's contents. Writes to this element will append their data (transformed by mimetype) to the element, instead of replacing it.
+
+`domstream.createReadStream(el, eventName[, preventDefault=true]) -> DOMStream.ReadStream`
+
+Creates a readable stream out of eventName events emitted by el.
+
+Pretty awesome I must say. A bit like Bacon streams, but perhaps even more powerful?
+
+### Mutation Observer
+
+It might also be interesting to leverage [MutationObserver](https://developer.mozilla.org/en/docs/Web/API/MutationObserver)
+
+"MutationObserver provides developers a way to react to changes in a DOM."
+
+*Example*
+
+```js
+// select the target node
+var target = document.querySelector('#some-id');
+
+// create an observer instance
+var observer = new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutation) {
+    console.log(mutation.type);
+  });
+});
+
+// configuration of the observer:
+var config = { attributes: true, childList: true, characterData: true };
+
+// pass in the target node, as well as the observer options
+observer.observe(target, config);
+
+// later, you can stop observing
+observer.disconnect();
+```
+
+[Can I use DOM mutation observer?](http://caniuse.com/#feat=mutationobserver) Yes!
+
 ### VDom recusion algorithm
 
 The [Vdom recursion](https://github.com/Matt-Esch/virtual-dom/blob/master/vdom/dom-index.js) uses only VDom information. It just works. No worries...
