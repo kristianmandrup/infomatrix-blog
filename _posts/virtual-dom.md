@@ -416,7 +416,9 @@ function createElement(vnode, opts, parent) {
 
 ### VDom recusion algorithm
 
-The [Vdom recursion](https://github.com/Matt-Esch/virtual-dom/blob/master/vdom/dom-index.js) uses only VDom information. Keep calm and move on ;)
+The [Vdom recursion](https://github.com/Matt-Esch/virtual-dom/blob/master/vdom/dom-index.js) uses only VDom information. It just works. No worries...
+
+Keep calm and move on ;)
 
 ### Dom Delegator
 
