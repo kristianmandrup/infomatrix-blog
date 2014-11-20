@@ -192,7 +192,9 @@ Here we assume that `h = vscript.dom.h` and `h = vscript.svg.s` respectively.
 To ensure that `h` to points to a different DSL enabler function depending on the rendering context,
 we need to encapsulate it as `this.h` within the render funtion and have this bound a different context in each case which sets `h` to a context specific DSL function.
 
-In order to make for a better developer experience, we could use sweet.js, macros such that `@h` would be compiled to `this.h`. We could combine this with an approach like [msx-reader](https://github.com/sdemjanenko/msx-reader) but tailored to create `h` calls and add other convenient macros to increase developer happiness and make templating more expressive/declarative and less boilerplate ;)
+In order to make for a better developer experience, we could use sweet.js, macros such that `@h` would be compiled to `this.h`.
+
+We could combine this with an approach like [msx-reader](https://github.com/sdemjanenko/msx-reader) but tailored to create `h` calls and add other convenient macros to increase developer happiness and make templating more expressive/declarative and less boilerplate ;)
 
 ### Mercury wrappers
 
@@ -412,6 +414,25 @@ function createElement(vnode, opts, parent) {
 }
 ```
 
-So now we should both have a pretty good understanding of Virtual DOM. Congrats and High-5 ():()  
+### VDom recusion algorithm
+
+The [Vdom recursion](https://github.com/Matt-Esch/virtual-dom/blob/master/vdom/dom-index.js) uses only VDom information. Keep calm and move on ;)
+
+### Dom Delegator
+
+The [Dom Delegator](https://github.com/Raynos/dom-delegator) enables us to decorate DOM elements with delegated events...
+
+When event of the correct type occurs dom-delegator will invoke your EventHandler
+
+This allows you to separate your event listeners from your event writers. Sprinkle your event writers in the template in one part of your codebase. Attach listeners to the event sources in some other part of the code base.
+
+This decouples the event definition in the DOM from your event listeners in your application code.
+
+There is also a [HTML delegator](https://github.com/Raynos/html-delegator) for use with `data-` attributes.
+
+### Closing remarks
+
+So now we should both have a pretty good understanding of the Virtual DOM.
+Congrats and High-HTML-5 *():()*
 
 Cheers!
