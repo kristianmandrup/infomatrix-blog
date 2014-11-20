@@ -60,3 +60,63 @@ These SSE channels unify and abstract away the complexity of communicating with 
 SSE adapters for external systems
 - Input service (incoming data: real time sync & requested)
 - Output service (outgoing data: real time sync & posted)
+
+### Decoupled infrastructure
+
+If you look at the Dragonslayer README you will get a good sense of the proposed infrastructure.
+As you can see, the Router is designed to be completely decoupled from the rest of the system,
+Only aware of some incoming request that needs to be parsed and only interacts with the outside by dispatching some kind of events (which can be customized).
+
+The rest of the infrastructure should be designed along similar lines, using a Connector infrastructure, by default using [Signals.js](https://github.com/millermedeiros/js-signals).
+
+Every infrastructure "component" should be decoupled and only interact with other infrastructure components by subscribing to and publishing events via these Connectors.
+
+### Decoupled rendering
+
+If we look at the recently popular React.js rendering infrastructure, we notice that the rendering is tightly coupled to DOM rendering. Same goes for Mercury.js which uses an independent [Virtual DOM library](https://github.com/Raynos/virtual-dom).
+
+This VDOM library still expects to be passed a document, a render operation and an options hash with create, patch and diff operations to be performed on the document.
+
+We should instead have the VDOM simply dispatch events for create, patch and diff passing along information about the virtual element, ie. `dispatch('create', vnode)`.
+
+Then we could have Output components listen to such events and take full charge of rendering where it belongs (a system output effect).
+
+I plan to redesign the Virtual DOM layer along these lines...
+
+### App Model/State layer
+
+The App model should capture both persistent model data and transient application state and avoid mixing them.
+
+We could have the Full app state modelled as follows:
+
+```js
+App.globalModel = {
+  transient: {...}
+  model: { ...}
+}
+```
+
+Any persistent state goes in `App.state.model` whereas all transient state is stored in `App.state.transient`.
+
+To ensure encapsulation and information hiding, we should hide this behind a Facade API:
+Any state mutation will create a new global state and trigger observers all the way up the parent hierarchy for lenses to be notified and update locally.
+
+Get Post with id==32
+
+```js
+App.model('posts', 32).set(myPost)
+```
+
+Get Post with id==32 and set to myPost
+
+```js
+App.model('posts', 32).set(myPost)
+```
+
+Go one step back in App history
+
+```js
+App.state('route').set(App.history.pop())
+```
+
+Very cool I think :)
