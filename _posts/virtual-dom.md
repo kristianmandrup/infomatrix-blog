@@ -509,12 +509,12 @@ sharedWorker.port.postMessage('data you want to send');
 
 ### Optimized list rendering
 
-Rendering optimization using async fragments is mostly an issue with large lists. Imagine we are rendering a list of 50 to 1000 or more elements either in a list (50) or a grid structure (50x10).
+Rendering optimization using async fragments is mostly an issue with large lists. Imagine we are rendering a list of 50 to 500 or more elements either in a list (50) or a grid structure (50x10).
 
-There are several other optimizations we could make outside of rendering. First off, there is the case where we are iterating on an array and creating a new Array. Imagine the following scenario:
+There are several optimizations we could make outside of rendering. First off, there is the case where we are iterating on an array and creating a new Array. Imagine the following scenario:
 
 ```js
-// list of 2000 elements
+// list of ~1000-5000 elements!!
 for (i in list) {
   state[item] = state[item] * 2;
 }
@@ -523,12 +523,16 @@ for (i in list) {
 The problem with this, is that each change of state will trigger listeners and set in motion a new render. However it should be viewed as one single transaction. The [observ-array transaction](https://github.com/Raynos/observ-array/blob/master/transaction.js) mechanism lets us handle this in a single transaction :)
 
 Another optimization technique is to use "smart observable arrays", such as used in [knockout-projections](https://github.com/SteveSanderson/knockout-projections)
+The above function is basically a map and could be handled using a `computer-map`.
+We are working on implementing this feature for observable arrays shortly. Stay tuned!
 
-Yet another idea would be to use [Lazy observable data structures](https://github.com/Raynos/observ-array/issues/2#issuecomment-63898038)
+Another idea would be to use [Lazy observable data structures](https://github.com/Raynos/observ-array/issues/2#issuecomment-63898038)
 
-"You litereally have to poll and ask, preferably in a requestanimationframe loop, preferably inside main-loop. At the start of main-loop we ask and blocking compute the new world state since the last frame and only create one copy instead of N copies."
+"You litereally have to poll and ask, preferably in a RequestAnimationFrame (raf) loop, preferably inside `main-loop`. At the start of `main-loop` we ask and blocking compute the new world/app state since the last frame and only create one copy instead of N copies." - @Raynos
 
-We will be investigating this technique to see how much that will help speed up rendering of large lists being modified by streaming data in, simultaneously with reactive rendering...
+We will be investigating this technique to see how much it will help speed up rendering of large lists being modified by streaming data into the app simultaneously with reactive rendering... A common scenario when using Real Time data that is synced between users. 
+
+`ObservLazyStruct` has a working implementation (which could be further optimized) and we alomst have `ObservLazyArray` ready as well ;)
 
 ### Web workers to the rescue!?
 
