@@ -9,7 +9,7 @@ tags:
     - architecture
     - pattern
 category: frameworks
-date: 11-11-2014
+date: 11-22-2014
 ---
 
 In recent post I have looked into some of the major web frameworks of our time, such as Angular and Ember. Been reading through and analyzed their RFCs and plans for version 2.0...
