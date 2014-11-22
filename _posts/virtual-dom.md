@@ -491,7 +491,8 @@ Now there's only one (big) DOM change happening, and because of that we're also 
 
 My 2 cents: If we can dispatch all events together with their context, we could have the document created or patched from Fragments created Asynchronously... Would be so much faster I imagine!!!
 
-Then have the whole document listening to all incoming promises and thus be notified when the redraw is complete.
+Then have the whole document listening to all incoming promises and thus be notified when the redraw is of all fragments is complete. We can do this using async callbacks/promises, but we can't leverage this via native threads such as using Web Workers, since they are not allowed access to the DOM, a single global object. However fragments are separate, entities so it is a pretty stupid limitation. The should be a `createFragment` factory method that is not attached to the DOM: `domFactory.createFragment(...)`.
+We should propose this change to the [W3C](http://www.w3.org/) I guess ;)
 
 Also, [Shared web workers](http://www.htmlgoodies.com/html5/other/html5-tech-shared-web-workers-help-spread-the-news.html) are also [coming soon](http://caniuse.com/#feat=sharedworkers). Would make this approach even better :) We should use these APIs if available (Chrome, Firefox, Opera)
 
@@ -505,6 +506,29 @@ sharedWorker.port.onmessage = function(event){
 
 sharedWorker.port.postMessage('data you want to send');
 ```
+
+### Optimized list rendering
+
+Rendering optimization using async fragments is mostly an issue with large lists. Imagine we are rendering a list of 50 to 1000 or more elements either in a list (50) or a grid structure (50x10).
+
+There are several other optimizations we could make outside of rendering. First off, there is the case where we are iterating on an array and creating a new Array. Imagine the following scenario:
+
+```js
+// list of 2000 elements
+for (i in list) {
+  state[item] = state[item] * 2;
+}
+```
+
+The problem with this, is that each change of state will trigger listeners and set in motion a new render. However it should be viewed as one single transaction. The [observ-array transaction](https://github.com/Raynos/observ-array/blob/master/transaction.js) mechanism lets us handle this in a single transaction :)
+
+Another optimization technique is to use "smart observable arrays", such as used in [knockout-projections](https://github.com/SteveSanderson/knockout-projections)
+
+Yet another idea would be to use [Lazy observable data structures](https://github.com/Raynos/observ-array/issues/2#issuecomment-63898038)
+
+"You litereally have to poll and ask, preferably in a requestanimationframe loop, preferably inside main-loop. At the start of main-loop we ask and blocking compute the new world state since the last frame and only create one copy instead of N copies."
+
+We will be investigating this technique to see how much that will help speed up rendering of large lists being modified by streaming data in, simultaneously with reactive rendering...
 
 ### Web workers to the rescue!?
 
