@@ -2,13 +2,11 @@
 layout: post
 title: Angular Router 2.0
 tags:
-    - toolbelt
     - angular
-    - rfc
     - design
     - architecture
     - router
-category: toolbelt
+category: router
 date: 11-12-2014
 ---
 

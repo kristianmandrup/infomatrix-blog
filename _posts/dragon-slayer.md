@@ -7,7 +7,7 @@ tags:
     - architecture
     - conventions
     - frames
-category: framework
+category: frameworks
 date: 11-19-2014
 ---
 

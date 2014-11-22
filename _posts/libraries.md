@@ -4,7 +4,7 @@ title: Libraries
 tags:
     - ember  
     - cli
-    - libraries
+    - modules
 category: ember
 date: 11-06-2014
 ---

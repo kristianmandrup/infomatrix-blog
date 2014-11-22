@@ -3,14 +3,13 @@ layout: post
 title: Virtual DOM
 tags:
     - dragonslayer
-    - slayer
     - model
     - virtual
     - dom
     - design
     - architecture
-    - reactive
-category: reactive
+    - rendering
+category: rendering
 date: 11-20-2014
 ---
 
@@ -530,7 +529,7 @@ Another idea would be to use [Lazy observable data structures](https://github.co
 
 "You litereally have to poll and ask, preferably in a RequestAnimationFrame (raf) loop, preferably inside `main-loop`. At the start of `main-loop` we ask and blocking compute the new world/app state since the last frame and only create one copy instead of N copies." - @Raynos
 
-We will be investigating this technique to see how much it will help speed up rendering of large lists being modified by streaming data into the app simultaneously with reactive rendering... A common scenario when using Real Time data that is synced between users. 
+We will be investigating this technique to see how much it will help speed up rendering of large lists being modified by streaming data into the app simultaneously with reactive rendering... A common scenario when using Real Time data that is synced between users.
 
 `ObservLazyStruct` has a working implementation (which could be further optimized) and we alomst have `ObservLazyArray` ready as well ;)
 
