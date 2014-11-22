@@ -2,12 +2,11 @@
 layout: post
 title: Toolbelt.io
 tags:
-    - toolbelt
-    - rfc
+    - frameworks
     - design
     - architecture
     - ideas
-category: toolbelt
+category: frameworks
 date: 11-12-2014
 ---
 

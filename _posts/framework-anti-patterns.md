@@ -2,7 +2,7 @@
 layout: post
 title: Framework Anti-patterns
 tags:
-    - framework
+    - frameworks
     - angular
     - ember
     - design
