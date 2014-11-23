@@ -51,8 +51,9 @@ Check it was installed ;)
 
 ```bash
 $ r.js
-See https://github.com/jrburke/r.js for usage.
 ```
+
+See https://github.com/jrburke/r.js for usage
 
 Now start converting your modules.
 
@@ -60,7 +61,7 @@ Now start converting your modules.
 
 "If you want to code a module so that it works with RequireJS and in Node, without requiring users of your library in Node to use RequireJS, then you can use the *amdefine* package to do this:"
 
-```javascript
+```js
 if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
@@ -74,7 +75,7 @@ define(function(require) {
 });
 ```
 
-The *RequireJS optimizer* will strip out the use of `amdefine` above, so it is safe to use this module for your web-based projects too ;)
+The *RequireJS optimizer* will strip out the use of `define` above, so it is safe to use this module for your web-based projects too ;)
 
 ### The Quickie for Node
 
@@ -304,11 +305,9 @@ Combine these source files into a single bundle, that can be used in Node, Brows
 
 *Sounds very elegant indeed!!! :)*
 
-### What do use?
+Perhaps the best article I have found that gives a good overview and practical examples is [this one](http://blogs.telerik.com/kendoui/posts/13-05-08/requirejs-fundamentals)
 
-So what to do and what to use at this time?
-
-I just discovered a new serious contender... a bit similar to *System.js* and *jspm* we looked at in a previous post.
+### Webpack
 
 [webpack](http://webpack.github.io/) coming to the rescue to save us from the madness?
 
@@ -331,8 +330,44 @@ There is even a special Ember Resolver designed for Webpack [here](https://githu
 Where does it all end? Would be nice to have *ES6 Harmony* in major browser already... but we will still need to wrap legacy libraries for years to come
  using one of these solutions mentioned above (or some other way!).
 
-### And Finally...
+### A full solution?
 
-Perhaps the best article I have found that gives a good overview and practical examples is [this one](http://blogs.telerik.com/kendoui/posts/13-05-08/requirejs-fundamentals)
+The [es6 module loader](https://github.com/ModuleLoader/es6-module-loader) with Traceur looks Awesome!! See this Guy Bedfor talk: [Practical workflows with ES6 modules](https://www.youtube.com/watch?v=0VUjM-jJf2U)
+
+Another cool option is to use [SystemJS](https://github.com/systemjs/systemjs) to load and wrap modules using: RequireJS, CommonJS and globals as ES6 modules, loaded asynchronously in the browser.
+
+There is also a very powerful [SystemJS build tool](https://github.com/systemjs/builder) which can integrate various package formats and build them into a single unified bundle file :)
+
+"Provides a single-file build for SystemJS of mixed-dependency module trees.
+Builds ES6 into ES3, CommonJS, AMD and globals into a single file in a way that supports the CSP SystemJS loader as well as circular references."
+
+There are various ways to [load scripts asynchronously](http://stackoverflow.com/questions/7718935/load-scripts-asynchronously)
+
+A good approach is to use Traceur to compile down to CJS or AMD modules and then load via Webpack sync: CJS `require.ensure()` or async AMD: `require()` .
+
+Another option is to compile into javascript UMD format which can be consumed everywhere as described in [UMD javascript that runs anywhere](http://bob.yexley.net/umd-javascript-that-runs-anywhere/) which references this [excellent article](http://addyosmani.com/writing-modular-js/) by *Addy Osmani*
+
+This also looks interesting: [Browserify and the Universal Module Definition](http://dontkry.com/posts/code/browserify-and-the-universal-module-definition.html)
+
+[uRequire](http://urequire.org) is another good UMD candidate. It can convert any set of javascript files into UMD.
+
+To simply convert to AMD format, perhaps use [gulp wrap amd](https://github.com/phated/gulp-wrap-amd) with Gulp!
+
+Browserify can consume both AMD modules and Globals via `deamdify` and `deglobalify` options! It can even handle ES6 with `es6ify` and also `decomponentify` and `debowerify`.
+
+"You can use multiple transforms in one swoop and have universal module access"
+
+```bash
+npm install deamdify es6ify deglobalify
+browserify -t deamdify -t es6ify -t deglobalify main.js -o bundle.js
+```
+
+Can be used with [Gulp browserify](https://www.npmjs.org/package/gulp-browserify)
+
+IF we convert everything to AMD, we can then reconvert back to ES6 if we need to use it in ES6 based project:
+
+[AMD to ES6](https://github.com/jonbretman/amd-to-as6), made available on npm as [amd-to-es6](https://www.npmjs.org/package/amd-to-es6)
+
+[JSPM](http://javascriptplayground.com/blog/2014/11/js-modules-jspm-systemjs/) is really the most complete Javascript package manager I have seen out there! Webpack has some nice features that could be used in combination, such as the ability to split up a library in smaller chunks.  
 
 Happy coding!! :)
