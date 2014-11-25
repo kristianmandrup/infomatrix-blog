@@ -252,3 +252,35 @@ The CTO role is becoming an ever more complex role to fill as everything around 
 It is super hard to be a good modern CTO. A key feature is to not give into pressure and feel overburdened by stress and information overload but have a sufficient overview and delegate tasks to the team so he can keep calm even in stressful situations and still joke around and make the workplace a great place to be for everyone.
 
 Not an easy task, but I believe I'm up to the challenge!!! :)
+
+### Learning from mistakes...
+
+Sure, I've made mistakes. The best way to learn is making your own mistakes, 2nd best is to observe others make mistakes. 3rd is to see someone do it successfully...
+
+I used to be more of a "hacker", meaning that I would try to get a working solution as quickly/easily as possible. I was often awarded for this approach, as this is what you are paid for as a consultant or hired for as a developer. To deliver features quickly!
+
+However, as I got more experience as a developer and other roles related to systems development and started reading about Clean Code, architecture practices, Design and Anti-patterns etc. I started to be more careful in how I would write or design a system, trying to adhere to best practices.
+This approach has some cost "here and now" but leads to less technical debt down the road, which from experience I had come to detest and learned how to avoid... but I started realizing, that the higher level of quality would cost me. Management preferred hackers over clean coders, there was only one KPI - delivering quickly and move on.
+
+When I was CTO in my first startups I wanted to follow my heart and design/architecture philosophy and design and good app from the ground up.
+
+The goal was to build an app using flexible components and infrastructure, which made for easier change down the roads if we changed our minds... With a small team and tight deadlines/budget you don't have time to make costly mistakes! When you design an app from scratch you discover all kinds of things down the road you didn't think of and then you need to change various parts. So unless you designed the system up fron to be flexible for change you end up paying an every higher price down the road or end up being "locked in" in your own app!
+
+So I followed this strategy with vigilance, doing Test Driven development and "the works", but due to unrealistic deadlines and little tech backing/support it ended up leading to conflicts with the more business oriented managers who just wanted "features delivered" without regard of the consequences.
+I tried to explain my position, drawing parallels to building a house or a car, explaining that it is all the infrastructure/plumbing inside that you don't see which is the main part of the building process. But naturally they wanted "pixels on the screen", to show off to investors, family, friends etc.
+
+I had the backing of my dev team who fully understood and respected this perspective but conflicts with  business who had to meet tight deadlines with investors to get the next pool of money or go broke.
+At the time I didn't fully understand this game, and so I learned... You have to strike a compromise and build the minimally viable product AQAP to get investor money and then you can start all over again... (hopefully!)
+
+Recently I've read in engineering newspapers and the like that a similar story has been playing out in various innovation based businesses, from alternative energy to medical and IT - all suffer from not having suficient time/money to create a viable product that can compete in the market. They are forced to deliver buggy, sub-par solutions in order to meet their targets, ending up costing them everything in the end anyways...
+
+So there really is no easy/good solution to this dilemma, except sufficient experience/understanding of the "game" and hopefully enough time/money to pull through. However an other problem could be to have too much time/money which can lead to over-engineering the app and never finish anything.
+
+It is a fine balance indeed - why so many projects fail. It has taken me a loooong time to fully appreciate this fact and understand the traps built in to this process and all he concerns involved!!
+
+So yes, I've made my fair share of mistakes and no-one is perfect or if they believe to be, they must be fools! I still have much to learn and mistakes to makes... such is life! But at least I try to learn from my mistakes and consider more viewpoints whenever I make decisions than before when I was more "proud" and sure of myself that "my way" was he only viable way! It is much more complicated!!
+
+In the end it is all about resources, spririt, team work and "travelling light". Why I hate bloated system designs... KISS - Keep It Simple Stupid! So true! This is key.
+
+- "Genious is to make the complicated simple"
+- "Good design is when there is no more to take away"
