@@ -254,7 +254,30 @@ readAttributeValue: function() {
 
 The above reader algorithm continues like this until it reaches the end of the root tag and returns to `read`. We now setup the reader to initially call the `_DOM` macro by using `reader.makeIdentifier('_DOM', { start: start })` and we set the initial "outer/root delimiter" with all the tokens we read inside, using `reader.makeDelimiter('{}', innerTokens)`
 
-For debugging purposes it can be useful to log `innerTokens` just before you pass them to your sweet.js macros.
+For debugging purposes it can be useful to log `innerTokens` just before you pass them to your sweet.js macros. If we uncomment the `console.log` we get an output like this:
+The `type` is the type of token such as `identifier`, `stringLiteral` etc. The value is the character(s) that represent that token and will be matched in the Macro rules.
+
+```js
+innerTokens [ { type: 7,
+    value: ':',
+    lineNumber: 1,
+    lineStart: 0,
+    range: [ 36, 36 ] },
+  { type: 3,
+    value: 'MyEditor',
+    lineNumber: 1,
+    lineStart: 0,
+    range: [ 1, 9 ] },
+  { type: 11,
+    value: '{}',
+    inner: [ [Object], [Object], [Object] ],
+    startLineNumber: 1,
+    startLineStart: 0,
+    startRange: [ 10, 15 ],
+    endLineNumber: 1,
+    endLineStart: 0,
+    endRange: [ 17, 33 ] } ]
+```
 
 We are now ready to expand this syntax using `sweet.expandSyntax` and from here we proceed into "macro land"...
 
