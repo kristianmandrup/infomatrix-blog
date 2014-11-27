@@ -1,12 +1,36 @@
 
 #sidebar.panel
-  h3  Categories
-  ul#categories.list-group
-    - each cat in getCategories()
-      li.list-group-item
-        a(href=categoryURL(cat)) #{cat} (#{postsWithCategory(cat).length})
-  h3 Tags
-  ul#tags.list-group
-    - each tag in getTags()
-      li.list-group-item
-        a(href=tagURL(tag)) #{tag} (#{postsWithTag(tag).length})
+  .categories
+    h3#categories-title Categories
+    ul#categories.list-group
+      - each cat in getCategories()
+        li.list-group-item
+          a(href=categoryURL(cat)) #{cat} (#{postsWithCategory(cat).length})
+  .tags
+    h3#tags-title Tags
+    ul#tags.list-group
+      - each tag in getTags()
+        li.list-group-item
+          a(href=tagURL(tag)) #{tag} (#{postsWithTag(tag).length})
+
+script(type="text/javascript").
+  var tagsList = $('#sidebar ul#tags');
+  var catList = $('#sidebar ul#categories');
+
+  $('#sidebar .tags')
+    .mouseenter(function(e) {
+      tagsList.show("slow");
+  });
+
+  $('#sidebar .tags').mouseleave(function(e) {
+    tagsList.hide("slow");
+  });
+
+  $('#sidebar .categories')
+    .mouseenter(function(e) {
+      catList.show("slow");
+  });
+
+  $('#sidebar .categories').mouseleave(function(e) {
+    catList.hide("slow");
+  });

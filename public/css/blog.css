@@ -183,6 +183,7 @@ p {
   background-color: rgba(20,20,20,1);
   border-radius: 4em;
   border: none;
+  padding: 4px 15px;
 }
 
 .list-group-item:hover {
@@ -205,10 +206,19 @@ a {
 }
 
 @media(max-width:992px) {
-  .list-group {
+  #sidebar h3 {
+    font-size: 14px;
+  }
+
+  section.main {
+    padding-top: 26em;
+  }
+
+  ul.list-group {
     background-color: rgba(20, 20, 20, 1);
     border-radius: 4em;
     padding-bottom: 1em;
+    display: none;
   }
 
   .list-group-item {
