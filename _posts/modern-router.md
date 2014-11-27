@@ -14,6 +14,8 @@ Recently I have been working on a modern client-side router basen on [crossroads
 
 The router will implement the Composite pattern. The basic idea is that it should be easy to compose a Router from simple building blocks and allow routers and routes to be reused across an application or even across multiple applications. The router should be composed of composable blocks and then have it be decorated to fit each scenario, such as with custom route guards (auth system), activation callbacks etc. This would make it possible for the community to develop and share decorators and route structures and then combine them in innovative ways to fit each case.
 
+<!--more-->
+
 ### Router
 
 A router normally has the following main responsibilities:
