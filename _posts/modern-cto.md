@@ -14,7 +14,9 @@ Recently I have been applying for a few CTO and Lead developer positions, both i
 
 I have always strived for a leadership role in anything I do. As I get older I can see, that people feel my natural charisma and confidence and often let me have that leadership role automatically in whichever social group I am. It seems that most ppl are only too happy to give responsibility away to someone willing to take it.
 
-Taking a leadership is natural to me as I am first born of 3. I always had extemely high ambitions, striving to be the best I could be at everything I do... I always feel I can improve and do better, nevr quite satisfied, always hungry for more... my motto: "Learning is living"
+<!--more-->
+
+Taking leadership is natural to me as I am first born of 3. I always had extemely high ambitions, striving to be the best I could be at everything I do... I always feel I can improve and do better, nevr quite satisfied, always hungry for more... my motto: "Learning is living"
 
 I've had several leadership roles in past jobs and I have experiences many IT leaders (CTOs, project managers etc.) in various organizations, big and small.
 
