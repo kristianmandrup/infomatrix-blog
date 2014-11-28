@@ -504,6 +504,8 @@ function loadMacro(relative_file) {
 }
 ```
 
+Note: It currently uses my own fork of sweet.js to function...
+
 ### Closing thoughts
 
 The version of sweet.js I was working with came with a somewhat limited public Reader API. I had to manually add `isIn` to the Reader API as it was only available in the private scope.
