@@ -459,6 +459,42 @@ Macros trigger on each of the 3 different punctuators...
 
 Pretty simple, and easy to configure to your liking ;)
 
+### Configuring custom macro rules
+
+At the top of `index.js` we have the following line which loads the macro to be used:
+
+```js
+var helperMacro = sweet.loadNodeModule(__dirname, './macros/hsx-macro.js');
+```
+
+At the bottom we have:
+
+```js
+module.exports = sweet.currentReadtable().extend({
+  '<': function (ch, reader) {
+    var reader = new MSXReader(reader);
+    reader.read();
+    var toks = reader.buffer.finish();
+    return toks.length ? toks : null;
+  }
+});
+```
+
+Which tells sweet.js to use extend our `currentReadtable` with a function to be called when it encounters the first '<' character.
+
+We could extend this in various ways to allow us to set the `helperMacro` from our own program.
+One way would be to set a `process.env` variable such as `process.env.hsxMacroPath = './config/macros/hsx-macro.js'`
+
+Then change the way helperMacro is resolved to this
+
+```js
+var defaultMacroPath = path.resolve(__dirname, './macros/hsx-macro.js')
+var helperMacro = sweet.loadNodeModule(process.env.hsxMacroPath || defaultMacroPath);
+```
+
+Now you can replace my macro output with your own conventions as you please! Awesome!
+Then set the `process.env.hsxMacroPath` in your build file or similar to make it take effect.
+
 ### Closing thoughts
 
 The version of sweet.js I was working with came with a somewhat limited public Reader API. I had to manually add `isIn` to the Reader API as it was only available in the private scope.
