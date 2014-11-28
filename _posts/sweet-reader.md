@@ -485,7 +485,7 @@ Which tells sweet.js to use extend our `currentReadtable` with a function to be 
 We could extend this in various ways to allow us to set the `helperMacro` from our own program.
 One way would be to set a `process.env` variable such as `process.env.hsxMacroPath = './config/macros/hsx-macro.js'`
 
-Then change the way helperMacro is resolved to this
+Then change the way `helperMacro` is resolved to sth like this:
 
 ```js
 var defaultMacroPath = path.resolve(__dirname, './macros/hsx-macro.js')
@@ -496,15 +496,18 @@ var helperMacro = sweet.loadMacro(macroPath);
 Now you can replace my macro output with your own conventions as you please! Awesome!
 Then set the `process.env.hsxMacroPath` in your build file or similar to make it take effect.
 
-Sweet.js also comes with a loadMacro helper, but it is only relative to the current process path.
+Sweet.js also comes with a `loadMacro` helper which I've tweaked so it returns the loaded module.
+Notice that it resolves the macro file relative to `process.cwd()`.
 
 ```js
-function loadMacro(relative_file) {
-    loadedMacros.push(loadNodeModule(process.cwd(), relative_file));
-}
+    function loadMacro(relative_file) {
+        var mod = loadNodeModule(process.cwd(), relative_file)
+        loadedMacros.push(mod);
+        return mod;
+    }
 ```
 
-Note: It currently uses my own fork of sweet.js to function...
+Note: hsx-reader currently requires [my fork of sweet.js](https://github.com/kristianmandrup/mercury-hsx-reader) where I added these small reader improvements...
 
 ### Closing thoughts
 
