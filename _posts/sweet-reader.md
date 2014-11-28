@@ -343,6 +343,66 @@ rule { { : $el:ident  $attrs } } => {
 
 Easy as pie :)
 
+### Update: Support for Partials and Widgets
+
+Now using the following conventions (see updated `index.js`)
+
+- `<:MyCool` to render Component of that name
+- `<|MyCool` to render Widget of that name
+- `<MyCool` to render Partial of that name (must start with capital letter)
+
+```html
+<div>
+  Monkeys:
+  {listOfMonkeys} {climbingTrees}
+</div>
+<:MyCool />
+<|MyWidget />
+<SideBySideEditor />
+<MyEditor state="sideBySideEditor"/>
+<header>
+  <section name="main">
+    <h2>my title</h2>
+    <p>some text here</p>
+  <section>
+</header>
+```
+
+Outputs the following JavaScript:
+
+```js
+h('div', null, ['Monkeys:', listOfMonkeys, ' ', climbingTrees]);
+this.renderComponent('MyCool');
+this.renderWidget('MyWidget');
+this.renderPartial('SideBySideEditor');
+this.renderPartial('MyEditor', { state: 'sideBySideEditor' });
+h('header', null,
+  [h('section', { name: 'main' },
+    [h('h2', null,
+       ['my title']),
+     h('p', null,
+       ['some text here'])
+    ])
+   ]
+)
+```
+
+On parsing error:
+
+```
+<div>
+    <h1>Title</h1>
+    <p>
+</div>
+```
+
+```
+SyntaxError: [HSX] Expected corresponding closing tag for p
+5: </div>
+     ^
+    at Object.readtables.parserAccessor.throwSyntaxError ...
+```
+
 ### Closing thoughts
 
 The version of sweet.js I was working with came with a somewhat limited public Reader API. I had to manually add `isIn` to the Reader API as it was only available in the private scope.
