@@ -500,11 +500,11 @@ Sweet.js also comes with a `loadMacro` helper which I've tweaked so it returns t
 Notice that it resolves the macro file relative to `process.cwd()`.
 
 ```js
-    function loadMacro(relative_file) {
-        var mod = loadNodeModule(process.cwd(), relative_file)
-        loadedMacros.push(mod);
-        return mod;
-    }
+function loadMacro(relative_file) {
+    var mod = loadNodeModule(process.cwd(), relative_file)
+    loadedMacros.push(mod);
+    return mod;
+}
 ```
 
 Note: hsx-reader currently requires [my fork of sweet.js](https://github.com/kristianmandrup/mercury-hsx-reader) where I added these small reader improvements...

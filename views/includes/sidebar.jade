@@ -18,19 +18,11 @@ script(type="text/javascript").
   var catList = $('#sidebar ul#categories');
 
   $('#sidebar .tags')
-    .mouseenter(function(e) {
-      tagsList.show("slow");
+    .click(function(e) {
+      tagsList.toggle("slow");
   });
 
-  $('#sidebar .tags').mouseleave(function(e) {
-    tagsList.hide("slow");
-  });
-
-  $('#sidebar .categories')
-    .mouseenter(function(e) {
-      catList.show("slow");
-  });
-
-  $('#sidebar .categories').mouseleave(function(e) {
-    catList.hide("slow");
+    $('#sidebar .categories')
+    .click(function(e) {
+      catList.toggle("slow");
   });
