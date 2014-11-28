@@ -489,11 +489,20 @@ Then change the way helperMacro is resolved to this
 
 ```js
 var defaultMacroPath = path.resolve(__dirname, './macros/hsx-macro.js')
-var helperMacro = sweet.loadNodeModule(process.env.hsxMacroPath || defaultMacroPath);
+var macroPath = process.env.hsxMacroPath || defaultMacroPath;
+var helperMacro = sweet.loadMacro(macroPath);
 ```
 
 Now you can replace my macro output with your own conventions as you please! Awesome!
 Then set the `process.env.hsxMacroPath` in your build file or similar to make it take effect.
+
+Sweet.js also comes with a loadMacro helper, but it is only relative to the current process path.
+
+```js
+function loadMacro(relative_file) {
+    loadedMacros.push(loadNodeModule(process.cwd(), relative_file));
+}
+```
 
 ### Closing thoughts
 
