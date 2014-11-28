@@ -403,6 +403,62 @@ SyntaxError: [HSX] Expected corresponding closing tag for p
     at Object.readtables.parserAccessor.throwSyntaxError ...
 ```
 
+### Reader rules
+
+Reading ':' punctuator for component and '|' for widget.
+
+```js
+  if (reader.isIn(String.fromCharCode(firstChar), ':')) {
+    this.readPunc();
+    ch = reader.source[reader.index +1];
+  } else if (reader.isIn(String.fromCharCode(firstChar), '|')) {
+    this.readPunc();
+    ch = reader.source[reader.index +1];
+  }
+```
+
+Inserting `%` punctuator for partial.
+
+```js
+  if(isComponent(openingName)) {
+    if (openingNameToks[0].value !== ':' && openingNameToks[0].value !== '|') {
+      openingNameToks.unshift(reader.makePunctuator('%'));
+    }
+  }
+```
+
+### Update: Macros used
+
+Macros trigger on each of the 3 different punctuators...
+
+```
+  rule { { : $el:ident null } } => {
+    this.renderComponent(str_expr($el))
+  }
+
+  rule { { : $el:ident  $attrs } } => {
+    this.renderComponent(str_expr($el), $attrs)
+  }
+
+  rule { { % $el:ident null } } => {
+    this.renderPartial(str_expr($el))
+  }
+
+  rule { { % $el:ident  $attrs } } => {
+    this.renderPartial(str_expr($el), $attrs)
+  }
+
+  rule { { | $el:ident null } } => {
+    this.renderWidget(str_expr($el))
+  }
+
+  rule { { | $el:ident  $attrs } } => {
+    this.renderWidget(str_expr($el), $attrs)
+  }
+```
+
+Pretty simple, and easy to configure to your liking ;)
+
 ### Closing thoughts
 
 The version of sweet.js I was working with came with a somewhat limited public Reader API. I had to manually add `isIn` to the Reader API as it was only available in the private scope.
