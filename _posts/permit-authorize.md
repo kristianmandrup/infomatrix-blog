@@ -3,22 +3,19 @@ layout: post
 title: Permit Authorize
 tags:
     - permits
-    - authorize
+    - authorization
     - security
-    - roles
-    - rules
-    - design
 category: authorize
 date: 11-20-2014
 ---
 
 This post will feature an overview of [Permit Authorize](https://github.com/kristianmandrup/permit-authorize) the default authorization framework for [Dragon Slayer](https://github.com/kristianmandrup/dragonslayer)
 
+Authorization is to:
+
+"Determine if a subject (most often a user) has permission to access and/or perform a given action (or set of actions) on a given object or type of object"
+
 <!--more-->
-
-Authorization to me is to:
-
-"determine if a subject (commonly a user) has permission to access and/or perform a given action (or set of actions) on a given object"
 
 ### Features
 
