@@ -2,25 +2,28 @@
 layout: post
 title: Real Time data
 tags:
-    - toolbelt
-    - angular
-    - rfc
     - design
     - architecture
     - real time
     - data
     - backend
     - sse
-category: real time
+    - dragonslayer
+category: data
 date: 11-12-2014
 ---
 
+A modern web framework should try to have a flexible, unified interface (protocol) with various external data sources and APIs.
+
 ### Real Time Server data streaming
 
-It would be nice to integrate with [Wakanda](http://www.wakanda.org/) for the backend.
+For a framework such as Dragon Slayer, it would be nice to integrate with [Wakanda](http://www.wakanda.org/) for the backend.
+
 They also support [Server Side Events](https://github.com/AMorgaut/wakanda-eventsource).
 
-On the *Server*
+I believe SSE is the future as it promises an elegant, unified, standardises API and protocol for data exchange which is event/message oriented. This fits much better with an async system architecture and async data flows than the traditional request/response, such as is used with REST.
+
+*Server*
 
 ```js
 var sse = require('wakanda-eventsource');
@@ -36,7 +39,7 @@ sse.pushEvent(
 
 <!--more-->
 
-On the *Client*
+*Client*
 
 ```js
 // ask to receive only "itempurchased" and "ordercancelled" events

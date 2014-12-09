@@ -17,6 +17,12 @@ section.main {
     -o-background-size: cover;
 }
 
+p img {
+  width: 500px;
+  border-radius: 10px;
+}
+
+
 body#blog .navbar-default {
     background-color: black;
 }

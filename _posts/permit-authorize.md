@@ -8,7 +8,7 @@ tags:
     - roles
     - rules
     - design
-category: auhtorize
+category: authorize
 date: 11-20-2014
 ---
 

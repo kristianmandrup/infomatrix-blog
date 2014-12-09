@@ -1,7 +1,10 @@
 extends layout
 
+block title
+  title #{category} posts
+
 block content
   .category
-    h2 #{category} posts
+    h2 "#{category}" posts
     - each post in posts
       include includes/postSnippet
