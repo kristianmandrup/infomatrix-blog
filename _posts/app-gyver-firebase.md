@@ -53,9 +53,11 @@ AppGyver integrates the following:
 
 ### Data providers
 
-I was super excited about this application builder, however I wanted to use it with Firebase as the backend, as I feel REST is old school and make things too complicated. Users want real time apps these days! With Firebase 2.0 they now have a full REST API as well as the default real time API.
+I was super excited about this application builder, however I wanted to use it with [Firebase](https://www.firebase.com) as the backend.
 
-I was wondering how to leverage Firebase with AppGyver. I wanted to be able to hook up Firebase to the Composer so I could have the data components reflect my Firebase Data and create actions such as `Save` and `Remove record` directly from within the Logic Editor, while still having the data sync to all application sessions.
+I feel REST is about to retire... just makes the whole interaction more complicated. Users want real time apps these days! With [Firebase 2.0](https://www.firebase.com/blog/2014-11-04-firebase-realtime-queries.html) they now have a full REST API with new Query methos as well as the default real time API.
+
+I was contemplating how to best leverage Firebase with AppGyver. I wanted to be able to hook up Firebase to the Composer so I could have the UI data components reflect my Firebase Data and create actions such as `Save` and `Remove record` directly from within the Logic Editor, while still having the data sync to all application sessions.
 
 It turns out this can be done quite easily and here is how:
 
@@ -140,4 +142,12 @@ Now you can go back to Composer UI designer ie. Page Editor and hook up your UI 
 
 When you are done designing your pages and Interaction design etc. you can Download the project as an `application.zip` file and continue to edit/code the more difficult parts of the app...
 
-*Sweet!!!*
+As you develop the app you will add (Polymer) web components and more Angular modules and directives etc. To ensure Real time updates withing your Angular directives and Web components, you need to use: [firebase-element](https://github.com/Polymer/firebase-element) or perhaps [my fork](https://github.com/kristianmandrup/firebase-element) with some extra goodies such as [firebase-model](https://github.com/kristianmandrup/firebase-element/blob/master/firebase-model.html) and [firebase-list](https://github.com/kristianmandrup/firebase-element/blob/master/firebase-list.html) ;)
+
+To assist with communication/data binding between Angular and Web components, try using [ng-polymer-elements](https://github.com/GabiAxel/ng-polymer-elements).
+
+There is even a set of [Angular Material Design directives](https://material.angularjs.org/#/)
+
+We are now starting to see a fully integrated app environment. The future is here, but it's only the beginning... perhaps we are finally out of the "stone age" of web development!?
+
+*Super Sweet...!!!*
