@@ -20,6 +20,8 @@ AppGyver has the following main parts
 - data (backend integration)
 - composer (WYSIWIG designer for building UI)
 
+<!--more-->
+
 ### Data
 
 The data layer allows you to connect to a data provider, which can be one of:
