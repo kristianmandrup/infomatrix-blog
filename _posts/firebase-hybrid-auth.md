@@ -242,11 +242,14 @@ Alternatively, you may prompt the user to login with a full browser redirect. Fi
 
 So to connect via Facebook we can use the [phonegap-facebook-plugin](https://github.com/Wizcorp/phonegap-facebook-plugin)
 
-`facebookConnectPlugin.login(Array strings of permissions, Function success, Function failure)`
+Here part of the main API on `facebookConnectPlugin`
 
-`facebookConnectPlugin.logout(Function success, Function failure)`
-`facebookConnectPlugin.getLoginStatus(Function success, Function failure)`
-`facebookConnectPlugin.getAccessToken(Function token)`
+`login(Array strings of permissions, Function success, Function failure)`
+`logout(Function success, Function failure)`
+`getLoginStatus(Function success, Function failure)`
+`getAccessToken(Function token)`
+
+We will use `login` and `getAccessToken` in the following:
 
 ```js
 facebookConnectPlugin.login(['public_info'], function(status) {
@@ -268,6 +271,8 @@ function(error) {
   console.log('An error occurred logging the user in', error);
 });
 ```
+
+The above code should of course be refactored to not have all these nested functions but instead be wrapped inside a "singleton class" such as an Angular module.
 
 In order to make this work natively when we are running on a mobile devices and fallback to pure Web HTML 5 mode, we can wrap it conditionally with `facebookConnectPlugin` when [device is ready](http://docs.phonegap.com/en/4.0.0/cordova_events_events.md.html#deviceready) or in wihtout the wrapper when it is not (potentially also [detecting kind of device](http://stackoverflow.com/questions/25542814/html5-detecting-if-youre-on-mobile-or-pc-with-javascript)).
 
