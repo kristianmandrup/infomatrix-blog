@@ -11,7 +11,7 @@ tags:
 - data
 - backend
 category: data
-date: 11-12-2014
+date: 12-09-2014
 ---
 
 I recently stumbled upon [AppGyver](http://www.appgyver.com/), an application builder which empowers the developer and integrates various cool technologies for building Hybrid mobile apps that look, feel and act like a native app on each device.
