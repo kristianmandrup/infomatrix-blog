@@ -266,16 +266,69 @@ Cool :)
 
 ### Build configuration
 
+The *AppGyver Build Service*, part of *AppGyver Cloud* allows you to include custom Cordova plugins with your app. *To develop locally with these plugins*, you need to use the *Build Service* to *build a custom Scanner app* that you *download and install onto your device*.
+
+First follow the instructions for building your app on iOS or Android and set up all the necessary files and settings for your app.
+
 - [iOS build configuration](https://academy.appgyver.com/guides/27-ios-build-configuration)
 - [Android build configuration](https://academy.appgyver.com/guides/53-android-build-configuration)
 
-Then you can [configure custom PhoneGap plugins](https://academy.appgyver.com/guides/10-configuring-custom-phonegap-plugins)
+Then, in the Build Service's Configure iOS/Android Build Settings page for your app, find the Plugins field and include there an array of GitHub repos for the custom plugins you want to use, e.g.
+
+Once you have added your custom plugins in the *Build Service’s Configure iOS/Android Build Settings page*, these plugins will be included in all types of builds.
+
+In addition to the Scanner builds, your custom plugins configured in the Build Service will be included in Ad Hoc builds and App Store/Google Play builds as well.
+
+Steroids currently uses *Cordova 3.5.0*
+
+[Default plugins included](https://academy.appgyver.com/categories/7-extending-with-plugins/contents/146-default-plugins)
+
+The Build Service supports two tools for adding the plugin JavaScript files to your custom builds.
+
+- plugman
+- Cordova
+
+You need to check the `plugin.xml` file for each plugin to see which method it uses.
+
+The `<asset>` element just includes the plugin's JavaScript file in your app. The file won't show up in the project structure, but will be available on the device.
+You need to *manually* include a `<script>` tag in your HTML to load the JavaScript file.
+
+The `<js-module>` also injects the relevant <script> tag into the DOM of all WebViews. No manual step required :)
+
+### Plugin for local development
+
+The way to use custom plugins in local development is to *build a custom Scanner app* using the *AppGyver Cloud build service*.
+
+You do need to set up the build config files as indicated in the Building your app for iOS/Building your app for Android guides, including the custom plugins you want to use.
+
+When you request a Scanner build, you get a Scanner app that includes the custom plugins you need.
+
+You can then develop locally with the regular Steroids workflow, and you only need to access the build service to build your .ipa/.apk once you're ready to release your app (or you want to change your plugins).
+
+Please note that all plugins are configured solely via the Build Service.
+
+See [Configuring custom PhoneGap plugins](https://academy.appgyver.com/guides/10-configuring-custom-phonegap-plugins)
+
+The AppGyver Build Service lets you create an IPA package of your application that you can distribute either ad hoc or submit to the Apple App Store.
+
+### Plugin repos
+
+The [Oauth.io](https://oauth.io/) [plugin](https://github.com/oauth-io/oauth-phonegap) also looks interesting... Here is the [pricing mode](https://oauth.io/pricing)
+
+They have a FREE Bootstrap Plan: 1000 monthly users, 2 Providers, 2 Apps. Enough to get started!
+
+*Plugin registries*
+
+- [Plugreg](http://plugreg.com/plugins)
+- [Apache Cordova registry](http://plugins.cordova.io/#/)
 
 Some useful cordova plugins:
 
-- [email composer plugin](https://github.com/AppGyver/email-composer/)
-- [facebook plugin](https://github.com/Wizcorp/phonegap-facebook-plugin)
-- [google+ plugin](https://github.com/EddyVerbruggen/cordova-plugin-googleplus)
+- [email composer](https://github.com/AppGyver/email-composer/)
+- [facebook](https://github.com/Wizcorp/phonegap-facebook-plugin)
+- [google+](https://github.com/EddyVerbruggen/cordova-plugin-googleplus)
+- [twitter](http://plugreg.com/plugin/etiennea/phonegap-twitter-plugin)
+- [social message](https://github.com/leecrossley/cordova-plugin-social-message)
 
 WizCorp has loads of plugins which wrap native mobile APIs...
 
@@ -286,3 +339,36 @@ WizCorp has loads of plugins which wrap native mobile APIs...
 - [facebook addon](https://academy.appgyver.com/categories/16-steroids-addons/contents/134-facebook-addon-usage) wraps the Cordova facebook plugin with a simpler API
 
 There are a few more which can be seen [here](https://github.com/AppGyver/addons-kitchensink)
+
+## Cloud Deployment
+
+See [Deploying your app to the cloud](https://academy.appgyver.com/guides/64-deploying-your-app-to-the-cloud)
+
+`steroids deploy`
+
+Steroids internally runs the steroids make and steroids package commands, which updates the contents of the `/dist` folder and creates a `.zip` package of your app.
+
+Steroids then checks if there is a valid `config/cloud.json` file (JSON with the fields `id` and `hash`). If not, a new `config/cloud.json` file is created with a fresh app ID and hash.
+
+When the file exists, Steroids uploads a new version of the app into the cloud, replacing the one previously deployed under that app ID.
+
+## Android builds
+
+Follow the [Android build configuration guide](https://academy.appgyver.com/guides/53-android-build-configuration) on how to create a `.keystore` file.
+
+Use `android` as the password for the alias.
+
+When you have the `.keystore` file, we can build your APK.
+
+First, you need to create a cloud-deployed build of your app. You can do this with `$ steroids deploy` in your project folder. See the cloud deployment guide for more information.
+
+Now go to `cloud.appgyver.com`, click on your app and then on the `Configure Build Settings` button.
+
+- Upload your Android .keystore file, the one you just generated.
+- Enter your keystore password.
+- Enter your keystore alias.
+- Enter your keystore alias password
+
+### Custom Splash screens
+
+Use the [Draw9Patch app](http://developer.android.com/tools/help/draw9patch.html) to design your custom Splash screen for Android
