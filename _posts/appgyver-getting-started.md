@@ -14,18 +14,23 @@ I'm playing around with [AppGyver](http://www.appgyver.com/) these days. I've ma
 
 Now let's see how to get started with AppGyver so we can start integrating the Composer workflow, real time data layer and authentication...
 
+First follow the [AppGyver getting started guide](http://www.appgyver.com/steroids/getting_started) to setup you system with the infrastructure and developer environment required.
+
 <!--more-->
 
 ### KitchenSink
 
 We will use the [KitchenSink](http://www.appgyver.com/supersonic/kitchensink) as the prototype/template to work on. First [fork the repo](https://github.com/AppGyver/supersonic-kitchensink/)
 
-Then `git clone` it locally and open the project in an editor or IDE, such as [Atom](https://atom.io).
-Install dependencies"
+`git clone` your repo fork locally and open the project in an editor or IDE, such as [Atom](https://atom.io).
+
+Install dependencies:
 
 `npm i & bower install`
 
-`steroids update` - to update steroids CLI
+Update steroids CLI
+
+`steroids update`
 
 ### Configuring a Simulator
 
@@ -258,3 +263,26 @@ WebBridge: unsupported API method: dismissInitialView
 Now that we can see that the functionality works as expected we can launch the app with `steroids connect`, then launch it in the simulator (or on a real device via QR Scanner) and see that the Mock login functionality works as expected!
 
 Cool :)
+
+### Build configuration
+
+- [iOS build configuration](https://academy.appgyver.com/guides/27-ios-build-configuration)
+- [Android build configuration](https://academy.appgyver.com/guides/53-android-build-configuration)
+
+Then you can [configure custom PhoneGap plugins](https://academy.appgyver.com/guides/10-configuring-custom-phonegap-plugins)
+
+Some useful cordova plugins:
+
+- [email composer plugin](https://github.com/AppGyver/email-composer/)
+- [facebook plugin](https://github.com/Wizcorp/phonegap-facebook-plugin)
+- [google+ plugin](https://github.com/EddyVerbruggen/cordova-plugin-googleplus)
+
+WizCorp has loads of plugins which wrap native mobile APIs...
+
+[Wizcorp plugins](https://github.com/Wizcorp?query=phonegap)
+
+### AppGyver Addons
+
+- [facebook addon](https://academy.appgyver.com/categories/16-steroids-addons/contents/134-facebook-addon-usage) wraps the Cordova facebook plugin with a simpler API
+
+There are a few more which can be seen [here](https://github.com/AppGyver/addons-kitchensink)
