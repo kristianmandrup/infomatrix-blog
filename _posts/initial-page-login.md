@@ -233,6 +233,8 @@ signIn: function(permissions) {
 They both use a Promise to handle the async communication with the Auth provider.
 We should do the same! To make the provider API more consistent, we should wrap the `facebookConnectPlugin` as `plugins.facebookConnectPlugin` so we can leverage the same basic strategy for all plugins ;)
 
+The current implementation of these ideas can be found in my [hybrid-auth](https://github.com/kristianmandrup/hybrid-auth) repo
+
 ### Alternatives?
 
 Another simple solution is the [ng-cordova-oauth](https://github.com/nraboy/ng-cordova-oauth) Angular plugin. However it only supports Authorization via [Apache InAppBrowser Plugin](https://github.com/apache/cordova-plugin-inappbrowser/blob/master/doc/index.md)
