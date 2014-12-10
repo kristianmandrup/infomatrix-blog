@@ -185,9 +185,32 @@ if (!window.cordova) {
 
 Please see: [firebase-login-demo-phonegap](https://github.com/firebase/firebase-login-demo-phonegap)
 
-Another approach we could learn from: [ember-cli-cordova-auth](https://github.com/poetic/ember-cli-cordova-auth/tree/master/app)
+### A "Promising" example
 
-[facebook.js](https://github.com/poetic/ember-cli-cordova-auth/blob/master/app/utils/facebook.js) uses a Promise
+Another approach we could learn from is: [ember-cli-cordova-auth](https://github.com/poetic/ember-cli-cordova-auth/tree/master/app)
+
+Here the [signIn for Google](https://github.com/poetic/ember-cli-cordova-auth/blob/master/app/utils/google.js)
+
+```js
+signIn: function(settings) {
+  if (typeof plugins === undefined) {
+    var msg = 'Plugins are only available on the simulator or ';
+    msg += 'on a real device.';
+    return Ember.RSVP.reject(msg);
+  }
+  if (typeof plugins.googleplus === undefined) {
+    var msg = 'The google plus plugin was not found. ';
+    msg += '(https://github.com/poetic/cordova-plugin-';
+    msg += 'googleplus)'
+    return Ember.RSVP.reject(msg);
+  }
+  return new Ember.RSVP.Promise(function(resolve, reject) {
+    plugins.googleplus.login(settings, resolve, reject);
+  });
+}
+```
+
+Here for [facebook](https://github.com/poetic/ember-cli-cordova-auth/blob/master/app/utils/facebook.js)
 
 ```js
 signIn: function(permissions) {
@@ -206,6 +229,11 @@ signIn: function(permissions) {
   }
 }
 ```
+
+They both use a Promise to handle the async communication with the Auth provider.
+We should do the same! To make the provider API more consistent, we should wrap the `facebookConnectPlugin` as `plugins.facebookConnectPlugin` so we can leverage the same basic strategy for all plugins ;)
+
+### More info
 
 For more info, check out the AppGyver forum threads on the subject...
 
