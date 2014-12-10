@@ -206,3 +206,11 @@ signIn: function(permissions) {
   }
 }
 ```
+
+For more info, check out the AppGyver forum threads on the subject...
+
+- [facebook threads](https://muut.com/appgyver#!/?facebook)
+- [login](https://muut.com/appgyver#!/?login)
+- [supersonic-and-facebook-log](https://muut.com/appgyver#!/appgyver/supersonic#supersonic-and-facebook-log)
+
+Cheers!
