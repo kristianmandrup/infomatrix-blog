@@ -161,4 +161,48 @@ class FirebaseAuthHandler
 
 I hope this provides some suggestions for how you can structure and encapsulate your Auth logic.
 Would be cool if we could come up with a nice set of patterns that can be reused by the community.
-Cheers! 
+
+Using [cordova facebook plugin](https://github.com/Wizcorp/phonegap-facebook-plugin) as connector
+
+Looks like you install Cordova plugins via the [Build Settings page for your app](https://academy.appgyver.com/guides/10-configuring-custom-phonegap-plugins)
+
+TIn the Build Service's Configure iOS/Android Build Settings page for your app, find the Plugins field and include there an array of GitHub repos for the custom plugins you want to use, e.g.
+
+```json
+[
+  {"source":"https://github.com/AppGyver/emailcomposer-plugin.git"}
+]
+```
+
+To use the Javascript SDK `www/js/facebookConnectPlugin.js`
+
+```js
+if (!window.cordova) {
+  facebookConnectPlugin.browserInit(appId, version);
+  // version is optional. It refers to the version of API you may want to use.
+}
+```
+
+Please see: [firebase-login-demo-phonegap](https://github.com/firebase/firebase-login-demo-phonegap)
+
+Another approach we could learn from: [ember-cli-cordova-auth](https://github.com/poetic/ember-cli-cordova-auth/tree/master/app)
+
+[facebook.js](https://github.com/poetic/ember-cli-cordova-auth/blob/master/app/utils/facebook.js) uses a Promise
+
+```js
+signIn: function(permissions) {
+  if(typeof facebookConnectPlugin !== 'undefined') {
+    return new Ember.RSVP.Promise(function(resolve, reject){
+      facebookConnectPlugin.login(permissions, function(res) {
+        if(res.authResponse.accessToken) {
+          resolve(res);
+        } else {
+          reject('Error authenticating with Facebook. Please sign up or in with an email and password.');
+        }
+      }, reject);
+    });
+  } else {
+    return Ember.RSVP.reject('Facebook login only available in app');
+  }
+}
+```
