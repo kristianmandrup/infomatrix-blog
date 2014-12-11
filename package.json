@@ -12,7 +12,7 @@
     "body-parser": "~1.8.1",
     "cookie-parser": "~1.3.3",
     "debug": "~2.0.0",
-    "markdown": "x",
+    "marked": "x",
     "express": "~4.9.0",
     "jade": "~1.6.0",
     "mongoose": "~3.8",

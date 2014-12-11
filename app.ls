@@ -36,7 +36,12 @@ poet.init!.then( ->
   done!
 )
 
-# console.log 'Model', model
+remove-comments = (conditions) ->
+  model.comment.remove conditions, (err) ->
+    if err
+      console.error 'error', err
+    else
+      console.log 'all comments with #{conditions} removed'
 
 router.route '/contact'
   .post (req, res) ->
@@ -46,17 +51,25 @@ router.route '/contact'
 validated =
   comment: (comment) ->
     return false unless typeof comment is 'object'
-    # console.log 'validating', comment
     return true if comment.postId and comment.author and comment.text
     false
 
 strip-tags = (text) ->
   text.replace /(<([^>]+)>)/ig ,""
 
-# http://www.componentix.com/blog/9/file-uploads-using-nodejs-now-for-real
-# Multipart form data
-# https://github.com/expressjs/multer
-# https://www.npmjs.com/package/multiparty#readme
+# convert-to-links = require './public/js/convert-to-links'
+marked = require 'marked'
+
+#marked.setOptions
+#  renderer: new marked.Renderer()
+#  gfm: true
+#  tables: true
+#  breaks: false
+#  pedantic: false
+#  sanitize: true
+#  smartLists: true
+#  smartypants: false
+
 router.route '/comment/new'
   .post (req, res) ->
     data = req.body
@@ -64,30 +77,19 @@ router.route '/comment/new'
     try
       if data
         comment = if typeof data is 'string' then JSON.parse(data) else data
-        # console.log 'parsed comment', comment
         if validated.comment comment
-          # console.log 'valid comment', comment
 
-#          model.comment.remove postId: 16, (err) ->
-#            if err
-#              console.error 'error', err
-#            else
-#              console.log 'all comments with postId 16 removed'
+          comment.text = marked(comment.text)
+          # comment.text = convert-to-links text
 
-          # markdown = require "markdown" .markdown
-          # comment.text = markdown.toHTML comment.text
-          comment.text = strip-tags comment.text
           comment.author = strip-tags comment.author
 
           newComment = new model.comment postId: comment.postId, author: comment.author, text: comment.text
-          # console.log 'new comment', newComment
           newComment.save (err) ->
-            # console.log 'saved comment'
             if err
               console.log 'error', err
               res.send ''
             else
-              # console.log 'send comment back'
               res.send comment
           return
         else
@@ -110,15 +112,11 @@ poet.addRoute '/post/:post', (req, res) ->
   model.comment.remove postId: 16
 
   post = poet.helpers.getPost req.params.post
-  # console.log 'SHOW POST', post.title, post.id
 
   if post
     query = postId: post.id
-    # console.log 'find all comments for', post.id
-    model.comment.find().exec (err, result) ->
-      # console.log err, result
+    model.comment.find().sort({date: 'desc'}).exec (err, result) ->
       comments = if err then [] else result
-      # console.log 'comments', comments
       res.render 'post', post: post, comments: comments
   else
     res.send 404

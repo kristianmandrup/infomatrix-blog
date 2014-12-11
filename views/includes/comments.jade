@@ -2,9 +2,12 @@
    - each comment in comments
       .comment
          .text
-            = comment.text
+            != comment.text
          .author
-            = comment.author
+            span.author-name
+               = comment.author
+            span.comment-date
+               = comment.date
 
 if comments.length > 2
    a(href="#the-end") Back to Comment form

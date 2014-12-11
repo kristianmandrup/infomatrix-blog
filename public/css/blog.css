@@ -221,6 +221,7 @@ p {
 #new-comment textarea {
   width: 100%;
   color: black;
+  padding: 0.5em;
 }
 
 #new-comment textarea {
@@ -229,6 +230,12 @@ p {
 
 #new-comment > * {
   padding-top: 1em;
+}
+
+#comment-submit {
+  color: black;
+  box-shadow: 2px 2px 4px #888;
+  width: 100%;
 }
 
 .comment {
@@ -257,7 +264,11 @@ p {
 
 .comment .author {
   font-style: italic;
-  color: rgb(0, 207, 255);
+  color: gold;
+}
+
+.comment .author .comment-date {
+  float: right;
 }
 
 #contact-me {
