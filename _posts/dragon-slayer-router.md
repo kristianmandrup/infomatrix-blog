@@ -8,6 +8,7 @@ tags:
     - router
 category: router
 date: 11-19-2014
+id: 9
 ---
 
 As I noted in my most recent posts, I have just embarked on a mission to create a new reactive full-stack javascript framework using all that I have learned during the past few (20+ years)

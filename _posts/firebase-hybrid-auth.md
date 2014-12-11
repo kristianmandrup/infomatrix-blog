@@ -10,6 +10,7 @@ tags:
 - facebook
 category: authentication
 date: 12-10-2014
+id: 14
 ---
 
 In my last blog post on [AppGyver and Firebase 2.x](http://infomatrix-blog.herokuapp.com/post/appgyver-and-firebase-2x) I delved into how to configure Firebase as a Custom REST API data provider for AppGyver Composer.

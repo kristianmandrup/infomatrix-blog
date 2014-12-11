@@ -9,6 +9,7 @@ tags:
 category: libraries
 previewLength: 100
 date: 10-08-2014
+id: 29
 ---
 
 Since I got "hooked" by [Ember CLI](http://www.ember-cli.com/) and it's addon system, it seemed logical to make "everything" into an addon in order to make it easily *pluggable* with Ember through Broccoli.

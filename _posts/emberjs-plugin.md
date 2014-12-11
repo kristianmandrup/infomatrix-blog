@@ -9,6 +9,7 @@ tags:
     - plugin
 category: ember
 date: 11-07-2014
+id: 13
 ---
 
 A few weeks ago I started on the ambitious quest to write an IntelliJ IDEA plugin for EmberJS CLI, targeting the Webstorm IDE/Editor.

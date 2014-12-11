@@ -9,6 +9,7 @@ tags:
     - filter
 category: broccoli 
 date: 10-14-2014
+id: 5
 ---
 
 Broccoli is a core component for Ember CLI. It handles all the compilation of an Ember CLI project.

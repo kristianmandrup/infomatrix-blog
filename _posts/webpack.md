@@ -9,6 +9,7 @@ tags:
     - design
 category: tools
 date: 11-21-2014
+id: 32
 ---
 
 A lot of Javascript libraries for the browser are still being maintained and distributed as a single file. This is terrible!! It makes it very hard to patch these libraries, as there are no clear boundaries between functionality. A huge file (+200 lines) is very difficult to fully grasp.

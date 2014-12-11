@@ -30,6 +30,10 @@ mail = (body) ->
   subject: body.subject || 'Infomatrix Contact'
   text: body.message
 
+validated = (body) ->
+  return true if body.name and body.email and body.subject and body.message
+  false
+
 msg-for = (err) ->
   if err then 'Error occured, message not sent.' else 'Message sent! Thank you.'
 
@@ -37,9 +41,13 @@ msg-for = (err) ->
 # the same transporter object for all e-mails
 send-email = (req, callback) ->
   console.log 'send email Request:', req
-  console.log 'Body:', req.body
+  body = req.body
+  console.log 'Body:', body
   # send mail with defined transport object
-  options = mail req.body
+  unless validated body
+    return callback!
+
+  options = mail body
 
   console.log 'with options', options
   smtpTransport.send-mail options, (error, info) ->

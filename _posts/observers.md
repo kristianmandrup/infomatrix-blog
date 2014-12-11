@@ -10,6 +10,7 @@ tags:
     - observers
 category: observer
 date: 11-12-2014
+id: 22
 ---
 
 A little post on Observers ;)

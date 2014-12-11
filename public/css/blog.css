@@ -211,6 +211,59 @@ p {
   margin-bottom: 3em;
 }
 
+#new-comment {
+  width: 80%;
+  margin: auto;
+  margin-bottom: 2em;
+}
+
+#new-comment input,
+#new-comment textarea {
+  width: 100%;
+  color: black;
+}
+
+#new-comment textarea {
+  height: 100px;
+}
+
+#new-comment > * {
+  padding-top: 1em;
+}
+
+.comment {
+  width: 80%;
+  border: 1px solid gray;
+  margin: auto;
+  text-align: left;
+  border-radius: 8px;
+  margin-bottom: 2em;
+}
+
+.comment.new {
+  border-width: 2px;
+  border-color: gold;
+}
+
+.comment > * {
+  padding: 0.5em;
+}
+
+.comment .text {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background: rgb(55,55,55);
+}
+
+.comment .author {
+  font-style: italic;
+  color: rgb(0, 207, 255);
+}
+
+#contact-me {
+  margin-top: 120px;
+}
+
 a {
   color: #21C4FF;
 }

@@ -11,6 +11,7 @@ tags:
     - templating
 category: real time
 date: 11-14-2014
+id: 27
 ---
 
 We need to build a virtual DOM similar to what React does. Thus we need to recognise special attributes in the HTML then act accordingly to build the graph/model that maps to the DOM.

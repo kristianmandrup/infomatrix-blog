@@ -1,0 +1,15 @@
+form#new-comment(action="/comment/new" method="post")
+   input#postId(type='hidden' value='#{post.id}')
+   .author
+      input#comment-author(placeholder="Author")
+   .text
+      textarea#comment-text(placeholder="Comment")
+   .submit
+      button#comment-submit.btn.btn-primary(type='submit')
+         Post comment
+
+// script(src="/js/jquery.form.js")
+// script(src="/js/jquery.scrollTo.js")
+// script(src="/js/scrollTo.js")
+// script(src="/js/serialize-json.js")
+script(src="/js/new-comment.js")

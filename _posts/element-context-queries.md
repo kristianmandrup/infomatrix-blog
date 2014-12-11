@@ -10,6 +10,7 @@ tags:
     - design
 category: architecture
 date: 11-14-2014
+id: 10
 ---
 
 We seem to be moving ever more towards a component based architecture, which makes a lot of sense.

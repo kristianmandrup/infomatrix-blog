@@ -7,6 +7,7 @@ tags:
     - security
 category: authorize
 date: 11-20-2014
+id: 23
 ---
 
 This post will feature an overview of [Permit Authorize](https://github.com/kristianmandrup/permit-authorize) the default authorization framework for [Dragon Slayer](https://github.com/kristianmandrup/dragonslayer)

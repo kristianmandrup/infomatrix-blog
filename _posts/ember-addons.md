@@ -7,6 +7,7 @@ tags:
     - cli
 category: ember
 date: 10-02-2014
+id: 12
 ---
 
 The [Ember CLI](http://www.ember-cli.com/) addon system leverages the npm package manager to discover and consume addons as simple npm packages.

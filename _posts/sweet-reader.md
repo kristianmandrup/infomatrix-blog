@@ -8,6 +8,7 @@ tags:
     - macros
 category: parser
 date: 11-27-2014
+id: 27
 ---
 
 For some time I have been wanting to use the [Mercury hyperscript DSL](https://github.com/Raynos/virtual-hyperscript) for my [Dragon Slayer](https://github.com/kristianmandrup/dragonslayer) framework.

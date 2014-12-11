@@ -9,6 +9,7 @@ tags:
     - databinding
 category: databinding
 date: 11-14-2014
+id: 6
 ---
 
 During the past few years, the concept of data binding has seen a revival and gained much popularity in various web frameworks such as: Knockout, Ember, Angular, Durandal, [Ractive](http://www.ractivejs.org/) etc.

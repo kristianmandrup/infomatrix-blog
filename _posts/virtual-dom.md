@@ -11,6 +11,7 @@ tags:
     - rendering
 category: rendering
 date: 11-20-2014
+id: 31
 ---
 
 The Dragon Slayer rendering layer will be using the Virtual DOM library by [@Matt](https://github.com/Matt-Esch/virtual-dom) with contributions by @Raynos.

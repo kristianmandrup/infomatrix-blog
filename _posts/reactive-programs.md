@@ -10,6 +10,7 @@ tags:
     - bacon
 category: reactive
 date: 11-14-2014
+id: 25
 ---
 
 ### Reactive Extensions vs Bacon

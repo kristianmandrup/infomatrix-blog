@@ -9,6 +9,7 @@ tags:
     - templating
 category: architecture
 date: 11-14-2014
+id: 28
 ---
 
 This is a continuation of my recent articles exploring the latest design/architecture proposals of some of the most popular forward-looking frameworks, in particular Angular 2.0

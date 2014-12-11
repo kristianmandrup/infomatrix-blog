@@ -8,6 +8,7 @@ tags:
     - job
 category: job
 date: 11-24-2014
+id: 19
 ---
 
 Recently I have been applying for a few CTO and Lead developer positions, both in up-and-coming startups and in well-known, established corporations.

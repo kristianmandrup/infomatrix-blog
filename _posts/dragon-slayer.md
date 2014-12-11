@@ -9,6 +9,7 @@ tags:
     - frames
 category: frameworks
 date: 11-19-2014
+id: 8
 ---
 
 After having deep dived into the recent plans and developments of some of the most popular, feature complete, ambitious front-end web frameworks, I came to the conclusion that we need to go down a different route.

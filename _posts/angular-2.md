@@ -9,6 +9,7 @@ tags:
     - ideas
 category: angular
 date: 11-11-2014
+id: 1
 ---
 
 This post covers some initial thoughts on [Angular 2.0](http://ng-learn.org/2014/03/AngularJS-2-Status-Preview/), my latest interest.

@@ -8,6 +8,7 @@ tags:
     - ideas
 category: frameworks
 date: 11-12-2014
+id: 30
 ---
 
 After having read many of the recent *Ember* and *Angular RFCs* and discussion and watched many of the conference videos of ng-europe, oredev and the recent emberfest.eu in Barcelona I have come to the conclusion that we need to drastically rethink how we build web frameworks for the modern web. The world is changing fast around us! Most frameworks are still stuck in the REST and MVC paradigm.

@@ -8,6 +8,7 @@ tags:
     - web
 category: ember
 date: 11-27-2014
+id: 20
 ---
 
 Recently I have been working on a modern client-side router basen on [crossroads](http://millermedeiros.github.io/crossroads.js/). My own fork and refactoring WIP can be found @ [crossroads refactor](https://github.com/kristianmandrup/crossroads.js/tree/refactor).

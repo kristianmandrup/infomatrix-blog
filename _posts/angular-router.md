@@ -8,6 +8,7 @@ tags:
     - router
 category: router
 date: 11-12-2014
+id: 2
 ---
 
 The Angular 2.0 router uses the [route-recognizer](https://github.com/btford/route-recognizer) to match routes. The recognizer (made by @machty ?) is also used by the Ember router if I'm not mistaken...

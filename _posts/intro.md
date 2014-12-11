@@ -8,6 +8,7 @@ tags:
     - cli
 category: ember
 date: 10-01-2014
+id: 17
 ---
 
 *Hello World!* About time I launch my own personal blog. In this fast moving world, it seems to be all 

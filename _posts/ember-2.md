@@ -8,6 +8,7 @@ tags:
     - architecture
 category: ember
 date: 11-10-2014
+id: 11
 ---
 
 Recently an [Ember 2.0 RFC announcement](https://github.com/emberjs/rfcs/pull/15) was made and loads of people

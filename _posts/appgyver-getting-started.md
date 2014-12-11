@@ -8,6 +8,7 @@ tags:
 - start
 category: appgyver
 date: 12-10-2014
+id: 4
 ---
 
 I'm playing around with [AppGyver](http://www.appgyver.com/) these days. I've managed to [integrate Firebase](http://infomatrix-blog.herokuapp.com/post/appgyver-and-firebase-2x) and configure  [Hybrid authentication](http://infomatrix-blog.herokuapp.com/post/hybrid-authentication-with-firebase-2x) using Firebase Simple login.
