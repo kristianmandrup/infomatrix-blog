@@ -127,8 +127,7 @@ For both Google Play and Ad Hoc Build, you need to enter:
 - Version Code
 - Version Number
 
-
-The `Display name` will be shown under your app's icon on the device. Around 20 characters is a good length.
+The `Display name` will be shown under your app's icon on the device. Around 10-20 characters is a good length.
 
 The `Package identifier` must be a reverse-domain, Java-language-style package name, e.g. `com.phoenixfoundation.macgyverapp` (or `com.phoneixfoundation.macgyvertest` for an Ad Hoc build). You can use letters, numbers and underscores, but individual package name parts must start with letters. Don't use the com.example namespace when publishing your app. The package name has to have at least two parts, i.e. just `myappname` won't work but `com.myappname` will.
 
@@ -136,7 +135,7 @@ The `Version code` is an internal version number, set as an integer, e.g. "100".
 
 The `Version number` shown to users, e.g. "1.0".
 
-The `Package Identifier` must match the Package identifier in your Facebook app Android settings.
+The `Package Identifier` of the Google Play field must match the `Google Play Package Name` field value in your Facebook app Android settings, such as: `com.infomatrix.kitchensink`
 
 ![App settings](/img/posts/appgyver/app-settings.png "App settings")
 
