@@ -173,21 +173,24 @@ The Scanner Build is a special build of your application intended for developmen
 
 ### Building your APK
 
-After you're done, click Update Settings.
+After you're done, click `Update Settings`.
 
 Note that when you save, the passwords are clear for security reasons. If you enter the Android configuration again you have to retype the passwords.
 
-Now you can use the *Build an Ad Hoc build* and *Build for Google Play* buttons on the *Build for Distribution* tab to request a new build of your app.
+Now you can use the `Build an Ad Hoc build` and `Build for Google Play` buttons in one of the Build drop down menus (blue) to request a new build of your app.
 
 ![Initiate Build](/img/posts/appgyver/build-menu.png "Initiate Build")
 
-It should then notify you that the built has been created:
+I chose the option `Build with Platform WebView - Google Play`
+
+You should then shortly after be notified that the build has been created, is waiting to enter build queue and that you will be notified as soon as the build has been executed and is ready for use.
 
 ![Build created notification](/img/posts/appgyver/build-created-notification.png "Build created")
 
 You will be notified by email when the build is done (~ 5-10 mins). The email will contain a download link to your `application.apk` file (Android package).
 
-When the build is done, you should be able to try out your application, by scanning the QR code, f.ex via your application share link.
+When the build is done, you should be able to try out your application, by scanning the QR code.
+This can be done either from the Connect screen or f.ex via your application share link.
 
 ```bash
 Share URL:
