@@ -22,19 +22,11 @@ We will try to add native Facebook login in the [kitchensink app](https://github
 
 ### Generating Keystore and Hash
 
-First we go to our app and generate a keystore for our app:
-
-`keytool -genkey -v -keystore <yourkeystorename>.keystore -alias androiddebugkey`
-
-In our case we will call it `kitchensink`
+First we go to our app and generate a keystore for our app called `kitchensink`
 
 `keytool -genkey -v -keystore kitchensink.keystore -alias androiddebugkey`
 
-Next we generate a key hash:
-
-`keytool -exportcert -alias androiddebugkey -keystore <yourkeystorename>.keystore | openssl sha1 -binary | openssl base64`
-
-I our case referencing the `kitchensink.keystore` we just generated.
+Next we generate a key hash referencing the `kitchensink.keystore` we just generated.
 
 `keytool -exportcert -alias androiddebugkey -keystore kitchensink.keystore | openssl sha1 -binary | openssl base64`
 
