@@ -139,7 +139,11 @@ The `Package Identifier` of the Google Play field must match the `Google Play Pa
 
 ![App settings](/img/posts/appgyver/app-settings.png "App settings")
 
-Christof mentioned that I gave my scanner build a version of 1.0.0 which might make the CLI nag me that there is a newer version of the scanner... I thought this was the app version number, but just in case:
+The version name field is used as the Application version field for a "normal" build.
+For a scanner build however it means the version of the scanner to be used, so it should reflect the latest stable scanner version, such as `4.0.2`. Otherwise `steroids-cli` will nags you about it.
+Once you make your final build you can use whatever version name youlike ;)
+
+So in our case (scanner build), let's change the version as follows:
 
 ![App settings 4.0.3](/img/posts/appgyver/app-settings-4.0.3.png "App settings 4.0.3")
 
@@ -224,14 +228,30 @@ This can be done either from the [Connect screen](http://docs.appgyver.com/tooli
 $ steroids connect
 ```
 
-Alternatively via your application share link...
+It should build the app and serve up a page on localhost, like:
+
+`http://localhost:4567/connect.html?qrcode=appgyver%...`
+
+This will be display the connect screen with options to run the app using a simulator or emulator for either Android or iOS. To the left is the QR code you can scan (if you have installed the *AppGyver Scanner app* in the App store or Google Play store).
+
+![Connect screen](/img/posts/appgyver/connect-screen.png "Connect screen")
+
+
+You might run into a message like this:
+
+`Could not find an Android virtual device named steroids`
+
+For `Genymotion`, it means you have to create a Genymotion device configuration named `steroids`.
+My [Getting started guide](http://infomatrix-blog.herokuapp.com/post/appgyver-getting-started) describes how to do this. For the emulator I'm not sure yet...
+
+### Sharing your app
+
+Alternatively share your app via your application share link...
 
 ```bash
 Share URL:
 https://share.appgyver.com/?id=32199&hash=5c132d8b4e2e3a93e716423a52342383b541812c41fa6ba7032f8b9211291a81
 ```
-
-When we have confirmed that the basic application has been built and works we can continue with the usual development workflow...
 
 ### Pushing apk to Android phone
 
@@ -260,17 +280,23 @@ Here are some other useful links for deploying an apk to an Android mobile
 PS: I don't have an Android phone so I haven't been able to try this yet. Pls let me know "the works" and how
 you succeeded with this step ;)
 
+### Confirmation
+
+When you have confirmed that the basic application has been built and works as you expect, you can continue with the usual development workflow.
+
+Now we can start customising our app to use the cordova plugins we have configured (ie. facebook plugin).
+
 ### Install dependencies
 
 If you are using Angular, you will need to install the angular-wrapper for cordova:
 
 `bower install ngCordova`
 
-Then hook it up in your layout file, such as `/app/common/views/layout.html` to ensure it will be present on all pages.
+Then hook it up in your layout file, such as `/app/common/views/layout.html` to ensure it will be present on all pages. Any plugin which should be globally accessible in the app should be added to `layout.html` or some other html page which is used by every page (alternatively use a Polymer web component).
 
 `<script src="/components/ngCordova/dist/ng-cordova.js"></script>`
 
-To make it work with AppGyver, we presently have to do a little dirty rename hack:
+To make the plugin work with AppGyver, we presently have to do a little dirty rename hack (see reason [here](http://christofklaus.de/2014/12/11/supersonic-and-cordova/))
 
 ```bash
 cd bower_components/ngCordova/dist/  
@@ -278,7 +304,7 @@ cp ng-cordova.js ng-cordova_merged.js
 cd -  
 ```
 
-Now we need to inject this modules for all modules by inserting it into our common module as a dependency:
+Now we need to ensure this module is availabl for all modules by inserting it into our common module as a dependency:
 
 ```coffee
 angular.module 'yourmodulename', [  
