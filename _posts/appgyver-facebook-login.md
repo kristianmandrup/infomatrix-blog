@@ -167,15 +167,18 @@ Finally ensure that `Camera` is checked in Android permission settings.
 
 Later, you can configure Icons and Splash screen to your heart's content!!
 
-### Create scanner build
+### Scanner build
 
-Now go to the end of the page and click the blue `Update settings` button to save.
+The Scanner Build is a special build of your application intended for development with the Steroids CLI. It allows you to create a Scanner app that includes the custom plugins defined in the plugins field. As such, a Scanner Build doesn't show your actual application, but rather lets you scan a QR code to connect to a computer running the Steroids server.
 
-Each time you save, a new Scanner build will be performed on the cloud server. You will be notified by email when the build is done (~ 5-10 mins). The email will contain a download link to your `application.apk` file (Android package).
+### Building your APK
 
-When the build is done, you should be able to try it out via your application share link (see your Terminal)
+After you're done, click Update Settings.
 
+Note that when you save, the passwords are clear for security reasons. If you enter the Android config again you have to retype the passwords.
 
+Now you can use the *Build an Ad Hoc build* and *Build for Google Play* buttons on the *Build for Distribution* tab to request a new build of your app.
 
+You will be notified by email when the build is done (~ 5-10 mins). The email will contain a download link to your `application.apk` file (Android package).
 
-Now we are ready to build!
+When the build is done, you should be able to try it out your application, by scanning the QR code, f.ex via your application share link.
