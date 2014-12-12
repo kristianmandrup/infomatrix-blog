@@ -106,11 +106,7 @@ Then choose the Android tab and click on the blue `configure` button:
 
 ### Android build settings
 
-![Android build configuration](/img/posts/appgyver/Android-build-configuration.png "Android build configuration")
-
 Now we can upload the `kitchensink.keystore` file and "fill in the gaps"
-
-![Android build settings](/img/posts/appgyver/android-build-setings.png "Android build settings")
 
 The form should look like this. Note that in our case, `android` is used for both password fields:
 
