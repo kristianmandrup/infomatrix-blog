@@ -139,6 +139,10 @@ The `Package Identifier` of the Google Play field must match the `Google Play Pa
 
 ![App settings](/img/posts/appgyver/app-settings.png "App settings")
 
+Christof mentioned that I gave my scanner build a version of 1.0.0 which might make the CLI nag me that there is a newer version of the scanner... I thought this was the app version number, but just in case:
+
+![App settings 4.0.3](/img/posts/appgyver/app-settings-4.0.3.png "App settings 4.0.3")
+
 ### Plugin build settings
 
 Then we customize our plugin settings, referencing the `Facebook phonegap plugin`:
