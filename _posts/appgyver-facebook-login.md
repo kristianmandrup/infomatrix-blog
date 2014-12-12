@@ -265,6 +265,8 @@ To use adb you need to first download and install:
 - [Java 7 SDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
 - [Android SDK](http://developer.android.com/sdk/index.html)
 
+Note that when you install the Android SDK, the license page will ask you to Accept 2 licenses before you can continue!
+
 Here some links on adb usage
 - [guide](http://developer.android.com/tools/help/adb.html)
 - [commands](http://developer.android.com/tools/help/adb.html#directingcommands)
