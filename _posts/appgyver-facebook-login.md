@@ -261,10 +261,11 @@ This can presumably be done with the [Android Debug Bridge](http://developer.and
 `$ adb install kitchensink.apk`
 
 
-To use adb you need to first [download and install the Android] SDK(http://developer.android.com/sdk/index.html)
+To use adb you need to first download and install:
+- [Java 7 SDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
+- [Android SDK](http://developer.android.com/sdk/index.html)
 
 Here some links on adb usage
-
 - [guide](http://developer.android.com/tools/help/adb.html)
 - [commands](http://developer.android.com/tools/help/adb.html#directingcommands)
 
@@ -289,8 +290,7 @@ If you start a new Terminal session and type `adb` you should get a complete lis
 
 An [APK Installer app](https://play.google.com/store/apps/details?id=com.graphilos.apkinst&hl=en) is available from Google Play store.
 
-Some useful links on how to deploy an apk file to Android mobile phone
-
+Some useful links on how to deploy an apk file to Android mobile phone:
 - http://www.talkandroid.com/guides/beginner/install-apk-files-on-android
 - http://www.ubergizmo.com/how-to/how-to-install-apk-files-sideloading-on-android
 
