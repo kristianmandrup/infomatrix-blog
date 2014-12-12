@@ -285,10 +285,11 @@ If you start a new Terminal session and type `adb` you should get a complete lis
 An [APK Installer app](https://play.google.com/store/apps/details?id=com.graphilos.apkinst&hl=en) is available from Google Play store.
 
 Some useful links on how to deploy an apk file to Android mobile phone:
-- http://www.talkandroid.com/guides/beginner/install-apk-files-on-android
-- http://www.ubergizmo.com/how-to/how-to-install-apk-files-sideloading-on-android
+- [install apk files on android](http://www.talkandroid.com/guides/beginner/install-apk-files-on-android)
+- [install apk files sideloading on android](http://www.ubergizmo.com/how-to/how-to-install-apk-files-sideloading-on-android)
+- ... (ie. your suggestions!)
 
-PS: I don't have an Android phone so I haven't been able to try this yet. Please let me know "the works" and how you succeeded with this step ;)
+I don't have an Android phone so I haven't been able to try this yet. Please let me know "the works" and how you succeeded with this step ;)
 
 ### Confirmation
 
