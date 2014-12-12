@@ -212,8 +212,15 @@ http://www.appgyver.com
 Click on the download link to download the `apk` file, then move it to your application root folder.
 Rename the file to `kitchensink.apk`.
 
-You should now be able to try out your application, by scanning the QR code.
-This can be done either from the Connect screen or f.ex via your application share link.
+When the build is complete, it is also available in the cloud. This means you should now be able to try out your application, by scanning the QR code.
+
+This can be done either from the [Connect screen](http://docs.appgyver.com/tooling/cli/connect-screen/)
+
+```bash
+$ steroids connect
+```
+
+Alternatively via your application share link...
 
 ```bash
 Share URL:
