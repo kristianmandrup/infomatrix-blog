@@ -149,3 +149,29 @@ Now go to the end of the page and click the blue `Update settings` button to sav
 ### Create scanner build
 
 Now you can create the Scanner build which will be done on the cloud server. It will notify you when done, by sending you an email with a download link to your `application.apk` file (Android package).
+
+From the [Android build configuration](https://academy.appgyver.com/guides/53-android-build-configuration) guide
+
+*Google Play Build and Ad Hoc Build*
+
+Note that Android doesn't distinguish between Google Play and Ad Hoc builds. The different build types are so that you can easily have two versions of your app installed on the same device, with different names and package identifiers.
+
+For both Google Play and Ad Hoc Build, you need to enter:
+
+- Display Name
+- Package Identifier
+- Version Code
+- Version Number
+
+
+The `Display name` will be shown under your app's icon on the device. Around 20 characters is a good length.
+
+The `Package identifier` must be a reverse-domain, Java-language-style package name, e.g. `com.phoenixfoundation.macgyverapp` (or `com.phoneixfoundation.macgyvertest` for an Ad Hoc build). You can use letters, numbers and underscores, but individual package name parts must start with letters. Don't use the com.example namespace when publishing your app. The package name has to have at least two parts, i.e. just myappname won't work but com.myappname will.
+
+The `Version code` is an internal version number, set as an integer, e.g. "100". Each successive version of your app must have a higher Version Code.
+
+The `Version number` shown to users, e.g. "1.0".
+
+![App settings](/img/posts/appgyver/app-settings.png "App settings")
+
+Now we are ready to build!
