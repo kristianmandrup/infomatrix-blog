@@ -112,6 +112,34 @@ The form should look like this. Note that in our case, `android` is used for bot
 
 ![Android keystore config](/img/posts/appgyver/kitchensink-keystore-config.png "Android keystore config")
 
+### Android Application settings
+
+From the [Android build configuration](https://academy.appgyver.com/guides/53-android-build-configuration) guide
+
+*Google Play Build and Ad Hoc Build*
+
+Note that Android doesn't distinguish between *Google Play* and *Ad Hoc* builds. The different build types are so that you can easily have two versions of your app installed on the same device, with different names and package identifiers.
+
+For both Google Play and Ad Hoc Build, you need to enter:
+
+- Display Name
+- Package Identifier
+- Version Code
+- Version Number
+
+
+The `Display name` will be shown under your app's icon on the device. Around 20 characters is a good length.
+
+The `Package identifier` must be a reverse-domain, Java-language-style package name, e.g. `com.phoenixfoundation.macgyverapp` (or `com.phoneixfoundation.macgyvertest` for an Ad Hoc build). You can use letters, numbers and underscores, but individual package name parts must start with letters. Don't use the com.example namespace when publishing your app. The package name has to have at least two parts, i.e. just `myappname` won't work but `com.myappname` will.
+
+The `Version code` is an internal version number, set as an integer, e.g. "100". Each successive version of your app must have a higher Version Code.
+
+The `Version number` shown to users, e.g. "1.0".
+
+The `Package Identifier` must match the Package identifier in your Facebook app Android settings.
+
+![App settings](/img/posts/appgyver/app-settings.png "App settings")
+
 ### Plugin build settings
 
 Then we customize our plugin settings, referencing the `Facebook phonegap plugin`:
@@ -140,34 +168,15 @@ Finally ensure that `Camera` is checked in Android permission settings.
 
 Later, you can configure Icons and Splash screen to your heart's content!!
 
-Now go to the end of the page and click the blue `Update settings` button to save.
-
 ### Create scanner build
 
-Now you can create the Scanner build which will be done on the cloud server. It will notify you when done, by sending you an email with a download link to your `application.apk` file (Android package).
+Now go to the end of the page and click the blue `Update settings` button to save.
 
-From the [Android build configuration](https://academy.appgyver.com/guides/53-android-build-configuration) guide
+Each time you save, a new Scanner build will be performed on the cloud server. You will be notified by email when the build is done (~ 5-10 mins). The email will contain a download link to your `application.apk` file (Android package).
 
-*Google Play Build and Ad Hoc Build*
-
-Note that Android doesn't distinguish between Google Play and Ad Hoc builds. The different build types are so that you can easily have two versions of your app installed on the same device, with different names and package identifiers.
-
-For both Google Play and Ad Hoc Build, you need to enter:
-
-- Display Name
-- Package Identifier
-- Version Code
-- Version Number
+When the build is done, you should be able to try it out via your application share link (see your Terminal)
 
 
-The `Display name` will be shown under your app's icon on the device. Around 20 characters is a good length.
 
-The `Package identifier` must be a reverse-domain, Java-language-style package name, e.g. `com.phoenixfoundation.macgyverapp` (or `com.phoneixfoundation.macgyvertest` for an Ad Hoc build). You can use letters, numbers and underscores, but individual package name parts must start with letters. Don't use the com.example namespace when publishing your app. The package name has to have at least two parts, i.e. just myappname won't work but com.myappname will.
-
-The `Version code` is an internal version number, set as an integer, e.g. "100". Each successive version of your app must have a higher Version Code.
-
-The `Version number` shown to users, e.g. "1.0".
-
-![App settings](/img/posts/appgyver/app-settings.png "App settings")
 
 Now we are ready to build!
