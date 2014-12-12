@@ -236,7 +236,6 @@ This will be display the connect screen with options to run the app using a simu
 
 ![Connect screen](/img/posts/appgyver/connect-screen.png "Connect screen")
 
-
 You might run into a message like this:
 
 `Could not find an Android virtual device named steroids`
@@ -257,32 +256,49 @@ https://share.appgyver.com/?id=32199&hash=5c132d8b4e2e3a93e716423a52342383b54181
 
 You can also push the `apk` file directly to an Android phone over USB.
 
-This can presumably be done with the [Android Debug Bridge](http://developer.android.com/tools/help/adb.html) CLI program:
+This can presumably be done with the [Android Debug Bridge](http://developer.android.com/tools/help/adb.html) CLI program called `adb`:
 
 `$ adb install kitchensink.apk`
 
-ADB:
 
-- [download/install](http://developer.android.com/sdk/index.html)
+To use adb you need to first [download and install the Android] SDK(http://developer.android.com/sdk/index.html)
+
+Here some links on adb usage
+
 - [guide](http://developer.android.com/tools/help/adb.html)
 - [commands](http://developer.android.com/tools/help/adb.html#directingcommands)
 
-Android dev
+#### Install adb as a CLI
 
-- [android studio](http://thenextweb.com/google/2014/12/08/android-studio-hits-1-0-makes-easier-build-apps)
+On a MacOSX, find the `platform-tools` folder, f.ex via Finder search. In my case it was located at:
 
-Here are some other useful links for deploying an apk to an Android mobile
+`~/android-sdk-macosx/platform-tools`
+
+Then add this folder to your `PATH` in `~/.bash_profile`.
+
+```
+ANDROID_SDK=~/android-sdk-macosx/platform-tools
+PATH=$ANDROID_SDK:$PATH; export PATH
+```
+
+A similar approach should work for other platforms (Windows, Linux, ...)
+
+If you start a new Terminal session and type `adb` you should get a complete list of all the commands available, including `install`. Typing `adb install xyz` will give you a `Missing APK file` message ;)
+
+### Android deploy options
+
+An [APK Installer app](https://play.google.com/store/apps/details?id=com.graphilos.apkinst&hl=en) is available from Google Play store.
+
+Some useful links on how to deploy an apk file to Android mobile phone
 
 - http://www.talkandroid.com/guides/beginner/install-apk-files-on-android
-- https://play.google.com/store/apps/details?id=com.graphilos.apkinst&hl=en
 - http://www.ubergizmo.com/how-to/how-to-install-apk-files-sideloading-on-android
 
-PS: I don't have an Android phone so I haven't been able to try this yet. Pls let me know "the works" and how
-you succeeded with this step ;)
+PS: I don't have an Android phone so I haven't been able to try this yet. Please let me know "the works" and how you succeeded with this step ;)
 
 ### Confirmation
 
-When you have confirmed that the basic application has been built and works as you expect, you can continue with the usual development workflow.
+When you have confirmed that your application works as you expect, you can continue with the usual development workflow.
 
 Now we can start customising our app to use the cordova plugins we have configured (ie. facebook plugin).
 
