@@ -175,10 +175,58 @@ The Scanner Build is a special build of your application intended for developmen
 
 After you're done, click Update Settings.
 
-Note that when you save, the passwords are clear for security reasons. If you enter the Android config again you have to retype the passwords.
+Note that when you save, the passwords are clear for security reasons. If you enter the Android configuration again you have to retype the passwords.
 
 Now you can use the *Build an Ad Hoc build* and *Build for Google Play* buttons on the *Build for Distribution* tab to request a new build of your app.
 
+![Initiate Build](/img/posts/appgyver/build-menu.png "Initiate Build")
+
+It should then notify you that the built has been created:
+
+![Build created notification](/img/posts/appgyver/build-created-notification.png "Build created")
+
 You will be notified by email when the build is done (~ 5-10 mins). The email will contain a download link to your `application.apk` file (Android package).
 
-When the build is done, you should be able to try it out your application, by scanning the QR code, f.ex via your application share link.
+When the build is done, you should be able to try out your application, by scanning the QR code, f.ex via your application share link.
+
+```bash
+Share URL:
+https://share.appgyver.com/?id=32199&hash=5c132d8b4e2e3a93e716423a52342383b541812c41fa6ba7032f8b9211291a81
+```
+
+Now we continue with the usual development workflow...
+
+### Install dependencies
+
+If you are using Angular, you will need to install the angular-wrapper for cordova:
+
+`bower install ngCordova`
+
+Then hook it up in your layout file, such as `/app/common/views/layout.html` to ensure it will be present on all pages.
+
+`<script src="/components/ngCordova/dist/ng-cordova.js"></script>`
+
+To make it work with AppGyver, we presently have to do a little dirty rename hack:
+
+```bash
+cd bower_components/ngCordova/dist/  
+cp ng-cordova.js ng-cordova_merged.js  
+cd -  
+```
+
+Now we need to inject this modules for all modules by inserting it into our common module as a dependency:
+
+```coffee
+angular.module 'yourmodulename', [  
+  'common',
+  'ngCordova'
+]
+```
+
+From here on it should be "smooth sailing". Just follow the last part of the [original blog post](http://christofklaus.de/2014/12/11/supersonic-and-cordova/).
+
+Thanks again to Christof, he answered a lot of my questions that finally made me understand the complete flow and all the configurations.
+
+Please let me know if there are any parts of this guide that could be improved or needs to be fixed in some way.
+
+Cheers!!!
