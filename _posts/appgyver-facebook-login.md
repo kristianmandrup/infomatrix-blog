@@ -175,21 +175,44 @@ The Scanner Build is a special build of your application intended for developmen
 
 After you're done, click `Update Settings`.
 
-Note that when you save, the passwords are clear for security reasons. If you enter the Android configuration again you have to retype the passwords.
+Note that each time you enter the Android configuration you have to retype the passwords and upload your keystore file. This is done for security reasons.
 
-Now you can use the `Build an Ad Hoc build` and `Build for Google Play` buttons in one of the Build drop down menus (blue) to request a new build of your app.
+Now you can use one of the build options `Ad hoc`, `Google Play` or `Scanner` using either `Crosswalk` or native `WebView`.
+
+Select a build configuration from the a Build drop down menu to request a new build of your app.
+
+Note that the version number displayed in the Build drop down, such as `4.0.4-edge2` is the version of the [scanner](https://github.com/AppGyver/scanner) to be used.
 
 ![Initiate Build](/img/posts/appgyver/build-menu.png "Initiate Build")
 
-I chose the option `Build with Platform WebView - Google Play`
+Choose the option `Build with Crosswalk - Scanner (Crosswalk, ARM and x86)` this time.
+
+`Crosswalk` is a Chromium-based WebView supplied by the steroids build service. If you build with Crosswalk, that should give you a better cross-platform-experience, i.e. Android & iOS behaving more consistent.
 
 You should then shortly after be notified that the build has been created, is waiting to enter build queue and that you will be notified as soon as the build has been executed and is ready for use.
 
-![Build created notification](/img/posts/appgyver/build-created-notification.png "Build created")
+![Building Crosswalk](/img/posts/appgyver/build-crosswalk.png "Building Crosswalk")
 
 You will be notified by email when the build is done (~ 5-10 mins). The email will contain a download link to your `application.apk` file (Android package).
 
-When the build is done, you should be able to try out your application, by scanning the QR code.
+It will look something like this:
+
+```html
+Hey,
+
+your build for application kitchensink is ready.
+
+Download it from https://build.appgyver.com/applications/30199/builds/59238/download
+
+Regards,
+AppGyver Cloud Services
+http://www.appgyver.com
+```
+
+Click on the download link to download the `apk` file, then move it to your application root folder.
+Rename the file to `kitchensink.apk`.
+
+You should now be able to try out your application, by scanning the QR code.
 This can be done either from the Connect screen or f.ex via your application share link.
 
 ```bash
@@ -197,7 +220,34 @@ Share URL:
 https://share.appgyver.com/?id=32199&hash=5c132d8b4e2e3a93e716423a52342383b541812c41fa6ba7032f8b9211291a81
 ```
 
-Now we continue with the usual development workflow...
+When we have confirmed that the basic application has been built and works we can continue with the usual development workflow...
+
+### Pushing apk to Android phone
+
+You can also push the `apk` file directly to an Android phone over USB.
+
+This can presumably be done with the [Android Debug Bridge](http://developer.android.com/tools/help/adb.html) CLI program:
+
+`$ adb install kitchensink.apk`
+
+ADB:
+
+- [download/install](http://developer.android.com/sdk/index.html)
+- [guide](http://developer.android.com/tools/help/adb.html)
+- [commands](http://developer.android.com/tools/help/adb.html#directingcommands)
+
+Android dev
+
+- [android studio](http://thenextweb.com/google/2014/12/08/android-studio-hits-1-0-makes-easier-build-apps)
+
+Here are some other useful links for deploying an apk to an Android mobile
+
+- http://www.talkandroid.com/guides/beginner/install-apk-files-on-android
+- https://play.google.com/store/apps/details?id=com.graphilos.apkinst&hl=en
+- http://www.ubergizmo.com/how-to/how-to-install-apk-files-sideloading-on-android
+
+PS: I don't have an Android phone so I haven't been able to try this yet. Pls let me know "the works" and how
+you succeeded with this step ;)
 
 ### Install dependencies
 
