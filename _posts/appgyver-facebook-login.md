@@ -361,41 +361,74 @@ Now let's add an [FB feed dialog](https://developers.facebook.com/docs/sharing/r
 
 "Allows a person to publish individual stories to their timeline, along with developer-controlled captions and a personal comment from the person sharing the content."
 
+First let's add the following feed input container to the `app/kitchensink/views/index.html`
+The use of [ng-model](https://docs.angularjs.org/api/ng/directive/ngModel) binds each of the input values to the underlying feed model on `$scope`.
+
+```html
+<div class="item item-divider">
+  <span  id="invalid-feed" class="notify notify-error">{{invalid-feed}}</span>
+  <input id="link" type="text" ng-model="feed.link"/>
+  <input id="source" type="text" ng-model="feed.source"/>
+  <input id="caption" type="text" ng-model="feed.caption"/>
+  <input id="description" type="text" ng-model="feed.description"/>
+  <button id="submit-feed" type="submit" class="btn btn-submit" on-submit="fb_feed_dialog()"/>
+</div>
+```
+
+Now let's configure the `IndexController` used by the `Index` view, so that:
+
+- an fb_feed_dialog() function which shows the feed dialog with pre-filled data from the feed inputs
+- helper functions such as feed data validation and invalid warning notification
+
 ```coffee
+validateFeed(feed) = ->
+  return true if feed.link # and ...
+  false
 
-  feedValue = (feed-field)->
-    $('#new-feed .' + feed-field).val();
+invalidFeedWarning(feed) = ->
+  # TODO: determine which inputs to warn about
+  $scope.invalid-feed = 'Invalid feed!'
 
-  validateFeed(options) = ->
-    return true if options.link # ...
-    false
+feedOptions = (feed) ->
+  method:       'feed'
+  link:         feed.link
+  source:       feed.source
+  caption:      feed.caption
+  description:  feed.description
 
-  invalidFeedWarning(options) = ->
-    # ...
+setMockSource = (feed) ->
+  feed.source = clearpixelImage()
+
+angular
+.module('kitchensink')
+.controller 'IndexController', ['$scope', 'supersonic', '$timeout', '$cordovaFacebook'],
+($scope, supersonic, $timeout, $cordovaFacebook) ->
+
+  $scope.supersonic = supersonic
+
+  $scope.feed = {}
 
   # link, source, caption, description
   $scope.fb_feed_dialog = ->
-    options =
-      method:       'feed'
-      link:         feedValue 'link'
-      source:       feedValue 'source'
-      caption:      feedValue 'caption'
-      description:  feedValue 'description'
+    options = feedOptions($scope.feed)
+    if validateFeed($scope.feed)
+      setMockSource(feed) unless feed.source
 
-    if validateFeed(options)
       $cordovaFacebook.showDialog(options).then (success) ->
         console.log 'success!! :))'
       , (error) ->
         console.log 'error sharing with feed-dialog:', error
     else
-      invalidFeedWarning(options);
+      invalidFeedWarning($scope.feed);
 ```
 
-Note that if you only want to share a link, but no picture using the feed-dialog, you still have to enter an url for the `source` element. Otherwise you will get errors from the facebook api complaining about
+Note that if you only want to share a link, but no picture using the feed-dialog, you still have to enter an url for the `source` element. Otherwise you will get errors from the facebook api complaining about.
 
 `missing image requirements, all img objects must have valid 'src' and 'href' attributes..`
 
-So any valid url will do, even if it does not resolve to a picture. Some people have used a clearpixel-image instead.
+So any valid url will do, even if it does not resolve to a picture. Some people have used a clearpixel-image instead. In the code sample above, this is handled by `setMockSource`.
+
+Now let's run `steroids connect` and test the feed dialog!
 
 ### Thanks :)
 
