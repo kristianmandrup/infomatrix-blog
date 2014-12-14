@@ -261,24 +261,3 @@ For more info, check out the AppGyver forum threads on the subject...
 - [supersonic-and-facebook-log](https://muut.com/appgyver#!/appgyver/supersonic#supersonic-and-facebook-log)
 
 Cheers!
-
-### Cordova Facebook Plugin configuration
-
-By @ChristofKlaus:
-
-You take the key hash, that it says didn't match – and put this into FB's developer dashboard under settings into your `android` section.
-
-Created a new keystore with:
-
-`keytool -genkey -v -keystore <yourkeystorename>.keystore -alias androiddebugkey`
-
-The password for the alias must be `android`
-
-Now generate a key-hash for facebook from it with:
-
-`keytool -exportcert -alias androiddebugkey -keystore <yourkeystorename>.keystore | openssl sha1 -binary | openssl base64`
-
-You can setup that newly generated keyhash in FB's developer dashboard `->settings/android`
-In order to develop with this you have to create a *scanner-build* which *uses that keystore* obviously and *includes the cordova plugin*
-
-Use: `Wizcorp/phonegap-facebook-plugin` in the build.
