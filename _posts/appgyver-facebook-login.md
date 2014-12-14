@@ -381,8 +381,10 @@ We set up a form to be connected to a `FeedController` and hook up the submit ev
 
 Now let's configure the `FeedController` used by the `Index` view, so that:
 
-- an fb_feed_dialog() function which shows the feed dialog with pre-filled data from the feed inputs
+- an fbFeedDialog() function which shows the feed dialog with pre-filled data from the feed inputs
 - helper functions such as feed data validation and invalid warning notification
+
+The file is: `app/kitchensink/scripts/FeedController.coffee`
 
 ```coffee
 angular
