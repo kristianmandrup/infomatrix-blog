@@ -109,37 +109,64 @@ and Basic browsers, using the power of Polymer and the Angular `ng-if` directive
 
 `super-header.html` should conditionally render either the native mobile header bar using `super-navbar` or use the `core-header-panel` of Polymer for non-mobile environment.
 
-```html
-<super-navbar ng-if="isMobileBrowser">
-  <super-navbar-title>
-  </super-navbar-title>
-</super-navbar>
+We can use `document.registerElement` and 'document.createElement' to register and create Polymer elements conditionally.
 
-<core-header-panel-panel ng-if="isBasicBrowser">
-  ...
+`templates/mobile-header.html`
+
+```html
+<super-navbar ng-switch-when="mobile">
+<super-navbar-title>
+{{title}}
+</super-navbar-title>
+</super-navbar>
+```
+
+`templates/browser-header.html`
+
+```html
+<core-header-panel-panel ng-switch-when="browser">
+...
 </core-header-panel>
 ```
 
-The main page
+```html
+<script>
+Polymer('super-head', {title: 'KitchenSink'});
+var el = document.createElement('div');
+el.innerHTML =
+'<polymer-element name="super-head" attributes="name"><template>'
++ loadTemplate('header', device)
++ '</template></polymer-element>';
+document.body.appendChild(el);
+</script>
+```
+
+We can also use[angular-custom-element](https://github.com/dgs700/angular-custom-element) to allow for custom elements in Angular!!
+
+`bower install angular-custom-element --save`
+
+The main page:
 
 ```html
-<super-header/>
+<super-header title="KitchenSink"/>
 
-<app-router mode="hash" ng-if="isBasicBrowser">
-  <app-route path="/"     import="/kitchensink/initial.html"></app-route>
-  <app-route path="/home" import="/kitchensink/index.html"></app-route>
-  <app-route path="*"     import="/kitchensink/404.html"></app-route>
-</app-router>
+<div id="content" ng-switch="device"
+  <app-router mode="hash"   ng-switch-when="browser">
+    <app-route path="/"     import="/kitchensink/initial.html"></app-route>
+    <app-route path="/home" import="/kitchensink/index.html"></app-route>
+    <app-route path="*"     import="/kitchensink/404.html"></app-route>
+  </app-router>
 
-<div id="content" ng-if="isMobileBrowser">
-  <link import="/kitchensink/initial.html"/>
-  <initial-page/>
+  <div ng-switch-default="mobile">
+    <link import="/kitchensink/initial.html"/>
+    <initial-page/>
+  </div>
 </div>
 ```
 
-Needs a more elegant solution. Also a bit too many unneccesary "static" bindings, ie. isBasicBrowser is not gonna change.
+Perhaps this ugly switch should be encapsulated using dynamic custom elements like super-header instead ;) Just to show off two different approaches to the problem really...
 
-Could perhaps be improved using `Polymer.register` to register Polymer elements conditionally instead...
+### Try it
 
 Try running `steroids connect --serve` and go to `localhost:4567/app/initial.view`
 
