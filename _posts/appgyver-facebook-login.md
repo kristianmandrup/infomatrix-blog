@@ -392,13 +392,13 @@ angular
 .controller 'FeedController', ['$scope', 'supersonic', '$cordovaFacebook'],
 ($scope, supersonic, $cordovaFacebook) ->
 
-  validateFeed(feed) = ->
+  validateFeed = (feed) ->
     return true if feed.link # and ...
     false
 
-    invalidFeedWarning(feed) = ->
-      # ...
-
+  invalidFeedWarning = (feed) ->
+    $scope.invalidFeed = 'Invalid feed data'
+      
   feedOptions = (feed) ->
     method:       'feed'
     link:         feed.link
