@@ -315,16 +315,89 @@ cp ng-cordova.js ng-cordova_merged.js
 cd -  
 ```
 
-Now we need to ensure this module is availabl for all modules by inserting it into our common module as a dependency:
+Now we need to ensure this module is available for all modules by inserting it into our module as a dependency, here in `app/kitchensink/index.coffee` the main index file for our app:
 
 ```coffee
-angular.module 'yourmodulename', [  
-  'common',
+angular.module 'kitchensink', [
+  'supersonic'
   'ngCordova'
 ]
 ```
 
-From here on it should be "smooth sailing". Just follow the last part of the [original blog post](http://christofklaus.de/2014/12/11/supersonic-and-cordova/).
+Now let's add `cordovaFacebook` to our initialController of our [KitchenSink app with mock Initial page login](http://infomatrix-blog.herokuapp.com/post/appgyver-initial-page-login).
+
+```coffee
+angular
+  .module('kitchensink')
+  .controller 'InitialController', ['$scope', 'supersonic', '$timeout', '$cordovaFacebook'],
+  ($scope, supersonic, $timeout, $cordovaFacebook) ->
+
+    $scope.supersonic = supersonic
+
+    $scope.login = ->
+      console.log 'login'
+      supersonic.logger.log 'logging in'
+      supersonic.ui.initialView.dismiss()
+```
+
+Now we are have the infrastructure in place to add the "real deal" :)
+To do this we simply add a call to `$cordovaFacebook.login` in our `login` function.
+
+```coffee
+$scope.login = ->
+  $cordovaFacebook.login(["public_profile"]).then (success) ->
+    console.log 'login success!!!'
+  , (err) ->
+    console.log 'omg! login error or permissions denied.. ', err
+```
+
+A native fb-window should popup, requiring authorization the user to authorize the permissions for the app, in this case the most basic permission: `'public_profile'` i.e. read the public profile info on the facebook-api.
+
+Now run `steroids connect` and test it out!
+
+### FB Feed dialog
+
+Now let's add an [FB feed dialog](https://developers.facebook.com/docs/sharing/reference/feed-dialog/v2.2) which:
+
+"Allows a person to publish individual stories to their timeline, along with developer-controlled captions and a personal comment from the person sharing the content."
+
+```coffee
+
+  feedValue = (feed-field)->
+    $('#new-feed .' + feed-field).val();
+
+  validateFeed(options) = ->
+    return true if options.link # ...
+    false
+
+  invalidFeedWarning(options) = ->
+    # ...
+
+  # link, source, caption, description
+  $scope.fb_feed_dialog = ->
+    options =
+      method:       'feed'
+      link:         feedValue 'link'
+      source:       feedValue 'source'
+      caption:      feedValue 'caption'
+      description:  feedValue 'description'
+
+    if validateFeed(options)
+      $cordovaFacebook.showDialog(options).then (success) ->
+        console.log 'success!! :))'
+      , (error) ->
+        console.log 'error sharing with feed-dialog:', error
+    else
+      invalidFeedWarning(options);
+```
+
+Note that if you only want to share a link, but no picture using the feed-dialog, you still have to enter an url for the `source` element. Otherwise you will get errors from the facebook api complaining about
+
+`missing image requirements, all img objects must have valid 'src' and 'href' attributes..`
+
+So any valid url will do, even if it does not resolve to a picture. Some people have used a clearpixel-image instead.
+
+### Thanks :)
 
 Thanks again to Christof, he answered a lot of my questions that finally made me understand the complete flow and all the configurations.
 
