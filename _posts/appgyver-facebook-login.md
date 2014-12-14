@@ -364,56 +364,52 @@ Now let's add an [FB feed dialog](https://developers.facebook.com/docs/sharing/r
 First let's add the following feed input container to the `app/kitchensink/views/index.html`
 The use of [ng-model](https://docs.angularjs.org/api/ng/directive/ngModel) binds each of the input values to the underlying feed model on `$scope`.
 
+We set up a form to be connected to a `FeedController` and hook up the submit event (triggered by the submit button) to a method `fbFeedDialog()`.
+
 ```html
 <div class="item item-divider">
-  <span  id="invalid-feed" class="notify notify-error">{{invalid-feed}}</span>
-  <input id="link" type="text" ng-model="feed.link"/>
-  <input id="source" type="text" ng-model="feed.source"/>
-  <input id="caption" type="text" ng-model="feed.caption"/>
-  <input id="description" type="text" ng-model="feed.description"/>
-  <button id="submit-feed" type="submit" class="btn btn-submit" on-submit="fb_feed_dialog()"/>
+  <form ng-submit="fbFeedDialog()" ng-controller="FeedController">
+    <span  id="invalid-feed" class="notify notify-error">{{invalidFeed}}</span>
+    <input id="link" type="text" ng-model="feed.link"/>
+    <input id="source" type="text" ng-model="feed.source"/>
+    <input id="caption" type="text" ng-model="feed.caption"/>
+    <input id="description" type="text" ng-model="feed.description"/>
+    <button id="submit-feed" type="submit" class="btn btn-submit"/>
+  </form>
 </div>
 ```
 
-Now let's configure the `IndexController` used by the `Index` view, so that:
+Now let's configure the `FeedController` used by the `Index` view, so that:
 
 - an fb_feed_dialog() function which shows the feed dialog with pre-filled data from the feed inputs
 - helper functions such as feed data validation and invalid warning notification
 
 ```coffee
-validateFeed(feed) = ->
-  return true if feed.link # and ...
-  false
-
-invalidFeedWarning(feed) = ->
-  # TODO: determine which inputs to warn about
-  $scope.invalid-feed = 'Invalid feed!'
-
-feedOptions = (feed) ->
-  method:       'feed'
-  link:         feed.link
-  source:       feed.source
-  caption:      feed.caption
-  description:  feed.description
-
-setMockSource = (feed) ->
-  feed.source = clearpixelImage()
-
 angular
 .module('kitchensink')
-.controller 'IndexController', ['$scope', 'supersonic', '$timeout', '$cordovaFacebook'],
-($scope, supersonic, $timeout, $cordovaFacebook) ->
+.controller 'FeedController', ['$scope', 'supersonic', '$cordovaFacebook'],
+($scope, supersonic, $cordovaFacebook) ->
 
-  $scope.supersonic = supersonic
+  validateFeed(feed) = ->
+    return true if feed.link # and ...
+    false
+
+    invalidFeedWarning(feed) = ->
+      # ...
+
+  feedOptions = (feed) ->
+    method:       'feed'
+    link:         feed.link
+    source:       feed.source
+    caption:      feed.caption
+    description:  feed.description
 
   $scope.feed = {}
 
   # link, source, caption, description
-  $scope.fb_feed_dialog = ->
+  $scope.fbFeedDialog = ->
     options = feedOptions($scope.feed)
     if validateFeed($scope.feed)
-      setMockSource(feed) unless feed.source
-
       $cordovaFacebook.showDialog(options).then (success) ->
         console.log 'success!! :))'
       , (error) ->
