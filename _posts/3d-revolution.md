@@ -67,14 +67,23 @@ It's only been 25 years since the first personal computers started to get tracti
 
 I see most of the current business models going "out of business". Do you really need to travel or even go to work if you can "be there" in some virtual way, act through a robot stationed there etc? You no longer need the hugely ineffective globalised production/distribution model if it costs less to produce the good locally. For a few items, there might still be an economy of scale having a large factory, but perhaps that will go out of fashion. Why buy a mass-produces item when you can create your own unique one? If you have essentially free renewable energy and recycled material, is there even a real cost?
 
-A potential problem with this distributed production model, would be even more "consumption", but I really think that it currently stems from status seeking behavior, and if we no longer have the need for companies and profits, he incentive for commercials will go away and people will consume less but be more creative and seek status by showing off their inventiveness instead!
+A potential problem with this distributed production model, would be even more "consumption", but I really think that it currently stems from status seeking behaviour, and if we no longer have the need for companies and profits, he incentive for commercials will go away and people will consume less but be more creative and seek status by showing off their inventiveness instead!
 
 Why would you need 50 pairs of shoes, if you can just put your shoe through the blender, fill it into your printer cartridge and print a new model when you need it? No more waste!?
 
 It would be interesting if this would usher in a society where we try to be as efficient with material as nature... this should be the main job of government.
 
-Other risk factors involve the potential of people to print their own weapons, drones etc. and thus makes it easy for revolutionary groups to apply force at a whole new level.
-Police and government would no longer have the "monopoly of force" as anyone would be able to create rockets, machine riffles, bombs and drone delivery systems with computer aided targeting!?
+Why do we take an Education? Why do most of us need to take a job and work for an employer, usually performing some pointless tasks, such as doing advertising campaigns to trick people into bying whatever useless trinkets the company sells, in order to funnel profits to the board of directors and stock owners? Why!?
+
+Because we currently have had a position of "no power", no different than the relation of slaves and slavemaster. The slavery system was abandoned because it was more efficient to have wage slaves to were forced to "earn their living" by selling themselves, competing against their fellow slaves just for the opportunity to subsist. This has basically been the core "system" ever since we introduces civilization. The concept of civilization has so far always means a system of power hierarchy where those above control and "enslave" those below. Everyone below desperately try to fight their way up this pyramid, which is the sole reason for all our misery.
+Why are we forced to compete against our brother. Nature is not "war against all", most natural systems actually work on cooperation and not fight to the death, survival of the fittest.
+In a world of abundance there is no reason for us to live under this ghastly spell.
+
+If each of us had the ability to grow our own food and create our own products, house etc. from waste material, most of us wouldn't need a job in the classical sense. Most likely we wouldn't even need money, and people in such communities would come together and help each other, instead of living in isolation, just like online Open Source software communities, where your status/rank is determined by how much you contribute, not by how much you can hoard and lock people out!
+
+
+
+Some risk factors of this shift of power involve the potential of people to print their own weapons, drones etc. and thus makes it easy for revolutionary groups to apply force at a whole new level. Police and government would no longer have the "monopoly of force" as anyone would be able to create rockets, machine riffles, bombs and drone delivery systems with computer aided targeting!? But perhaps the people will need this threat of violence against the government/corporate elite to finally make them understand that we won't take their oppression and abuse anymore...
 
 It is hard to come to grips with all the potentials, good & bad of all this. Personally I imagine it will lead to a much more decentralized world, where the nation state model will collapse or be abandones. It will likley result in some kind of [Anarchy](http://en.wikipedia.org/wiki/Anarchy) in its truest sense, which actually means  a decentralized, super democratic kind of peoples government, the total opposite of the current "democratic" model, with centralized power in the hand of a few powerful/rich elites, beholden to huge banks and multinational corporations who have "enslaved" us all.
 
