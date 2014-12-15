@@ -164,7 +164,7 @@ The main page:
 </div>
 ```
 
-Perhaps this ugly switch should be encapsulated using dynamic custom elements like super-header instead ;) Just to show off two different approaches to the problem really...
+Perhaps this ugly switch should be encapsulated using dynamic custom elements like `super-header` instead ;) Just to show off two different approaches to the problem really...
 
 ### Try it
 
