@@ -104,6 +104,11 @@ We should mentor/teach community members to learn the skills needed to help buil
 They should also help with permaculture, dwelling construction etc. to get a balanced life.
 We can harvest a lot of the building materials from the environment, such as waste - as exemplified by Earthships which recycles tires, bottles, metalic frames etc.
 
-The vision is to create physical communities built on this model in some places which offer good year-round conditions. We could take advantage of the fact that land is cheap and the climate generous in several Southern european countries, parts of South eastern Asia and South/Central America etc.
+The vision is to create physical communities built on this model in some places which offer good year-round conditions. We could take advantage of the fact that land is cheap and the climate "generous" in several Southern european countries, parts of South eastern Asia and South/Central America etc.
+
+Funding could be done on reward basis, sth. like:
+- low (stay in community a weekend/week)
+- medium (get one product for free)
+- high (community member + get one product for free)
 
 You want to take part in this kind of movement? Let us know...
