@@ -1,5 +1,7 @@
 # Infomatrix blog
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/kristianmandrup/infomatrix-blog.svg)](https://greenkeeper.io/)
+
 The blog for *Infomatrix* and the personal blog of *@kmandrup*
 
 ## Usage
